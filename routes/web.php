@@ -30,39 +30,41 @@ Route::get('/contact', [FrontpageController::class, 'contact'])->name('frontpage
 Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::group(['middleware' => 'checkRole:EMPLOYEE'], function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/profile/{userId}', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::post('/profile/{userId}', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // stock log
-    Route::resource('stock-logs', StockLogController::class);
-    Route::post('stock-logs/{id}/update', [StockLogController::class, 'update'])->name('stock-logs.update');
-    Route::get('product-ins', [StockLogController::class, 'productIn'])->name('stock-logs.product-in');
-    Route::get('product-outs', [StockLogController::class, 'productOut'])->name('stock-logs.product-out');
+        // stock log
+        Route::resource('stock-logs', StockLogController::class);
+        Route::post('stock-logs/{id}/update', [StockLogController::class, 'update'])->name('stock-logs.update');
+        Route::get('product-ins', [StockLogController::class, 'productIn'])->name('stock-logs.product-in');
+        Route::get('product-outs', [StockLogController::class, 'productOut'])->name('stock-logs.product-out');
 
-    // report
-    Route::resource('reports', ReportController::class);
-    Route::get('data-reports', [ReportController::class, 'report'])->name('data-reports.');
+        // report
+        Route::resource('reports', ReportController::class);
+        Route::get('data-reports', [ReportController::class, 'report'])->name('data-reports.');
 
-    Route::group(['middleware' => 'checkRole:ADMIN'], function () {
-        // category
-        Route::resource('categories', CategoryController::class);
-        // Route::post('categories/{id}/update', [CategoryController::class, 'update'])->name('categories.update');
+        Route::group(['middleware' => 'checkRole:ADMIN'], function () {
+            // category
+            Route::resource('categories', CategoryController::class);
+            // Route::post('categories/{id}/update', [CategoryController::class, 'update'])->name('categories.update');
 
-        // product
-        Route::resource('products', ProductController::class);
-        Route::post('products/{id}/update', [ProductController::class, 'update'])->name('products.update');
+            // product
+            Route::resource('products', ProductController::class);
+            Route::post('products/{id}/update', [ProductController::class, 'update'])->name('products.update');
 
-        // promotion
-        Route::resource('promotions', PromotionController::class);
-        Route::post('promotions/{id}/update', [PromotionController::class, 'update'])->name('promotions.update');
-        Route::get('promotions/{promotionId}/products', [PromotionController::class, 'getProductIds'])->name('promotions.product-ids');
+            // promotion
+            Route::resource('promotions', PromotionController::class);
+            Route::post('promotions/{id}/update', [PromotionController::class, 'update'])->name('promotions.update');
+            Route::get('promotions/{promotionId}/products', [PromotionController::class, 'getProductIds'])->name('promotions.product-ids');
 
-        // contact
-        Route::get('contacts', [ContactController::class, 'index'])->name('contacts.index');
-        Route::delete('contacts/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+            // contact
+            Route::get('contacts', [ContactController::class, 'index'])->name('contacts.index');
+            Route::delete('contacts/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+        });
     });
 });
 

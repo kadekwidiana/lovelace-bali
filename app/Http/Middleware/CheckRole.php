@@ -23,6 +23,12 @@ class CheckRole
                 ->setStatusCode(403);
         }
 
+        if (Auth::user()->role === 'CUSTOMER') {
+            return Inertia::render('Error/Error', ['status' => 403])
+                ->toResponse($request)
+                ->setStatusCode(403);
+        }
+
         return $next($request);
     }
 }
