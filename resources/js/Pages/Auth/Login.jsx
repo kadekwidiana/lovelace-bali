@@ -77,6 +77,17 @@ export default function Login() {
                         <Button type="submit" disabled={processing}>
                             Login
                         </Button>
+                        <div className="mt-2 text-center">
+                            <p>
+                                Belum Punya Akun?{" "}
+                                <Link
+                                    href="/register"
+                                    className="text-blue-600 underline"
+                                >
+                                    Register
+                                </Link>
+                            </p>
+                        </div>
                     </form>
                     <div className="mt-2 flex w-full justify-center">
                         <a href="#" target="_blank">

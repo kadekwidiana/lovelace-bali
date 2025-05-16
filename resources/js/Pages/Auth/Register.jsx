@@ -22,35 +22,14 @@ export default function RegisterPage() {
                                 <img
                                     src="/assets/images/logo-love-lace.jpg"
                                     alt="Logo"
-                                    className="size-28"
+                                    className="size-28 rounded-full"
                                 />
                             </Link>
                             <h2 className="text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-                                Daftarkan akun Anda
+                                Register
                             </h2>
                         </div>
                         <div className="grid-col-1 grid gap-3 sm:grid-cols-2">
-                            <div>
-                                <div className="mb-2 block">
-                                    <Label
-                                        htmlFor="nik"
-                                        value="NIK"
-                                        color={errors.nik ? "failure" : "gray"}
-                                    />
-                                </div>
-                                <TextInput
-                                    id="nik"
-                                    name="nik"
-                                    type="number"
-                                    placeholder="Masukan nik..."
-                                    value={data.nik}
-                                    onChange={(e) =>
-                                        setData("nik", e.target.value)
-                                    }
-                                    color={errors.nik ? "failure" : "gray"}
-                                    helperText={errors.nik}
-                                />
-                            </div>
                             <div>
                                 <div className="mb-2 block">
                                     <Label
@@ -70,6 +49,28 @@ export default function RegisterPage() {
                                     }
                                     color={errors.name ? "failure" : "gray"}
                                     helperText={errors.name}
+                                />
+                            </div>
+                            <div>
+                                <div className="mb-2 block">
+                                    <Label
+                                        htmlFor="email"
+                                        value="Email"
+                                        color={
+                                            errors.email ? "failure" : "gray"
+                                        }
+                                    />
+                                </div>
+                                <TextInput
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    placeholder="Masukan email..."
+                                    onChange={(e) =>
+                                        setData("email", e.target.value)
+                                    }
+                                    color={errors.email ? "failure" : "gray"}
+                                    helperText={errors.email}
                                 />
                             </div>
                         </div>
@@ -103,23 +104,24 @@ export default function RegisterPage() {
                             <div>
                                 <div className="mb-2 block">
                                     <Label
-                                        htmlFor="email"
-                                        value="Email"
+                                        htmlFor="address"
+                                        value="Alamat"
                                         color={
-                                            errors.email ? "failure" : "gray"
+                                            errors.address ? "failure" : "gray"
                                         }
                                     />
                                 </div>
                                 <TextInput
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    placeholder="Masukan email..."
+                                    id="address"
+                                    name="address"
+                                    type="text"
+                                    placeholder="Masukan alamat..."
+                                    value={data.address}
                                     onChange={(e) =>
-                                        setData("email", e.target.value)
+                                        setData("address", e.target.value)
                                     }
-                                    color={errors.email ? "failure" : "gray"}
-                                    helperText={errors.email}
+                                    color={errors.address ? "failure" : "gray"}
+                                    helperText={errors.address}
                                 />
                             </div>
                         </div>
@@ -201,9 +203,7 @@ export default function RegisterPage() {
                     </form>
                     <div className="mt-2 flex w-full justify-center">
                         <a href="#" target="_blank">
-                            <p className="text-blue-600">
-                                ©2025 SiDatang Desa Sangket
-                            </p>
+                            <p className="text-blue-600">©2025 LoveLace Bali</p>
                         </a>
                     </div>
                 </div>

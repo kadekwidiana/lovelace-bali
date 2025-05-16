@@ -6,9 +6,9 @@ export default function useRegister() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
         email: "",
-        password: "",
-        nik: "",
         phone_number: "",
+        address: "",
+        password: "",
         password_confirmation: "",
     });
 
