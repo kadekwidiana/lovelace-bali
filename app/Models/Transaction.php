@@ -16,6 +16,9 @@ class Transaction extends Model
         'date',
         'total_price',
         'note',
+        'status',
+        'snap_token_midtrans',
+        'receipt_number',
     ];
 
     protected $casts = [
