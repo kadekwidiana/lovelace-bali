@@ -1,0 +1,76 @@
+import { formatRupiah } from "@/Utils/formatNumber";
+import { Modal } from "flowbite-react";
+import { useState } from "react";
+
+export function DetailProductModal({ trigger, product, isPromo = false }) {
+    const [openModal, setOpenModal] = useState(false);
+
+    return (
+        <>
+            <div className="cursor-pointer" onClick={() => setOpenModal(true)}>
+                {trigger}
+            </div>
+            <Modal
+                show={openModal}
+                size="6xl"
+                onClose={() => setOpenModal(false)}
+            >
+                <Modal.Header>
+                    Detail Produk {product.name} ({product.code})
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-full rounded-md"
+                        />
+                        <div>
+                            <div className="flex flex-col mb-1">
+                                <span className="font-semibold">
+                                    Deskripsi:
+                                </span>
+                                <span>{product.description}</span>
+                            </div>
+                            <div className="flex flex-col mb-1">
+                                <span className="font-semibold">Kategori:</span>
+                                <span>{product.category.name}</span>
+                            </div>
+                            <div className="flex flex-col mb-1">
+                                <span className="font-semibold">Harga:</span>
+                                {isPromo ? (
+                                    <div className="flex flex-col">
+                                        <span className="text-sm text-gray-500 line-through">
+                                            {formatRupiah(
+                                                product.original_price
+                                            )}
+                                        </span>
+                                        <span className="text-lg font-bold text-gray-900">
+                                            {formatRupiah(
+                                                product.discounted_price
+                                            )}
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <span>{formatRupiah(product.price)}</span>
+                                )}
+                            </div>
+                            <div className="flex flex-col mb-1">
+                                <span className="font-semibold">Stok:</span>
+                                <span>{product.stock}</span>
+                            </div>
+                            <div className="flex flex-col mb-1">
+                                <span className="font-semibold">Ukuran:</span>
+                                <span>{product.size}</span>
+                            </div>
+                            <div className="flex flex-col mb-1">
+                                <span className="font-semibold">Warna:</span>
+                                <span>{product.color}</span>
+                            </div>
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
+        </>
+    );
+}
