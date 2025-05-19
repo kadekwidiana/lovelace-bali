@@ -38,6 +38,12 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
+        $role = $request->user()->role;
+
+        if ($role === 'CUSTOMER') {
+            return Redirect::route('frontpage.customer.profile');
+        }
+
         return Redirect::route('profile.edit');
     }
 

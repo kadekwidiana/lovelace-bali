@@ -28,13 +28,14 @@ Route::get('/promotion', [FrontpageController::class, 'promotion'])->name('front
 Route::get('/promotion/{id}', [FrontpageController::class, 'promotionDetail'])->name('frontpage.promotion-detail');
 Route::get('/contact', [FrontpageController::class, 'contact'])->name('frontpage.contact');
 Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
+Route::get('/customer/profile', [FrontpageController::class, 'profile'])->name('frontpage.customer.profile');
+Route::post('/profile/{userId}', [ProfileController::class, 'update'])->name('profile.update');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::group(['middleware' => 'checkRole:EMPLOYEE'], function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::post('/profile/{userId}', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         // stock log

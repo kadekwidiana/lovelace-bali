@@ -1,5 +1,5 @@
 import { Link, usePage } from "@inertiajs/react";
-import { Button } from "flowbite-react";
+import { Button, Dropdown, DropdownItem } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { HiOutlineArrowRight, HiShoppingCart } from "react-icons/hi";
 
@@ -38,16 +38,59 @@ export default function FrontpageNavbar() {
                     </a>
                     <div className="flex items-center lg:order-2">
                         {auth.user ? (
-                            // <a
-                            //     href="/dashboard"
-                            //     className="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 mr-2 focus:outline-none"
-                            // >
-                            //     Dashboard
-                            // </a>
-                            <Button size="xs" as={Link} href="/dashboard">
-                                Dashboard
-                                <HiOutlineArrowRight className="ml-2 size-4" />
-                            </Button>
+                            <div className="flex justify-start items-center gap-2">
+                                <Button size="xs" as={Link} href="/carts">
+                                    <HiShoppingCart className="size-4 mr-1" />3
+                                </Button>
+                                <div className="ms-3 flex items-center">
+                                    <Dropdown
+                                        label=""
+                                        dismissOnClick={false}
+                                        renderTrigger={() => (
+                                            <button
+                                                type="button"
+                                                className=":focus:ring-gray-600 flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-gray-300"
+                                                aria-expanded="false"
+                                                data-dropdown-toggle="dropdown-user"
+                                            >
+                                                <span className="sr-only">
+                                                    Open user menu
+                                                </span>
+                                                <img
+                                                    className="h-8 w-8 rounded-full"
+                                                    src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg"
+                                                    alt="user photo"
+                                                />
+                                            </button>
+                                        )}
+                                    >
+                                        <DropdownItem>
+                                            <Link href={"/customer/profile"}>
+                                                <i className="fa-solid fa-user mr-2"></i>
+                                                Profile
+                                            </Link>
+                                        </DropdownItem>
+                                        <DropdownItem>
+                                            <Link
+                                                href={"/customer/transactions"}
+                                            >
+                                                <i className="fa-solid fa-user mr-2"></i>
+                                                Riwayat Transaksi
+                                            </Link>
+                                        </DropdownItem>
+                                        <DropdownItem>
+                                            <Link
+                                                href={route("logout")}
+                                                method="post"
+                                                as="button"
+                                            >
+                                                <i className="fa-solid fa-arrow-left mr-2"></i>
+                                                Log Out
+                                            </Link>
+                                        </DropdownItem>
+                                    </Dropdown>
+                                </div>
+                            </div>
                         ) : (
                             <Button size="xs" as={Link} href="/login">
                                 Login

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileUpdateRequest;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\PromotionRepositoryInterface;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class FrontpageController extends Controller
@@ -98,6 +101,14 @@ class FrontpageController extends Controller
     {
         return Inertia::render('Frontpage/Contact', [
             'title' => 'Kontak',
+            'description' => 'Selamat Datang di Website Love Lace Bali',
+        ]);
+    }
+
+    public function profile()
+    {
+        return Inertia::render('Frontpage/Profile', [
+            'title' => 'Profil',
             'description' => 'Selamat Datang di Website Love Lace Bali',
         ]);
     }
