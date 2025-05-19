@@ -5,7 +5,6 @@ import { HiOutlineArrowRight, HiShoppingCart } from "react-icons/hi";
 
 export default function FrontpageNavbar() {
     const { auth } = usePage().props;
-    const pathname = usePage().url;
 
     const menuRef = React.useRef(null);
     const [showMenu, setShowMenu] = useState(false);
@@ -39,9 +38,16 @@ export default function FrontpageNavbar() {
                     <div className="flex items-center lg:order-2">
                         {auth.user ? (
                             <div className="flex justify-start items-center gap-2">
-                                <Button size="xs" as={Link} href="/carts">
-                                    <HiShoppingCart className="size-4 mr-1" />3
-                                </Button>
+                                {auth.user.role === "CUSTOMER" && (
+                                    <Button
+                                        size="xs"
+                                        as={Link}
+                                        href="/customer/carts"
+                                    >
+                                        <HiShoppingCart className="size-4 mr-1" />
+                                        3
+                                    </Button>
+                                )}
                                 <div className="ms-3 flex items-center">
                                     <Dropdown
                                         label=""
@@ -64,20 +70,39 @@ export default function FrontpageNavbar() {
                                             </button>
                                         )}
                                     >
-                                        <DropdownItem>
-                                            <Link href={"/customer/profile"}>
-                                                <i className="fa-solid fa-user mr-2"></i>
-                                                Profile
-                                            </Link>
-                                        </DropdownItem>
-                                        <DropdownItem>
-                                            <Link
-                                                href={"/customer/transactions"}
-                                            >
-                                                <i className="fa-solid fa-user mr-2"></i>
-                                                Riwayat Transaksi
-                                            </Link>
-                                        </DropdownItem>
+                                        {auth.user.role === "CUSTOMER" ? (
+                                            <>
+                                                <DropdownItem>
+                                                    <Link
+                                                        href={
+                                                            "/customer/profile"
+                                                        }
+                                                    >
+                                                        <i className="fa-solid fa-user mr-2"></i>
+                                                        Profile
+                                                    </Link>
+                                                </DropdownItem>
+                                                <DropdownItem>
+                                                    <Link
+                                                        href={
+                                                            "/customer/transactions"
+                                                        }
+                                                    >
+                                                        <i className="fa-solid fa-user mr-2"></i>
+                                                        Transaksi
+                                                    </Link>
+                                                </DropdownItem>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <DropdownItem>
+                                                    <Link href={"/dashboard"}>
+                                                        <i className="fa-solid fa-user mr-2"></i>
+                                                        Dashboard
+                                                    </Link>
+                                                </DropdownItem>
+                                            </>
+                                        )}
                                         <DropdownItem>
                                             <Link
                                                 href={route("logout")}

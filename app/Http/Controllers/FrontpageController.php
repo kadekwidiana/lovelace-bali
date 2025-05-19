@@ -112,4 +112,20 @@ class FrontpageController extends Controller
             'description' => 'Selamat Datang di Website Love Lace Bali',
         ]);
     }
+
+    public function transactions()
+    {
+        return Inertia::render('Frontpage/Transaction', [
+            'title' => 'Transaksi',
+            'description' => 'Selamat Datang di Website Love Lace Bali',
+        ]);
+    }
+
+    public function carts()
+    {
+        return Inertia::render('Frontpage/Cart', [
+            'title' => 'Keranjang',
+            'description' => 'Selamat Datang di Website Love Lace Bali',
+        ]);
+    }
 }

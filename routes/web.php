@@ -28,10 +28,13 @@ Route::get('/promotion', [FrontpageController::class, 'promotion'])->name('front
 Route::get('/promotion/{id}', [FrontpageController::class, 'promotionDetail'])->name('frontpage.promotion-detail');
 Route::get('/contact', [FrontpageController::class, 'contact'])->name('frontpage.contact');
 Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
-Route::get('/customer/profile', [FrontpageController::class, 'profile'])->name('frontpage.customer.profile');
-Route::post('/profile/{userId}', [ProfileController::class, 'update'])->name('profile.update');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/customer/profile', [FrontpageController::class, 'profile'])->name('frontpage.customer.profile');
+    Route::post('/profile/{userId}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/customer/transactions', [FrontpageController::class, 'transactions'])->name('frontpage.customer.transactions');
+    Route::get('/customer/carts', [FrontpageController::class, 'carts'])->name('frontpage.customer.carts');
+
     Route::group(['middleware' => 'checkRole:EMPLOYEE'], function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
