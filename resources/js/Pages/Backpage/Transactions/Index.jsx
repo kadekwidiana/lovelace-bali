@@ -7,7 +7,8 @@ import useGetTransactions from "@/Features/Backpage/Transactions/useGetTransacti
 import BackpageLayout from "@/Layouts/BackpageLayout";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import { getTransactionStatusColor } from "@/Utils/transactionUtils";
-import { Badge, Select, Table, TextInput } from "flowbite-react";
+import { Link } from "@inertiajs/react";
+import { Badge, Button, Select, Table, TextInput } from "flowbite-react";
 import { FaInfoCircle } from "react-icons/fa";
 
 export default function TransactionPage() {
@@ -144,7 +145,24 @@ export default function TransactionPage() {
                                         )}
                                     </Table.Cell>
                                     <Table.Cell className="flex items-center justify-center gap-2">
-                                        <FaInfoCircle className="size-6 text-blue-500" />
+                                        <Link
+                                            href={route(
+                                                "transactions.detail",
+                                                transaction.id
+                                            )}
+                                        >
+                                            <FaInfoCircle className="size-6 text-blue-500" />
+                                        </Link>
+                                        <Button
+                                            color="info"
+                                            size="xs"
+                                            className="text-nowrap"
+                                            onClick={() =>
+                                                alert("TODO: Siapkan Pesanan")
+                                            }
+                                        >
+                                            Siapkan Pesanan
+                                        </Button>
                                     </Table.Cell>
                                 </Table.Row>
                             ))}

@@ -43,7 +43,7 @@ class TransactionRepository implements TransactionRepositoryInterface
 
     public function find($id)
     {
-        return $this->model->with(['user', 'details.product'])->findOrFail($id);
+        return $this->model->with(['user.customer', 'details.product'])->findOrFail($id);
     }
 
     public function create($data)

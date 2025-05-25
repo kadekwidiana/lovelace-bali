@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\TransactionRepositoryInterface;
 use App\Models\User;
 use Exception;
@@ -12,10 +13,12 @@ use Inertia\Inertia;
 class TransactionController extends Controller
 {
     private TransactionRepositoryInterface $transactionRepository;
+    private CategoryRepositoryInterface $categoryRepository;
 
-    public function __construct(TransactionRepositoryInterface $transactionRepository)
+    public function __construct(TransactionRepositoryInterface $transactionRepository, CategoryRepositoryInterface $categoryRepository)
     {
         $this->transactionRepository = $transactionRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function index(Request $request)
@@ -31,6 +34,21 @@ class TransactionController extends Controller
                 'transactions' => $transactions,
                 'users' =>  User::where('role', 'CUSTOMER')->get(),
                 'filters' => $filters
+            ]);
+        } catch (Exception $e) {
+            Log::error('Error fetching categories: ' . $e->getMessage());
+            return back()->withErrors(['message' => 'Failed to fetch categories']);
+        }
+    }
+
+    public function detail($id)
+    {
+        try {
+            $transaction = $this->transactionRepository->find($id);
+            return Inertia::render('Backpage/Transactions/Detail', [
+                'title' => 'Detail Transaksi',
+                'transaction' => $transaction,
+                'categories' => $this->categoryRepository->dropdown()
             ]);
         } catch (Exception $e) {
             Log::error('Error fetching categories: ' . $e->getMessage());

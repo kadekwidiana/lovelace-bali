@@ -6,3 +6,5 @@ export const TRANSACTION_STATUSES = [
     'DELIVERED',
     'CANCELLED'
 ];
+
+export const BASE_URL_MIDTRANS = "https://app.sandbox.midtrans.com";

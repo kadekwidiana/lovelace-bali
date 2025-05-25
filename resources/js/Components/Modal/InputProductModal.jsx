@@ -10,7 +10,12 @@ import {
 } from "flowbite-react";
 import { useState } from "react";
 
-export function InputProductModal({ trigger, isUpdate = false, data }) {
+export function InputProductModal({
+    trigger,
+    isUpdate = false,
+    data,
+    isReadOnly = false,
+}) {
     const [openModal, setOpenModal] = useState(false);
     const {
         categories,
@@ -306,9 +311,11 @@ export function InputProductModal({ trigger, isUpdate = false, data }) {
                             >
                                 Kembali
                             </Button>
-                            <Button type="submit" disabled={isSubmitting}>
-                                {isUpdate ? "Update" : "Simpan"}
-                            </Button>
+                            {!isReadOnly && (
+                                <Button type="submit" disabled={isSubmitting}>
+                                    {isUpdate ? "Update" : "Simpan"}
+                                </Button>
+                            )}
                         </div>
                     </form>
                 </Modal.Body>
