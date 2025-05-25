@@ -6,6 +6,7 @@ import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import { FaCircleCheck } from "react-icons/fa6";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
+import { LuDollarSign } from "react-icons/lu";
 import {
     MdLibraryBooks,
     MdMoney,
@@ -93,6 +94,12 @@ export default function DashboardPage() {
                     count={count.productOut}
                     icon={<BsArrowLeftCircle className="size-10" />}
                     href="/product-outs"
+                />
+                <SummaryCard
+                    label="Transaksi"
+                    count={count.transaction}
+                    icon={<LuDollarSign className="size-10" />}
+                    href="/transactions"
                 />
             </div>
         </BackpageLayout>

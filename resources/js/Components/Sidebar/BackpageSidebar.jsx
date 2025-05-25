@@ -9,6 +9,7 @@ import {
     MdOutlineCategory,
     MdOutlineProductionQuantityLimits,
 } from "react-icons/md";
+import { LuDollarSign } from "react-icons/lu";
 
 export default function BackpageSidebar({ isVisible }) {
     const { auth } = usePage().props;
@@ -42,6 +43,11 @@ export default function BackpageSidebar({ isVisible }) {
                                 href="/products"
                                 label="Produk"
                                 icon={MdOutlineProductionQuantityLimits}
+                            />
+                            <SidebarMenu
+                                href="/transactions"
+                                label="Transaksi"
+                                icon={LuDollarSign}
                             />
                             <SidebarMenu
                                 href="/promotions"

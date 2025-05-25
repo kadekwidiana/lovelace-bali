@@ -14,7 +14,7 @@ class Transaction extends Model
     protected $fillable = [
         'created_by',
         'date',
-        'total_price',
+        'total_amount',
         'note',
         'status',
         'snap_token_midtrans',
@@ -23,7 +23,7 @@ class Transaction extends Model
 
     protected $casts = [
         'date' => 'date',
-        'total_price' => 'decimal:2',
+        'total_amount' => 'decimal:2',
     ];
 
     public function user()

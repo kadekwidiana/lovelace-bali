@@ -7,11 +7,13 @@ use App\Interfaces\ContactRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\PromotionRepositoryInterface;
 use App\Interfaces\StockLogRepositoryInterface;
+use App\Interfaces\TransactionRepositoryInterface;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ContactRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\PromotionRepository;
 use App\Repositories\StockLogRepository;
+use App\Repositories\TransactionRepository;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PromotionRepositoryInterface::class, PromotionRepository::class);
         $this->app->bind(StockLogRepositoryInterface::class, StockLogRepository::class);
         $this->app->bind(ContactRepositoryInterface::class, ContactRepository::class);
+        $this->app->bind(TransactionRepositoryInterface::class, TransactionRepository::class);
     }
 
     /**

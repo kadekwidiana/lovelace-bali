@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StockLogController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -50,6 +51,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // report
         Route::resource('reports', ReportController::class);
         Route::get('data-reports', [ReportController::class, 'report'])->name('data-reports.');
+
+        // transactions
+        Route::get('transactions', [TransactionController::class, 'index'])->name('transactions.index');
 
         Route::group(['middleware' => 'checkRole:ADMIN'], function () {
             // category
