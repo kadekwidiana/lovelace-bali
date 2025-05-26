@@ -1,18 +1,18 @@
-import DataNotFoundError from "@/Components/Error/DataNotFoundError";
 import FetchError from "@/Components/Error/FetchError";
 import SearchSelectInput from "@/Components/Input/SearchSelectInput";
 import DataLoading from "@/Components/Loading/DataLoading";
-import useGetReports from "@/Features/Backpage/Reports/useGetReports";
+import { TRANSACTION_STATUSES } from "@/Constants/transactionConstant";
+import useGetTransationReports from "@/Features/Backpage/Reports/useGetTransactionReports";
 import BackpageLayout from "@/Layouts/BackpageLayout";
 import { handleExportExcel } from "@/Utils/exportToExcel";
 import { Link, usePage } from "@inertiajs/react";
 import { Button, Label, Select, Table, TextInput } from "flowbite-react";
 
 export default function ReportPage() {
-    const { products } = usePage().props;
+    const { users } = usePage().props;
 
     const { reports, isLoading, error, params, setParams, getReports } =
-        useGetReports();
+        useGetTransationReports();
 
     return (
         <BackpageLayout>
@@ -49,42 +49,44 @@ export default function ReportPage() {
             <div className="flex w-full flex-col items-start justify-start mt-2 gap-4 md:flex-row md:items-center md:gap-2">
                 <div className="w-auto lg:w-80">
                     <div className="mb-2 block">
-                        <Label htmlFor="product_id" value="Produk" />
+                        <Label htmlFor="user_id" value="Customer" />
                     </div>
                     <div className="w-full">
                         <SearchSelectInput
-                            entities={products}
-                            otherEntity={"code"}
-                            selectedEntityId={params.product_id}
+                            entities={users}
+                            selectedEntityId={params.user_id}
                             setSelectedEntityId={(id) =>
                                 setParams({
                                     ...params,
-                                    product_id: id,
+                                    user_id: id,
                                 })
                             }
-                            label={"-- Pilih produk --"}
-                            placeholder={"Cari produk..."}
+                            label={"-- Pilih customer --"}
+                            placeholder={"Cari customer..."}
                         />
                     </div>
                 </div>
                 <div className="w-36">
                     <div className="mb-2 block">
-                        <Label htmlFor="report_type" value="Jenis" />
+                        <Label htmlFor="status" value="Status" />
                     </div>
                     <Select
-                        id="report_type"
-                        name="report_type"
-                        value={params.type_report}
+                        id="status"
+                        name="status"
+                        value={params.status}
                         onChange={(e) =>
                             setParams({
                                 ...params,
-                                type_report: e.target.value,
+                                status: e.target.value,
                             })
                         }
                     >
-                        <option value="">-- Pilih jenis --</option>
-                        <option value="IN">Produk Masuk</option>
-                        <option value="OUT">Produk Keluar</option>
+                        <option value="">-- Pilih status --</option>
+                        {TRANSACTION_STATUSES.map((status) => (
+                            <option key={status} value={status}>
+                                {status}
+                            </option>
+                        ))}
                     </Select>
                 </div>
             </div>
@@ -102,7 +104,7 @@ export default function ReportPage() {
                             className="text-nowrap"
                             color="success"
                             onClick={() =>
-                                handleExportExcel(`Laporan Stok`, reports)
+                                handleExportExcel(`Laporan Transaksi`, reports)
                             }
                         >
                             Export Excel
@@ -112,7 +114,7 @@ export default function ReportPage() {
                         </Button> */}
                     </>
                 )}
-                <Link href="reports">
+                <Link href="transaction-reports">
                     <Button color="failure">Reset</Button>
                 </Link>
             </div>

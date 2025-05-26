@@ -13,4 +13,6 @@ interface TransactionRepositoryInterface
     public function update($id, $data);
 
     public function delete($id);
+
+    public function getReports($startDate, $endDate, $status, $userId);
 }

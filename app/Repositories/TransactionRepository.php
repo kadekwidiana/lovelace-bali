@@ -60,4 +60,23 @@ class TransactionRepository implements TransactionRepositoryInterface
     {
         return $this->model->findOrFail($id)->delete();
     }
+
+    public function getReports($startDate = null, $endDate = null, $status = null, $userId = null)
+    {
+        $query = $this->model->with(['details.product', 'user.customer']);
+
+        if ($startDate && $endDate) {
+            $query->whereBetween('date', [$startDate, $endDate]);
+        }
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        if ($userId) {
+            $query->where('created_by', $userId);
+        }
+
+        return $query->get();
+    }
 }

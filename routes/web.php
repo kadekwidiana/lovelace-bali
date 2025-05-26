@@ -52,6 +52,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('reports', ReportController::class);
         Route::get('data-reports', [ReportController::class, 'report'])->name('data-reports.');
 
+        Route::get('transaction-reports', [ReportController::class, 'transactionReportView'])->name('transaction.reports');
+        Route::get('data-transaction-reports', [ReportController::class, 'transactionReport'])->name('data-transaction-reports.');
+
         // transactions
         Route::get('transactions', [TransactionController::class, 'index'])->name('transactions.index');
         Route::get('transactions/{id}', [TransactionController::class, 'detail'])->name('transactions.detail');

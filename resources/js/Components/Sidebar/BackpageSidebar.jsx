@@ -66,7 +66,12 @@ export default function BackpageSidebar({ isVisible }) {
                             />
                             <SidebarMenu
                                 href="/reports"
-                                label="Laporan"
+                                label="Laporan Stok"
+                                icon={MdLibraryBooks}
+                            />
+                            <SidebarMenu
+                                href="/transaction-reports"
+                                label="Laporan Transaksi"
                                 icon={MdLibraryBooks}
                             />
                             <SidebarMenu
