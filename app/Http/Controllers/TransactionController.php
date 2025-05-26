@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Transactions\UpdateTransactionRequest;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\TransactionRepositoryInterface;
 use App\Models\User;
@@ -53,6 +54,24 @@ class TransactionController extends Controller
         } catch (Exception $e) {
             Log::error('Error fetching categories: ' . $e->getMessage());
             return back()->withErrors(['message' => 'Failed to fetch categories']);
+        }
+    }
+
+    public function update(UpdateTransactionRequest $request, $id)
+    {
+        try {
+            $validated = $request->validated();
+
+            $this->transactionRepository->update($id, $validated);
+
+            return response()->json([
+                'message' => 'Data berhasil diperbarui.',
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat memperbarui data.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
 }

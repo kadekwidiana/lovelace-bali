@@ -1,5 +1,9 @@
+import { InputPrepareOrderModal } from "@/Components/Modal/InputPrepareOrderModal";
 import { InputProductModal } from "@/Components/Modal/InputProductModal";
 import { BASE_URL_MIDTRANS } from "@/Constants/transactionConstant";
+import useCancelOrder from "@/Features/Backpage/Transactions/useCanceledOrder";
+import useDeliveredOrder from "@/Features/Backpage/Transactions/useDeliveredOrder";
+import useProcessOrder from "@/Features/Backpage/Transactions/useProcessOrder";
 import BackpageLayout from "@/Layouts/BackpageLayout";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import { getTransactionStatusColor } from "@/Utils/transactionUtils";
@@ -9,6 +13,9 @@ import { FaInfoCircle } from "react-icons/fa";
 
 export default function TransactionDetailPage() {
     const { transaction } = usePage().props;
+    const { processOrderConfirm } = useProcessOrder();
+    const { deliveredOrderConfirm } = useDeliveredOrder();
+    const { canceledOrderConfirm } = useCancelOrder();
 
     return (
         <BackpageLayout>
@@ -95,8 +102,29 @@ export default function TransactionDetailPage() {
                                         Nomor Pengiriman
                                     </td>
                                     <td className="w-3 px-2 py-2">:</td>
-                                    <td className="w-full px-2 py-2">
+                                    <td className="w-full px-2 py-2 flex items-center gap-2">
                                         {transaction.receipt_number ?? "-"}
+                                        {transaction.status === "SHIPPED" && (
+                                            <InputPrepareOrderModal
+                                                trigger={
+                                                    <Button
+                                                        color="blue"
+                                                        size="xs"
+                                                    >
+                                                        Edit
+                                                    </Button>
+                                                }
+                                                transaction={transaction}
+                                                isUpdateReceiptNumber={true}
+                                            />
+                                        )}
+                                    </td>
+                                </tr>
+                                <tr className="bg-white">
+                                    <td className="w-1/5 py-2 pr-2">Catatan</td>
+                                    <td className="w-3 px-2 py-2">:</td>
+                                    <td className="w-full px-2 py-2">
+                                        {transaction.note ?? "-"}
                                     </td>
                                 </tr>
                                 <tr className="bg-white">
@@ -123,21 +151,75 @@ export default function TransactionDetailPage() {
                                         )}
                                     </td>
                                 </tr>
-                                <tr className="bg-white">
-                                    <td className="w-1/5 py-2 pr-2">Aksi</td>
-                                    <td className="w-3 px-2 py-2">:</td>
-                                    <td className="w-full px-2 py-2">
-                                        <Button
-                                            color="info"
-                                            size="xs"
-                                            onClick={() =>
-                                                alert("TODO: Siapkan Pesanan")
-                                            }
-                                        >
-                                            Siapkan Pesanan
-                                        </Button>
-                                    </td>
-                                </tr>
+                                {transaction.status !== "DELIVERED" &&
+                                    transaction.status !== "CANCELLED" && (
+                                        <tr className="bg-white">
+                                            <td className="w-1/5 py-2 pr-2">
+                                                Aksi
+                                            </td>
+                                            <td className="w-3 px-2 py-2">:</td>
+                                            <td className="w-full px-2 py-2 flex items-center gap-2">
+                                                {transaction.status ===
+                                                    "PAID" && (
+                                                    <Button
+                                                        color="purple"
+                                                        size="xs"
+                                                        onClick={() =>
+                                                            processOrderConfirm(
+                                                                transaction.id
+                                                            )
+                                                        }
+                                                    >
+                                                        Proses Pesanan
+                                                    </Button>
+                                                )}
+                                                {transaction.status ===
+                                                    "PROCESSING" && (
+                                                    <InputPrepareOrderModal
+                                                        trigger={
+                                                            <Button
+                                                                color="info"
+                                                                size="xs"
+                                                            >
+                                                                Siapkan Pesanan
+                                                            </Button>
+                                                        }
+                                                        transaction={
+                                                            transaction
+                                                        }
+                                                    />
+                                                )}
+                                                {transaction.status ===
+                                                    "SHIPPED" && (
+                                                    <Button
+                                                        color="success"
+                                                        size="xs"
+                                                        onClick={() =>
+                                                            deliveredOrderConfirm(
+                                                                transaction.id
+                                                            )
+                                                        }
+                                                    >
+                                                        Pesanan Diterima
+                                                    </Button>
+                                                )}
+                                                {transaction.status ===
+                                                    "PENDING" && (
+                                                    <Button
+                                                        color="failure"
+                                                        size="xs"
+                                                        onClick={() =>
+                                                            canceledOrderConfirm(
+                                                                transaction.id
+                                                            )
+                                                        }
+                                                    >
+                                                        Batalkan Pesanan
+                                                    </Button>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    )}
                                 <tr className="bg-white">
                                     <td
                                         colSpan={3}

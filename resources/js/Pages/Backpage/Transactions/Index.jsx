@@ -8,7 +8,7 @@ import BackpageLayout from "@/Layouts/BackpageLayout";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import { getTransactionStatusColor } from "@/Utils/transactionUtils";
 import { Link } from "@inertiajs/react";
-import { Badge, Button, Select, Table, TextInput } from "flowbite-react";
+import { Badge, Select, Table, TextInput } from "flowbite-react";
 import { FaInfoCircle } from "react-icons/fa";
 
 export default function TransactionPage() {
@@ -153,16 +153,6 @@ export default function TransactionPage() {
                                         >
                                             <FaInfoCircle className="size-6 text-blue-500" />
                                         </Link>
-                                        <Button
-                                            color="info"
-                                            size="xs"
-                                            className="text-nowrap"
-                                            onClick={() =>
-                                                alert("TODO: Siapkan Pesanan")
-                                            }
-                                        >
-                                            Siapkan Pesanan
-                                        </Button>
                                     </Table.Cell>
                                 </Table.Row>
                             ))}

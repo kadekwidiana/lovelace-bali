@@ -55,6 +55,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // transactions
         Route::get('transactions', [TransactionController::class, 'index'])->name('transactions.index');
         Route::get('transactions/{id}', [TransactionController::class, 'detail'])->name('transactions.detail');
+        Route::put('transactions/{id}', [TransactionController::class, 'update'])->name('transactions.update');
 
         Route::group(['middleware' => 'checkRole:ADMIN'], function () {
             // category

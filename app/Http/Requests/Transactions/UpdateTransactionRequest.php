@@ -24,7 +24,10 @@ class UpdateTransactionRequest extends FormRequest
         return [
             'created_by' => 'sometimes|required|exists:users,id',
             'date' => 'sometimes|required|date',
-            'total_price' => 'sometimes|required|numeric|min:0',
+            'total_amount' => 'sometimes|required|numeric|min:0',
+            'status' => 'sometimes|required|in:PENDING,PAID,PROCESSING,SHIPPED,DELIVERED,CANCELLED',
+            'snap_token_midtrans' => 'nullable|string',
+            'receipt_number' => 'nullable|string',
             'note' => 'nullable|string',
         ];
     }
