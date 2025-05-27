@@ -1,8 +1,15 @@
 import { DetailProductModal } from "@/Components/Modal/DetailProductModal";
+import { useAddToCart } from "@/Features/Frontpage/Carts/useAddToCart";
 import { formatRupiah } from "@/Utils/formatNumber";
-import { Card } from "flowbite-react";
+import { usePage } from "@inertiajs/react";
+import { Button, Card } from "flowbite-react";
+import { FaInfoCircle } from "react-icons/fa";
+import { HiShoppingCart } from "react-icons/hi";
 
 export default function ProductCard({ product, isPromo = false }) {
+    const { auth } = usePage().props;
+    const { handleAddToCart } = useAddToCart();
+
     return (
         <Card className="max-w-sm" imgAlt={product.name} imgSrc={product.image}>
             <h5 className="text-xl font-semibold tracking-tight text-gray-900">
@@ -30,15 +37,30 @@ export default function ProductCard({ product, isPromo = false }) {
                             isPromo ? product.discounted_price : product.price
                         )}
                     </span>
-                    <DetailProductModal
-                        product={product}
-                        trigger={
-                            <span className="text-cyan-600 hover:text-cyan-700 underline">
-                                Lihat detail
-                            </span>
-                        }
-                        isPromo={isPromo}
-                    />
+                    <div className="flex items-center justify-end gap-2">
+                        <DetailProductModal
+                            product={product}
+                            trigger={
+                                <FaInfoCircle className="size-6 text-blue-500" />
+                            }
+                            isPromo={isPromo}
+                        />
+                        {!isPromo && (
+                            <Button
+                                size="xs"
+                                onClick={() =>
+                                    handleAddToCart({
+                                        user_id: auth.user.id,
+                                        product_id: product.id,
+                                        quantity: 1,
+                                    })
+                                }
+                                disabled={product.stock === 0}
+                            >
+                                <HiShoppingCart className="size-4" />
+                            </Button>
+                        )}
+                    </div>
                 </div>
             </div>
         </Card>

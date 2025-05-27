@@ -28,9 +28,8 @@ class CartController extends Controller
     {
         try {
             $filters = $request->only(['user_id', 'product_id']);
-            $perPage = $request->perpage ?? 10;
 
-            $carts = $this->cartRepository->all($filters, $perPage);
+            $carts = $this->cartRepository->allNoLimit($filters);
 
             return response()->json([
                 'message' => 'Carts fetched successfully',
@@ -63,18 +62,42 @@ class CartController extends Controller
 
             $product = $this->productRepository->find($validated['product_id']);
 
-            $validated['price_at_time'] = $product->price;
-            $validated['subtotal'] = $product->price * $validated['quantity'];
+            if ($product->stock < $validated['quantity']) {
+                return response()->json([
+                    'message' => 'Stok produk tidak mencukupi',
+                ], 400);
+            }
 
-            $this->cartRepository->create($validated);
+            // Cek apakah produk sudah ada di keranjang user
+            $existingCart = $this->cartRepository->findByUserAndProduct($validated['user_id'], $validated['product_id']);
+
+            if ($existingCart) {
+                $newQuantity = $existingCart->quantity + $validated['quantity'];
+
+                if ($product->stock < $newQuantity) {
+                    return response()->json([
+                        'message' => 'Total jumlah melebihi stok produk yang tersedia',
+                    ], 400);
+                }
+
+                $existingCart->update([
+                    'quantity' => $newQuantity,
+                    'price_at_time' => $product->price,
+                    'subtotal' => $product->price * $newQuantity,
+                ]);
+            } else {
+                $validated['price_at_time'] = $product->price;
+                $validated['subtotal'] = $product->price * $validated['quantity'];
+                $this->cartRepository->create($validated);
+            }
 
             return response()->json([
-                'message' => 'Cart created successfully',
+                'message' => 'Produk berhasil ditambahkan ke keranjang',
             ], 201);
         } catch (Exception $e) {
-            Log::error('Error creating cart: ' . $e->getMessage());
+            Log::error('Error creating/updating cart: ' . $e->getMessage());
             return response()->json([
-                'message' => 'Failed to create cart',
+                'message' => 'Gagal menambahkan produk ke keranjang',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -112,12 +135,12 @@ class CartController extends Controller
             $this->cartRepository->update($id, $validated);
 
             return response()->json([
-                'message' => 'Cart updated successfully'
+                'message' => 'Keranjang berhasil diperbarui'
             ], 200);
         } catch (Exception $e) {
             Log::error('Error updating cart: ' . $e->getMessage());
             return response()->json([
-                'message' => 'Failed to update cart',
+                'message' => 'Gagal memperbarui keranjang',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -132,12 +155,12 @@ class CartController extends Controller
             $this->cartRepository->delete($id);
 
             return response()->json([
-                'message' => 'Cart deleted successfully'
+                'message' => 'Produk berhasil dihapus dari keranjang'
             ], 200);
         } catch (Exception $e) {
             Log::error('Error deleting cart: ' . $e->getMessage());
             return response()->json([
-                'message' => 'Failed to delete cart',
+                'message' => 'Gagal menghapus produk dari keranjang',
                 'error' => $e->getMessage()
             ], 500);
         }

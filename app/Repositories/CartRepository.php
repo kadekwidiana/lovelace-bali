@@ -33,9 +33,29 @@ class CartRepository implements CartRepositoryInterface
         return $query->latest()->get();
     }
 
+    public function allNoLimit($search = [])
+    {
+        $query = $this->model->with(['product']);
+
+        if (isset($search['user_id'])) {
+            $query->where('user_id', $search['user_id']);
+        }
+
+        if (isset($search['product_id'])) {
+            $query->where('product_id', $search['product_id']);
+        }
+
+        return $query->latest()->get();
+    }
+
     public function find($id)
     {
         return $this->model->findOrFail($id);
+    }
+
+    public function findByUserAndProduct($user_id, $product_id)
+    {
+        return $this->model->where('user_id', $user_id)->where('product_id', $product_id)->first();
     }
 
     public function create($data)

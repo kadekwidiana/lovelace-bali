@@ -1,3 +1,4 @@
+import useGetCarts from "@/Features/Frontpage/Carts/useGetCarts";
 import { Link, usePage } from "@inertiajs/react";
 import { Button, Dropdown, DropdownItem } from "flowbite-react";
 import React, { useEffect, useState } from "react";
@@ -20,6 +21,8 @@ export default function FrontpageNavbar() {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [menuRef]);
+
+    const { data: cartData } = useGetCarts(auth.user.id, null);
 
     return (
         <header ref={menuRef}>
@@ -45,7 +48,7 @@ export default function FrontpageNavbar() {
                                         href="/customer/carts"
                                     >
                                         <HiShoppingCart className="size-4 mr-1" />
-                                        3
+                                        {cartData?.data?.data?.length ?? 0}
                                     </Button>
                                 )}
                                 <div className="ms-3 flex items-center">
