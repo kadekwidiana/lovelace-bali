@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Interfaces\CartRepositoryInterface;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\ContactRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\PromotionRepositoryInterface;
 use App\Interfaces\StockLogRepositoryInterface;
 use App\Interfaces\TransactionRepositoryInterface;
+use App\Repositories\CartRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ContactRepository;
 use App\Repositories\ProductRepository;
@@ -30,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(StockLogRepositoryInterface::class, StockLogRepository::class);
         $this->app->bind(ContactRepositoryInterface::class, ContactRepository::class);
         $this->app->bind(TransactionRepositoryInterface::class, TransactionRepository::class);
+        $this->app->bind(CartRepositoryInterface::class, CartRepository::class);
     }
 
     /**

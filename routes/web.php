@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
@@ -29,6 +30,8 @@ Route::get('/promotion', [FrontpageController::class, 'promotion'])->name('front
 Route::get('/promotion/{id}', [FrontpageController::class, 'promotionDetail'])->name('frontpage.promotion-detail');
 Route::get('/contact', [FrontpageController::class, 'contact'])->name('frontpage.contact');
 Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
+
+Route::resource('data/carts', CartController::class);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/customer/profile', [FrontpageController::class, 'profile'])->name('frontpage.customer.profile');
