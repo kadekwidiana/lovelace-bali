@@ -35,7 +35,7 @@ class CartRepository implements CartRepositoryInterface
 
     public function allNoLimit($search = [])
     {
-        $query = $this->model->with(['product']);
+        $query = $this->model->with(['product.category']);
 
         if (isset($search['user_id'])) {
             $query->where('user_id', $search['user_id']);

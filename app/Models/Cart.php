@@ -17,6 +17,7 @@ class Cart extends Model
         'quantity',
         'price_at_time',
         'subtotal',
+        'is_select',
     ];
 
     protected $casts = [];

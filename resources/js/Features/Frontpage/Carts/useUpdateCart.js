@@ -24,7 +24,7 @@ export const useUpdateCart = (cartId) => {
             });
         },
         onSuccess: (res) => {
-            if (res.status === 201) {
+            if (res.status === 200) {
                 ToastTopEnd.fire({
                     icon: "success",
                     title: res.data.message,
@@ -61,6 +61,7 @@ export const useUpdateCart = (cartId) => {
     };
 
     return {
-        handleUpdateCart
+        handleUpdateCart,
+        isLoading: updateCartMutation.isPending,
     };
 };

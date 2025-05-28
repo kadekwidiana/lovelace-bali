@@ -8,7 +8,7 @@ import { HiShoppingCart } from "react-icons/hi";
 
 export default function ProductCard({ product, isPromo = false }) {
     const { auth } = usePage().props;
-    const { handleAddToCart } = useAddToCart();
+    const { handleAddToCart, isLoading } = useAddToCart();
 
     return (
         <Card className="max-w-sm" imgAlt={product.name} imgSrc={product.image}>
@@ -55,7 +55,7 @@ export default function ProductCard({ product, isPromo = false }) {
                                         quantity: 1,
                                     })
                                 }
-                                disabled={product.stock === 0}
+                                disabled={product.stock === 0 || isLoading}
                             >
                                 <HiShoppingCart className="size-4" />
                             </Button>

@@ -1,6 +1,7 @@
 import { ToastTopEnd } from "@/Utils/alert";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export const useDeleteCart = () => {
     const queryClient = useQueryClient();
@@ -13,7 +14,7 @@ export const useDeleteCart = () => {
             });
         },
         onSuccess: (res) => {
-            if (res.status === 201) {
+            if (res.status === 200) {
                 ToastTopEnd.fire({
                     icon: "success",
                     title: res.data.message,
@@ -49,7 +50,23 @@ export const useDeleteCart = () => {
         deleteCartMutation.mutate(cartId);
     };
 
+    const deleteDataConfirm = (id) => {
+        Swal.fire({
+            title: "Apakah Anda yakin ingin menghapus data ini?",
+            text: "Data yang terkait dengan ini juga akan dihapus dan tidak dapat dipulihkan.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await handleDeleteCart(id);
+            }
+        });
+    };
+
     return {
-        handleDeleteCart
+        deleteDataConfirm
     };
 };

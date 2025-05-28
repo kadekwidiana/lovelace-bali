@@ -61,6 +61,7 @@ export const useAddToCart = () => {
     };
 
     return {
-        handleAddToCart
+        handleAddToCart,
+        isLoading: addToCartMutation.isPending,
     };
 };
