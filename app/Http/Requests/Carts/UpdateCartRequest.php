@@ -27,6 +27,7 @@ class UpdateCartRequest extends FormRequest
             'quantity' => 'sometimes|required|integer|min:1',
             // 'price_at_time' => 'sometimes|required|numeric|min:0',
             // 'subtotal' => 'sometimes|required|numeric|min:0',
+            'is_select' => 'sometimes|required|boolean',
         ];
     }
 }

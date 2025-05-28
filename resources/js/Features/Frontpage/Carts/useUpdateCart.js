@@ -2,24 +2,26 @@ import { ToastTopEnd } from "@/Utils/alert";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
-export const useUpdateCart = (cartId) => {
+export const useUpdateCart = (item) => {
     const queryClient = useQueryClient();
 
     const updateCartMutation = useMutation({
         mutationFn: async ({
-            user_id,
-            product_id,
-            quantity,
+            user_id = item.user_id,
+            product_id = item.product_id,
+            quantity = item.quantity,
+            is_select = item.is_select === 1 ? true : false,
         }) => {
             const body = {
                 user_id,
                 product_id,
                 quantity,
+                is_select,
             };
 
             return await axios({
                 method: "PUT",
-                url: `/data/carts/${cartId}`,
+                url: `/data/carts/${item.id}`,
                 data: body,
             });
         },
@@ -32,6 +34,10 @@ export const useUpdateCart = (cartId) => {
 
                 queryClient.refetchQueries({
                     queryKey: ["get-carts"],
+                    exact: false,
+                });
+                queryClient.refetchQueries({
+                    queryKey: ["get-order-summary"],
                     exact: false,
                 });
             } else {

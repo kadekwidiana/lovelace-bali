@@ -3,29 +3,38 @@ import { useDeleteCart } from "@/Features/Frontpage/Carts/useDeleteCart";
 import { useUpdateCart } from "@/Features/Frontpage/Carts/useUpdateCart";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import { formatRupiah } from "@/Utils/formatNumber";
-import { Button } from "flowbite-react";
+import { Button, Checkbox } from "flowbite-react";
 
 export default function ProductCheckoutCard({ item }) {
     const { deleteDataConfirm } = useDeleteCart();
-    const { handleUpdateCart, isLoading } = useUpdateCart(item.id);
+    const { handleUpdateCart, isLoading } = useUpdateCart(item);
 
     return (
-        <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:p-6">
-            <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
+        <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:p-6 flex justify-start gap-4">
+            <div className="flex flex-col justify-center">
+                <Checkbox
+                    className="h-5 w-5"
+                    defaultChecked={item.is_select === 1}
+                    onClick={() =>
+                        handleUpdateCart({
+                            is_select: item.is_select === 1 ? false : true,
+                        })
+                    }
+                />
+            </div>
+            <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0 w-full">
                 <img
                     className="h-28 w-28 rounded-sm"
                     src={item.product.image}
                     alt={item.product.name}
                 />
-                <div className="flex items-center justify-between md:order-3 md:justify-end">
+                <div className="flex items-center justify-start md:order-3 gap-2 md:justify-end">
                     <div className="flex items-center">
                         <Button
                             color="gray"
                             size="xs"
                             onClick={() =>
                                 handleUpdateCart({
-                                    user_id: item.user_id,
-                                    product_id: item.product_id,
                                     quantity: item.quantity - 1,
                                 })
                             }
@@ -50,7 +59,6 @@ export default function ProductCheckoutCard({ item }) {
                         <input
                             type="text"
                             id="counter-input"
-                            data-input-counter
                             className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0"
                             placeholder=""
                             value={item.quantity}
@@ -89,12 +97,12 @@ export default function ProductCheckoutCard({ item }) {
                     </div>
                     <div className="text-end md:order-4 md:w-32">
                         <p className="text-base font-bold text-gray-900">
-                            {formatRupiah(item.subtotal)}
+                            {formatRupiah(item.product.price * item.quantity)}
                         </p>
                     </div>
                 </div>
 
-                <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
+                <div className="w-full min-w-0 flex-1 space-y-2 md:order-2 md:max-w-md">
                     <DetailProductModal
                         product={item.product}
                         trigger={
@@ -103,9 +111,16 @@ export default function ProductCheckoutCard({ item }) {
                             </span>
                         }
                     />
-                    <span className="text-xs font-light text-gray-600">
-                        Updated: {formatDateToIndonesian(item.updated_at, true)}
-                    </span>
+                    <div className="flex flex-col gap-1">
+                        <span className="text-sm font-light text-gray-700">
+                            Ukuran: {item.product.size} Warna:{" "}
+                            {item.product.color}
+                        </span>
+                        <span className="text-xs font-light text-gray-600">
+                            Updated:{" "}
+                            {formatDateToIndonesian(item.updated_at, true)}
+                        </span>
+                    </div>
 
                     <div className="flex items-center gap-4">
                         <button

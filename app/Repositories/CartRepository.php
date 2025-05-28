@@ -74,4 +74,27 @@ class CartRepository implements CartRepositoryInterface
         $cart = $this->model->findOrFail($id);
         return $cart->delete();
     }
+
+    public function orderSummary($user_id)
+    {
+        return [
+            'total_item' => $this->model
+                ->where('user_id', $user_id)
+                ->where('is_select', 1)
+                ->count(),
+            'total' => $this->model
+                ->where('user_id', $user_id)
+                ->where('is_select', 1)
+                ->with('product')
+                ->get()
+                ->sum(function ($item) {
+                    return ($item->product->price ?? 0) * $item->quantity;
+                }),
+            'items' => $this->model
+                ->with(['product.category'])
+                ->where('user_id', $user_id)
+                ->where('is_select', 1)
+                ->get()
+        ];
+    }
 }

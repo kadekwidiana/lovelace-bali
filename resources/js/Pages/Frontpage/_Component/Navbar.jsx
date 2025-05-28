@@ -22,7 +22,7 @@ export default function FrontpageNavbar() {
         };
     }, [menuRef]);
 
-    const { data: cartData } = useGetCarts(auth.user.id, null);
+    const { data: cartData } = useGetCarts(auth?.user?.id, null);
 
     return (
         <header ref={menuRef}>

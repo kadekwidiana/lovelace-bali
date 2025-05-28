@@ -32,6 +32,7 @@ Route::get('/contact', [FrontpageController::class, 'contact'])->name('frontpage
 Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
 
 Route::resource('data/carts', CartController::class);
+Route::get('/data/carts/order-summary/{user_id}', [CartController::class, 'orderSummary'])->name('carts.order-summary');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/customer/profile', [FrontpageController::class, 'profile'])->name('frontpage.customer.profile');

@@ -1,20 +1,47 @@
 import React from "react";
 import ProductCheckoutCard from "../Card/ProductCheckoutCard";
 import useGetCarts from "@/Features/Frontpage/Carts/useGetCarts";
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
+import DataNotFoundError from "@/Components/Error/DataNotFoundError";
+import FetchError from "@/Components/Error/FetchError";
+import { Button } from "flowbite-react";
 
 export default function ProductCheckoutList() {
     const { auth } = usePage().props;
 
-    const { data: cartData } = useGetCarts(auth.user.id, null);
+    const {
+        data: cartData,
+        isLoading,
+        error,
+    } = useGetCarts(auth.user.id, null);
 
     return (
         <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
-            <div className="space-y-6">
-                {cartData?.data?.data?.map((item) => (
-                    <ProductCheckoutCard key={item.id} item={item} />
-                ))}
-            </div>
+            {isLoading ? (
+                <div className="space-y-6">
+                    {Array.from({ length: 3 }).map((_, index) => (
+                        <div
+                            key={index}
+                            className={`animate-pulse rounded-md bg-gray-300 w-full h-44`}
+                        />
+                    ))}
+                </div>
+            ) : error ? (
+                <FetchError message={"Ops! Terjadi kesalahan."} />
+            ) : cartData?.data?.data?.length === 0 ? (
+                <div className="flex flex-col items-center justify-center">
+                    <DataNotFoundError />
+                    <Link href="/product">
+                        <Button size="sm">Beli Sekarang</Button>
+                    </Link>
+                </div>
+            ) : (
+                <div className="space-y-6">
+                    {cartData?.data?.data?.map((item) => (
+                        <ProductCheckoutCard key={item.id} item={item} />
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

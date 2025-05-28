@@ -165,4 +165,21 @@ class CartController extends Controller
             ], 500);
         }
     }
+
+    public function orderSummary($user_id)
+    {
+        try {
+            $summary = $this->cartRepository->orderSummary($user_id);
+            return response()->json([
+                'message' => 'Order summary fetched successfully',
+                'data' => $summary
+            ], 200);
+        } catch (Exception $e) {
+            Log::error('Error fetching order summary: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Failed to fetch order summary',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

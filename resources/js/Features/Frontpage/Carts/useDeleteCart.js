@@ -24,6 +24,10 @@ export const useDeleteCart = () => {
                     queryKey: ["get-carts"],
                     exact: false,
                 });
+                queryClient.refetchQueries({
+                    queryKey: ["get-order-summary"],
+                    exact: false,
+                });
             } else {
                 ToastTopEnd.fire({
                     icon: "error",

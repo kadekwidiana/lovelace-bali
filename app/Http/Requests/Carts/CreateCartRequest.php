@@ -27,6 +27,7 @@ class CreateCartRequest extends FormRequest
             'quantity' => 'required|integer|min:1',
             // 'price_at_time' => 'required|numeric|min:0',
             // 'subtotal' => 'required|numeric|min:0',
+            'is_select' => 'boolean',
         ];
     }
 }

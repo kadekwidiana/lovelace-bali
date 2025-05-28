@@ -10,11 +10,13 @@ export const useAddToCart = () => {
             user_id,
             product_id,
             quantity,
+            is_select = false,
         }) => {
             const body = {
                 user_id,
                 product_id,
                 quantity,
+                is_select,
             };
 
             return await axios({
@@ -32,6 +34,10 @@ export const useAddToCart = () => {
 
                 queryClient.refetchQueries({
                     queryKey: ["get-carts"],
+                    exact: false,
+                });
+                queryClient.refetchQueries({
+                    queryKey: ["get-order-summary"],
                     exact: false,
                 });
             } else {
