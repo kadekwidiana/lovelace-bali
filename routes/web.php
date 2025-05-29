@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckOngkirController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontpageController;
@@ -33,6 +34,13 @@ Route::post('contacts', [ContactController::class, 'store'])->name('contacts.sto
 
 Route::resource('data/carts', CartController::class);
 Route::get('/data/carts/order-summary/{user_id}', [CartController::class, 'orderSummary'])->name('carts.order-summary');
+
+// ongkir
+Route::prefix('raja-ongkir')->group(function () {
+    Route::get('/province', [CheckOngkirController::class, 'getProvince'])->name('raja-ongkir.province');
+    Route::get('/city', [CheckOngkirController::class, 'getCity'])->name('raja-ongkir.city');
+    Route::post('/cost', [CheckOngkirController::class, 'checkCost'])->name('raja-ongkir.check-cost');
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/customer/profile', [FrontpageController::class, 'profile'])->name('frontpage.customer.profile');
