@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Customer;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use Pest\ArchPresets\Custom;
 
 class ProfileController extends Controller
 {
@@ -44,12 +46,16 @@ class ProfileController extends Controller
             $request->user()->save();
 
             if ($role === 'CUSTOMER') {
-                $request->user()->customer()->updateOrCreate(
-                    ['user_id' => $request->user()->id],
+                $customer = Customer::where('user_id', $request->user()->id)->first();
+                $customer->update(
                     [
                         'phone_number' => $request->phone_number,
+                        'province_code' => $request->province_code,
+                        'province_name' => $request->province_name,
                         'city_code' => $request->city_code,
                         'city_name' => $request->city_name,
+                        'sub_district' => $request->sub_district,
+                        'village' => $request->village,
                         'address' => $request->address,
                     ]
                 );
