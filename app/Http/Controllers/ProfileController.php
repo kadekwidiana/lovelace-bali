@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -30,21 +31,46 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
-
         $role = $request->user()->role;
 
-        if ($role === 'CUSTOMER') {
-            return Redirect::route('frontpage.customer.profile');
-        }
+        DB::beginTransaction();
+        try {
+            $request->user()->fill($request->validated());
 
-        return Redirect::route('profile.edit');
+            if ($request->user()->isDirty('email')) {
+                $request->user()->email_verified_at = null;
+            }
+
+            $request->user()->save();
+
+            if ($role === 'CUSTOMER') {
+                $request->user()->customer()->updateOrCreate(
+                    ['user_id' => $request->user()->id],
+                    [
+                        'phone_number' => $request->phone_number,
+                        'city_code' => $request->city_code,
+                        'city_name' => $request->city_name,
+                        'address' => $request->address,
+                    ]
+                );
+            }
+
+            DB::commit();
+
+            if ($role === 'CUSTOMER') {
+                return Redirect::route('frontpage.customer.profile');
+            }
+
+            return Redirect::route('profile.edit');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            if ($role === 'CUSTOMER') {
+                return Redirect::route('frontpage.customer.profile')->with('error', $e->getMessage());
+            }
+
+            return Redirect::route('profile.edit')->with('error', $e->getMessage());
+        }
     }
 
     /**

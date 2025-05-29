@@ -12,8 +12,12 @@ class Customer extends Model
     protected $fillable = [
         'user_id',
         'phone_number',
+        'province_code',
+        'province_name',
         'city_code',
         'city_name',
+        'sub_district',
+        'village',
         'address',
     ];
 
