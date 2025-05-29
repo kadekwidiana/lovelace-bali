@@ -28,6 +28,7 @@ class CreateProductRequest extends FormRequest
             'size' => 'required|string|max:100',
             'color' => 'required|string|max:100',
             'price' => 'required|numeric|min:0',
+            'weight' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'image' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',

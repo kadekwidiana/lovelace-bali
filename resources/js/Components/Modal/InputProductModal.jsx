@@ -196,6 +196,28 @@ export function InputProductModal({
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 w-full">
                             <div>
                                 <div className="mb-2 block">
+                                    <Label
+                                        htmlFor="weight"
+                                        value="Berat* (gram)"
+                                        color={
+                                            errors.weight ? "failure" : "gray"
+                                        }
+                                    />
+                                </div>
+                                <TextInput
+                                    id="weight"
+                                    name="weight"
+                                    type="text"
+                                    placeholder="Masukan berat..."
+                                    value={formData.weight}
+                                    onChange={handleChange}
+                                    color={errors.weight ? "failure" : "gray"}
+                                    helperText={errors.weight}
+                                />
+                            </div>
+
+                            <div>
+                                <div className="mb-2 block">
                                     <Label htmlFor="stock" value="Stok*" />
                                 </div>
                                 <TextInput
@@ -210,32 +232,28 @@ export function InputProductModal({
                                     disabled
                                 />
                             </div>
+                        </div>
 
-                            <div>
-                                <div className="mb-2 block">
-                                    <Label
-                                        htmlFor="description"
-                                        value="Deskripsi"
-                                        color={
-                                            errors.description
-                                                ? "failure"
-                                                : "gray"
-                                        }
-                                    />
-                                </div>
-                                <Textarea
-                                    rows={4}
-                                    id="description"
-                                    name="description"
-                                    placeholder="Masukan deskripsi..."
-                                    value={formData.description}
-                                    onChange={handleChange}
+                        <div>
+                            <div className="mb-2 block">
+                                <Label
+                                    htmlFor="description"
+                                    value="Deskripsi"
                                     color={
                                         errors.description ? "failure" : "gray"
                                     }
-                                    helperText={errors.description}
                                 />
                             </div>
+                            <Textarea
+                                rows={4}
+                                id="description"
+                                name="description"
+                                placeholder="Masukan deskripsi..."
+                                value={formData.description}
+                                onChange={handleChange}
+                                color={errors.description ? "failure" : "gray"}
+                                helperText={errors.description}
+                            />
                         </div>
 
                         <div>

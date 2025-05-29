@@ -36,6 +36,7 @@ class UpdateProductRequest extends FormRequest
             'size' => 'sometimes|required|string|max:100',
             'color' => 'sometimes|required|string|max:100',
             'price' => 'sometimes|required|numeric|min:0',
+            'weight' => 'sometimes|required|numeric|min:0',
             'stock' => 'sometimes|required|integer|min:0',
             'description' => 'nullable|string',
             'image' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
