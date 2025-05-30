@@ -47,6 +47,9 @@ Route::prefix('transactions')->group(function () {
     Route::post('/store', [TransactionController::class, 'store'])->name('transactions.store');
 });
 
+// midtrans callback
+Route::post('/midtrans/callback', [TransactionController::class, 'midtransCallback'])->name('midtrans.callback');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/customer/profile', [FrontpageController::class, 'profile'])->name('frontpage.customer.profile');
     Route::post('/profile/{userId}', [ProfileController::class, 'update'])->name('profile.update');

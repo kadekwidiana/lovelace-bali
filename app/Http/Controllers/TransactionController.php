@@ -222,4 +222,54 @@ class TransactionController extends Controller
     {
         return collect($items)->sum(fn($item) => $this->productRepository->find($item['product_id'])->price * $item['quantity']);
     }
+
+    public function midtransCallback(Request $request)
+    {
+        $serverKey = config('midtrans.server_key');
+        $hashedKey = hash('sha512', $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
+
+        if ($hashedKey !== $request->signature_key) {
+            return ApiResponse::error(['message' => 'Invalid signature key'], 'Invalid signature key', 400);
+        }
+
+        $transactionStatus = $request->transaction_status;
+        $orderId = $request->order_id;
+        $transaction = $this->transactionRepository->find($orderId);
+
+        if (!$transaction) {
+            return ApiResponse::error(['message' => 'Order not found'], 'Order not found', 404);
+        }
+
+        switch ($transactionStatus) {
+            case 'capture':
+                if ($request->payment_type === 'credit_card') {
+                    $status = ($request->fraud_status === 'challenge') ? 'PENDING' : 'PAID';
+                } else {
+                    $status = 'PAID';
+                }
+                break;
+
+            case 'settlement':
+                $status = 'PAID';
+                break;
+
+            case 'pending':
+                $status = 'PENDING';
+                break;
+
+            case 'deny':
+            case 'expire':
+            case 'cancel':
+                $status = 'CANCELLED';
+                break;
+
+            default:
+                $status = 'PENDING';
+                break;
+        }
+
+        $transaction->update(['status' => $status]);
+
+        return ApiResponse::success(['transaction' => $transaction], 'Transaction status updated successfully');
+    }
 }
