@@ -123,7 +123,13 @@ class TransactionController extends Controller
                 'note' => $validated['note']
             ]);
 
-            $itemDetails = [];
+            // shipment cost sebagai item terpisah
+            $itemDetails[] = [
+                'id' => 'SHIPPING_COST',
+                'price' => $validated['shipment_cost'],
+                'quantity' => 1,
+                'name' => 'Biaya Pengiriman',
+            ];
 
             // create transaction detail
             foreach ($validated['items'] as $item) {
@@ -134,7 +140,7 @@ class TransactionController extends Controller
 
                     return ApiResponse::error([
                         'detail' => 'Stock not enough',
-                    ], 400);
+                    ], 'Stok produk tidak mencukupi', 400);
                 }
 
                 $this->transactionDetailRepository->create([
@@ -198,7 +204,12 @@ class TransactionController extends Controller
 
             DB::commit();
 
-            return ApiResponse::success($transaction, 'Transaction created successfully', 201);
+            return ApiResponse::success([
+                'transaction' => $transaction,
+                'items' => $itemDetails,
+                'shipment' => $shipment,
+                'user' => $user
+            ], 'Transaksi berhasil dibuat.', 201);
         } catch (\Exception $e) {
             DB::rollBack();
             return ApiResponse::error([

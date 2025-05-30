@@ -82,6 +82,8 @@ export default function useGetTransactions() {
         );
     };
 
+    console.log(transactions.data);
+
     return {
         transactions,
         users,

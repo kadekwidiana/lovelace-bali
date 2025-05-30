@@ -16,7 +16,7 @@ class TransactionRepository implements TransactionRepositoryInterface
 
     public function all($search = [], $perPage = 10)
     {
-        $query = $this->model->with(['user', 'details.product']);
+        $query = $this->model->with(['user', 'details.product', 'shipment']);
 
         if (isset($search['id'])) {
             $query->where('id', 'like', '%' . $search['id'] . '%');
@@ -43,7 +43,7 @@ class TransactionRepository implements TransactionRepositoryInterface
 
     public function find($id)
     {
-        return $this->model->with(['user.customer', 'details.product'])->findOrFail($id);
+        return $this->model->with(['user.customer', 'details.product', 'shipment'])->findOrFail($id);
     }
 
     public function create($data)

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,7 +16,7 @@ class Transaction extends Model
     protected $fillable = [
         'created_by',
         'date',
-        'shipping_cost',
+        'shipment_cost',
         'total_amount',
         'note',
         'status',
@@ -24,7 +25,7 @@ class Transaction extends Model
     ];
 
     protected $casts = [
-        'date' => 'date',
+        'date' => 'datetime',
         'total_amount' => 'decimal:2',
     ];
 
@@ -38,8 +39,29 @@ class Transaction extends Model
         return $this->hasMany(TransactionDetail::class);
     }
 
-    public function shipments()
+    public function shipment()
     {
-        return $this->hasMany(TransactionShipment::class);
+        return $this->hasOne(TransactionShipment::class);
+    }
+
+    public function getDateAttribute($value)
+    {
+        return Carbon::parse($value)
+            ->setTimezone('Asia/Makassar') // ubah ke WITA
+            ->format('Y-m-d H:i:s'); // format tanpa ISO 8601
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)
+            ->setTimezone('Asia/Makassar')
+            ->format('Y-m-d H:i:s');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)
+            ->setTimezone('Asia/Makassar')
+            ->format('Y-m-d H:i:s');
     }
 }
