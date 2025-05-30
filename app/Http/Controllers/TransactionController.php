@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Midtrans\Config;
 use Midtrans\Snap;
+use Midtrans\Transaction;
 
 class TransactionController extends Controller
 {
@@ -90,6 +91,23 @@ class TransactionController extends Controller
     {
         try {
             $validated = $request->validated();
+
+            $transaction = $this->transactionRepository->find($id);
+
+            if (isset($validated['status']) && $validated['status'] === 'CANCELLED') {
+
+                try {
+                    Transaction::cancel($transaction->id);
+                } catch (\Exception $e) {
+                    Log::error('Gagal membatalkan transaksi Midtrans: ' . $e->getMessage());
+                }
+
+                foreach ($transaction->details as $item) {
+                    $product = $this->productRepository->find($item->product_id);
+                    $product->stock += $item->quantity;
+                    $product->save();
+                }
+            }
 
             $this->transactionRepository->update($id, $validated);
 
@@ -261,6 +279,13 @@ class TransactionController extends Controller
             case 'expire':
             case 'cancel':
                 $status = 'CANCELLED';
+
+                // update stock
+                foreach ($transaction->details as $item) {
+                    $product = $this->productRepository->find($item->product_id);
+                    $product->stock += $item->quantity;
+                    $product->save();
+                }
                 break;
 
             default:
