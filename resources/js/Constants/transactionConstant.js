@@ -7,4 +7,5 @@ export const TRANSACTION_STATUSES = [
     'CANCELLED'
 ];
 
-export const BASE_URL_MIDTRANS = "https://app.sandbox.midtrans.com";
+export const BASE_URL_MIDTRANS = import.meta.env.VITE_MIDTRANS_BASE_URL;
+export const CLIENT_KEY_MIDTRANS = import.meta.env.VITE_MIDTRANS_CLIENT_KEY;

@@ -54,6 +54,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/customer/profile', [FrontpageController::class, 'profile'])->name('frontpage.customer.profile');
     Route::post('/profile/{userId}', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/customer/transactions', [FrontpageController::class, 'transactions'])->name('frontpage.customer.transactions');
+    Route::get('/customer/transactions/{id}', [FrontpageController::class, 'transactionDetail'])->name('frontpage.customer.transaction-detail');
+    Route::put('transactions/{id}', [TransactionController::class, 'update'])->name('transactions.update');
     Route::get('/customer/carts', [FrontpageController::class, 'carts'])->name('frontpage.customer.carts');
 
     Route::group(['middleware' => 'checkRole:EMPLOYEE'], function () {
@@ -78,7 +80,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // transactions
         Route::get('transactions', [TransactionController::class, 'index'])->name('transactions.index');
         Route::get('transactions/{id}', [TransactionController::class, 'detail'])->name('transactions.detail');
-        Route::put('transactions/{id}', [TransactionController::class, 'update'])->name('transactions.update');
 
         Route::group(['middleware' => 'checkRole:ADMIN'], function () {
             // category

@@ -27,7 +27,7 @@ class TransactionRepository implements TransactionRepositoryInterface
         }
 
         if (isset($search['date'])) {
-            $query->where('date', $search['date']);
+            $query->whereDate('date', $search['date']);
         }
 
         if (isset($search['status'])) {
@@ -43,7 +43,7 @@ class TransactionRepository implements TransactionRepositoryInterface
 
     public function find($id)
     {
-        return $this->model->with(['user.customer', 'details.product', 'shipment'])->findOrFail($id);
+        return $this->model->with(['user.customer', 'details.product.category', 'shipment'])->findOrFail($id);
     }
 
     public function create($data)

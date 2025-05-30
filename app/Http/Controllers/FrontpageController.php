@@ -6,9 +6,11 @@ use App\Http\Requests\ProfileUpdateRequest;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\PromotionRepositoryInterface;
+use App\Interfaces\TransactionRepositoryInterface;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -18,15 +20,18 @@ class FrontpageController extends Controller
     private  ProductRepositoryInterface $productRepository;
     private PromotionRepositoryInterface $promotionRepository;
     private CategoryRepositoryInterface $categoryRepository;
+    private TransactionRepositoryInterface $transactionRepository;
 
     public function __construct(
         ProductRepositoryInterface $productRepository,
         PromotionRepositoryInterface $promotionRepository,
-        CategoryRepositoryInterface $categoryRepository
+        CategoryRepositoryInterface $categoryRepository,
+        TransactionRepositoryInterface $transactionRepository,
     ) {
         $this->productRepository = $productRepository;
         $this->promotionRepository = $promotionRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->transactionRepository = $transactionRepository;
     }
     public function index()
     {
@@ -113,19 +118,60 @@ class FrontpageController extends Controller
         ]);
     }
 
-    public function transactions()
-    {
-        return Inertia::render('Frontpage/Transaction', [
-            'title' => 'Transaksi',
-            'description' => 'Selamat Datang di Website Love Lace Bali',
-        ]);
-    }
-
     public function carts()
     {
         return Inertia::render('Frontpage/Cart', [
             'title' => 'Keranjang',
             'description' => 'Selamat Datang di Website Love Lace Bali',
         ]);
+    }
+
+    // public function transactions()
+    // {
+    //     return Inertia::render('Frontpage/Transaction', [
+    //         'title' => 'Transaksi',
+    //         'description' => 'Selamat Datang di Website Love Lace Bali',
+    //     ]);
+    // }
+
+    public function transactions(Request $request)
+    {
+        $user = Auth::user();
+
+        try {
+            $filters = $request->only(['id', 'date', 'status']);
+            $perPage = $request->perpage ?? 10;
+
+            $transactions = $this->transactionRepository->all([
+                'id' => $filters['id'] ?? null,
+                'created_by' => $user->id,
+                'date' => $filters['date'] ?? null,
+                'status' => $filters['status'] ?? null
+            ], $perPage);
+
+            return Inertia::render('Frontpage/Transaction', [
+                'title' => 'Riwayat Transaksi',
+                'description' => 'Selamat Datang di Website Love Lace Bali',
+                'transactions' => $transactions,
+                'filters' => $filters
+            ]);
+        } catch (Exception $e) {
+            Log::error('Error fetching categories: ' . $e->getMessage());
+            return back()->withErrors(['message' => 'Failed to fetch categories']);
+        }
+    }
+
+    public function transactionDetail($id)
+    {
+        try {
+            $transaction = $this->transactionRepository->find($id);
+            return Inertia::render('Frontpage/TransactionDetail', [
+                'title' => 'Detail Transaksi',
+                'transaction' => $transaction,
+            ]);
+        } catch (Exception $e) {
+            Log::error('Error fetching categories: ' . $e->getMessage());
+            return back()->withErrors(['message' => 'Failed to fetch categories']);
+        }
     }
 }
