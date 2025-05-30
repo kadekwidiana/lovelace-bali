@@ -42,6 +42,11 @@ Route::prefix('raja-ongkir')->group(function () {
     Route::post('/cost', [CheckOngkirController::class, 'checkCost'])->name('raja-ongkir.check-cost');
 });
 
+// transaction
+Route::prefix('transactions')->group(function () {
+    Route::post('/store', [TransactionController::class, 'store'])->name('transactions.store');
+});
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/customer/profile', [FrontpageController::class, 'profile'])->name('frontpage.customer.profile');
     Route::post('/profile/{userId}', [ProfileController::class, 'update'])->name('profile.update');

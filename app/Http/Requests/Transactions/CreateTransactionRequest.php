@@ -23,9 +23,20 @@ class CreateTransactionRequest extends FormRequest
     {
         return [
             'created_by' => 'required|exists:users,id',
-            'date' => 'required|date',
-            'total_price' => 'required|numeric|min:0',
+            'shipment_cost' => 'required|numeric|min:0',
+            'phone_number' => 'required|string',
+            'province_code' => 'required|string',
+            'province_name' => 'required|string',
+            'city_code' => 'required|string',
+            'city_name' => 'required|string',
+            'sub_district' => 'required|string',
+            'village' => 'required|string',
+            'address' => 'required|string',
             'note' => 'nullable|string',
+            'items' => 'required|array',
+            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.quantity' => 'required|numeric|min:1',
+            'courier' => 'required|string',
         ];
     }
 }

@@ -97,4 +97,10 @@ class CartRepository implements CartRepositoryInterface
                 ->get()
         ];
     }
+
+    public function deleteByItems($items)
+    {
+        $productIds = collect($items)->pluck('product_id')->toArray();
+        return $this->model->whereIn('product_id', $productIds)->delete();
+    }
 }

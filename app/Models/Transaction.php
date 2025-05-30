@@ -4,16 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transaction extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'transactions';
 
     protected $fillable = [
         'created_by',
         'date',
+        'shipping_cost',
         'total_amount',
         'note',
         'status',
@@ -34,5 +36,10 @@ class Transaction extends Model
     public function details()
     {
         return $this->hasMany(TransactionDetail::class);
+    }
+
+    public function shipments()
+    {
+        return $this->hasMany(TransactionShipment::class);
     }
 }

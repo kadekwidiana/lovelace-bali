@@ -25,7 +25,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'midtrans/callback',
             'data/*',
-            'raja-ongkir/*'
+            'raja-ongkir/*',
+            'transactions/*'
         ]);
         //
     })
