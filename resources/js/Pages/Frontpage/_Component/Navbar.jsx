@@ -92,12 +92,18 @@ export default function FrontpageNavbar() {
                                                         }
                                                     >
                                                         <i className="fa-solid fa-user mr-2"></i>
-                                                        Transaksi
+                                                        Daftar Transaksi
                                                     </Link>
                                                 </DropdownItem>
                                             </>
                                         ) : (
                                             <>
+                                                <DropdownItem>
+                                                    <Link href={"/profile"}>
+                                                        <i className="fa-solid fa-user mr-2"></i>
+                                                        Profile
+                                                    </Link>
+                                                </DropdownItem>
                                                 <DropdownItem>
                                                     <Link href={"/dashboard"}>
                                                         <i className="fa-solid fa-user mr-2"></i>

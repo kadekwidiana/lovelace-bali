@@ -1,9 +1,5 @@
 import useUpdateProfile from "@/Features/Backpage/Profile/useUpdateProfile";
-import useGetCity from "@/Features/Frontpage/Ongkirs/useGetCity";
-import useGetProvince from "@/Features/Frontpage/Ongkirs/useGetProvince";
-import { useQueryClient } from "@tanstack/react-query";
-import { Button, Label, Select, Textarea, TextInput } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { Button, Label, TextInput } from "flowbite-react";
 
 export default function UpdateProfileInformationForm({
     mustVerifyEmail,
@@ -18,25 +14,6 @@ export default function UpdateProfileInformationForm({
         handleSubmitUpdateProfile,
         setData,
     } = useUpdateProfile();
-
-    const [provinceId, setProvinceId] = useState(data.province_code ?? null);
-    const [cityId, setCityId] = useState(data.city_code ?? null);
-
-    const queryClient = useQueryClient();
-
-    const { data: provinces, isLoading: provinceIsLoading } = useGetProvince();
-    const {
-        data: cities,
-        isLoading: cityIsLoading,
-        isFetching: cityIsFetching,
-    } = useGetCity(provinceId);
-
-    useEffect(() => {
-        queryClient.invalidateQueries({
-            queryKey: ["get-city"],
-            exact: false,
-        });
-    }, [provinceId, queryClient]);
 
     return (
         <section className={className}>
@@ -121,155 +98,6 @@ export default function UpdateProfileInformationForm({
                     />
                 </div>
 
-                <div className="space-y-4">
-                    {/* Province Select */}
-                    <div>
-                        <Label
-                            htmlFor="province_code"
-                            value="Provinsi*"
-                            color={errors.province_code ? "failure" : "gray"}
-                        />
-                        <Select
-                            className="mt-1 block w-full rounded border-gray-300"
-                            value={provinceId ?? ""}
-                            onChange={(e) => {
-                                const selected = e.target.value || null;
-                                setProvinceId(selected);
-                                setCityId(null); // reset city
-                                setData("province_code", selected);
-                                setData(
-                                    "province_name",
-                                    provinces?.data.data.rajaongkir.results.find(
-                                        (prov) => prov.province_id === selected
-                                    ).province
-                                );
-                                setData("city_code", null);
-                                setData("city_name", null);
-                            }}
-                            color={errors.province_code ? "failure" : "gray"}
-                            helperText={errors.province_code}
-                            disabled={provinceIsLoading}
-                        >
-                            <option value="">-- Pilih provinsi --</option>
-                            {!provinceIsLoading &&
-                                provinces?.data.data.rajaongkir.results.map(
-                                    (prov) => (
-                                        <option
-                                            key={prov.province_id}
-                                            value={prov.province_id}
-                                        >
-                                            {prov.province}
-                                        </option>
-                                    )
-                                )}
-                        </Select>
-                    </div>
-
-                    {/* City Select */}
-                    <div>
-                        <Label
-                            htmlFor="city_code"
-                            value="Kota*"
-                            color={errors.city_code ? "failure" : "gray"}
-                        />
-                        <Select
-                            value={cityId ?? ""}
-                            onChange={(e) => {
-                                setCityId(e.target.value || null);
-                                setData("city_code", e.target.value || null);
-                                setData(
-                                    "city_name",
-                                    cities?.data.data.rajaongkir.results.find(
-                                        (city) =>
-                                            city.city_id === e.target.value
-                                    ).city_name
-                                );
-                            }}
-                            color={errors.city_code ? "failure" : "gray"}
-                            helperText={errors.city_code}
-                            disabled={
-                                !provinceId || cityIsLoading || cityIsFetching
-                            }
-                        >
-                            <option value="">-- Pilih kota --</option>
-                            {!cityIsLoading &&
-                                cities?.data.data.rajaongkir.results.map(
-                                    (city) => (
-                                        <option
-                                            key={city.city_id}
-                                            value={city.city_id}
-                                        >
-                                            {city.type} {city.city_name}
-                                        </option>
-                                    )
-                                )}
-                        </Select>
-                    </div>
-
-                    <div className="">
-                        <div className="mb-2 block">
-                            <Label
-                                htmlFor="sub_district"
-                                value="Kecamatan*"
-                                color={errors.sub_district ? "failure" : "gray"}
-                            />
-                        </div>
-                        <TextInput
-                            id="sub_district"
-                            name="sub_district"
-                            type="text"
-                            placeholder="Masukan kecamatan..."
-                            required
-                            value={data.sub_district}
-                            // isFocused={true}
-                            color={errors.sub_district ? "failure" : "gray"}
-                            onChange={handleChange}
-                            helperText={errors.sub_district}
-                        />
-                    </div>
-
-                    <div className="">
-                        <div className="mb-2 block">
-                            <Label
-                                htmlFor="village"
-                                value="Desa/Kelurahan*"
-                                color={errors.village ? "failure" : "gray"}
-                            />
-                        </div>
-                        <TextInput
-                            id="village"
-                            name="village"
-                            type="text"
-                            placeholder="Masukan desa/kelurahan..."
-                            required
-                            value={data.village}
-                            // isFocused={true}
-                            color={errors.village ? "failure" : "gray"}
-                            onChange={handleChange}
-                            helperText={errors.village}
-                        />
-                    </div>
-
-                    <div>
-                        <div className="mb-2 block">
-                            <Label
-                                htmlFor="address"
-                                value="Deskripsi"
-                                color={errors.address ? "failure" : "gray"}
-                            />
-                        </div>
-                        <Textarea
-                            rows={4}
-                            id="address"
-                            name="address"
-                            placeholder="Masukan deskripsi..."
-                            value={data.address}
-                            onChange={handleChange}
-                            color={errors.address ? "failure" : "gray"}
-                            helperText={errors.address}
-                        />
-                    </div>
-                </div>
                 <div className="flex items-center justify-end gap-4">
                     <Button disabled={processing} type="submit">
                         Simpan

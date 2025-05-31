@@ -1,5 +1,5 @@
 import UpdatePasswordForm from "../Backpage/Profile/Partials/UpdatePasswordForm";
-import UpdateProfileInformationForm from "../Backpage/Profile/Partials/UpdateProfileInformationForm";
+import UpdateProfileInformationCustomerForm from "./_Component/Form/UpdateProfileInformationCustomerForm";
 import FrontpageLayout from "./_Component/Layout";
 
 export default function ProductCsPage({ mustVerifyEmail, status }) {
@@ -9,16 +9,16 @@ export default function ProductCsPage({ mustVerifyEmail, status }) {
                 <h2 className="text-3xl text-start font-semibold text-gray-900 my-4">
                     Profile
                 </h2>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div className="border-stroke shadow-default rounded-sm border bg-white p-4">
-                        <UpdateProfileInformationForm
+                <div className="grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-2">
+                    <div className="border-stroke shadow-default rounded-lg border bg-white p-4">
+                        <UpdateProfileInformationCustomerForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
                             className=""
                         />
                     </div>
                     <div className="grid grid-cols-1 gap-4">
-                        <div className="border-stroke shadow-default rounded-sm border bg-white p-4">
+                        <div className="border-stroke shadow-default rounded-lg border bg-white p-4">
                             <UpdatePasswordForm className="" />
                         </div>
                     </div>
