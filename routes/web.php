@@ -57,6 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/customer/transactions/{id}', [FrontpageController::class, 'transactionDetail'])->name('frontpage.customer.transaction-detail');
     Route::put('transactions/{id}', [TransactionController::class, 'update'])->name('transactions.update');
     Route::get('/customer/carts', [FrontpageController::class, 'carts'])->name('frontpage.customer.carts');
+    Route::get('/customer/checkout', [FrontpageController::class, 'checkout'])->name('frontpage.customer.checkout');
 
     Route::group(['middleware' => 'checkRole:EMPLOYEE'], function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

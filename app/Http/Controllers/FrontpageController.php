@@ -174,4 +174,12 @@ class FrontpageController extends Controller
             return back()->withErrors(['message' => 'Failed to fetch categories']);
         }
     }
+
+    public function checkout()
+    {
+        return Inertia::render('Frontpage/Checkout', [
+            'title' => 'Checkout',
+            'description' => 'Selamat Datang di Website Love Lace Bali',
+        ]);
+    }
 }

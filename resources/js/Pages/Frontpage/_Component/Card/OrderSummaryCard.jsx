@@ -1,7 +1,7 @@
 import FetchError from "@/Components/Error/FetchError";
 import useGetOrderSummary from "@/Features/Frontpage/Carts/useGetOrderSummary";
 import { formatRupiah } from "@/Utils/formatNumber";
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { Button } from "flowbite-react";
 import React from "react";
 
@@ -23,9 +23,9 @@ export default function OrderSummaryCard() {
             ) : error ? (
                 <FetchError message={"Ops! Terjadi kesalahan."} />
             ) : (
-                <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
+                <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
                     <p className="text-xl font-semibold text-gray-900 dark:text-white">
-                        Rincian pesanan
+                        Rincian Pesanan
                     </p>
                     <div className="space-y-4">
                         <div className="space-y-2">
@@ -59,29 +59,32 @@ export default function OrderSummaryCard() {
                         </dl>
                     </div>
                     <div className="flex justify-center">
-                        <Button
-                            size="sm"
-                            disabled={
-                                orderSummaryData?.data?.data?.total_item === 0
-                            }
-                        >
-                            Proses Checkout{" "}
-                            <svg
-                                className="size-5 ml-1"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
+                        <Link href="/customer/checkout">
+                            <Button
+                                size="sm"
+                                disabled={
+                                    orderSummaryData?.data?.data?.total_item ===
+                                    0
+                                }
                             >
-                                <path
-                                    stroke="currentColor"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M19 12H5m14 0-4 4m4-4-4-4"
-                                />
-                            </svg>
-                        </Button>
+                                Proses Checkout{" "}
+                                <svg
+                                    className="size-5 ml-1"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M19 12H5m14 0-4 4m4-4-4-4"
+                                    />
+                                </svg>
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             )}
