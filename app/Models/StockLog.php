@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,5 +33,26 @@ class StockLog extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getDateAttribute($value)
+    {
+        return Carbon::parse($value)
+            ->setTimezone('Asia/Makassar') // ubah ke WITA
+            ->format('Y-m-d H:i:s'); // format tanpa ISO 8601
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)
+            ->setTimezone('Asia/Makassar')
+            ->format('Y-m-d H:i:s');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)
+            ->setTimezone('Asia/Makassar')
+            ->format('Y-m-d H:i:s');
     }
 }

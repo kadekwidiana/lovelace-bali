@@ -8,6 +8,7 @@ use App\Http\Requests\Transactions\UpdateTransactionRequest;
 use App\Interfaces\CartRepositoryInterface;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
+use App\Interfaces\StockLogRepositoryInterface;
 use App\Interfaces\TransactionRepositoryInterface;
 use App\Interfaces\TransactionShipmentRepositoryInterface;
 use App\Models\User;
@@ -29,6 +30,7 @@ class TransactionController extends Controller
     private TransactionShipmentRepositoryInterface $transactionShipmentRepository;
     private CartRepositoryInterface $cartRepository;
     private TransactionDetailRepository $transactionDetailRepository;
+    private StockLogRepositoryInterface $stockLogRepository;
 
     public function __construct(
         TransactionRepositoryInterface $transactionRepository,
@@ -36,7 +38,8 @@ class TransactionController extends Controller
         ProductRepositoryInterface $productRepository,
         TransactionShipmentRepositoryInterface $transactionShipmentRepository,
         CartRepositoryInterface $cartRepository,
-        TransactionDetailRepository $transactionDetailRepository
+        TransactionDetailRepository $transactionDetailRepository,
+        StockLogRepositoryInterface $stockLogRepository
     ) {
         $this->transactionRepository = $transactionRepository;
         $this->categoryRepository = $categoryRepository;
@@ -44,6 +47,7 @@ class TransactionController extends Controller
         $this->transactionShipmentRepository = $transactionShipmentRepository;
         $this->cartRepository = $cartRepository;
         $this->transactionDetailRepository = $transactionDetailRepository;
+        $this->stockLogRepository = $stockLogRepository;
 
         // midtrans config
         Config::$serverKey = config('midtrans.server_key');
@@ -149,7 +153,7 @@ class TransactionController extends Controller
                 'name' => 'Biaya Pengiriman',
             ];
 
-            // create transaction detail
+            // create transaction detail, update stock, create stock log
             foreach ($validated['items'] as $item) {
                 $product = $this->productRepository->find($item['product_id']);
 
@@ -178,6 +182,16 @@ class TransactionController extends Controller
 
                 $product->stock -= $item['quantity'];
                 $product->save();
+
+                // create stock log
+                $this->stockLogRepository->create([
+                    'product_id' => $item['product_id'],
+                    'created_by' => $createdBy,
+                    'type' => 'OUT',
+                    'quantity' => $item['quantity'],
+                    'date' => now(),
+                    'note' => 'Pembelian produk ' . $product->name
+                ]);
             }
 
             // create transaction shipment
