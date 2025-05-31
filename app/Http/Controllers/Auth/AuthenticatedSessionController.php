@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
         $user = auth()->user();
 
         if ($user->role === 'CUSTOMER') {
-            return redirect()->route('frontpage.home');
+            return redirect()->route('frontpage.product');
         }
 
         return redirect()->intended(route('dashboard', absolute: false));

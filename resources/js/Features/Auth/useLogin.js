@@ -1,5 +1,5 @@
 import { paymentStatus } from '@/Constants/appName';
-import { ToastTop } from '@/Utils/alert';
+import { ToastTopEnd } from '@/Utils/alert';
 import { useForm } from '@inertiajs/react';
 import { useEffect } from 'react';
 import Swal from 'sweetalert2';
@@ -22,7 +22,7 @@ export default function useLogin() {
 
         post(route("login"), {
             onSuccess: () => {
-                ToastTop.fire({
+                ToastTopEnd.fire({
                     icon: "success",
                     title: "Login Berhasil!",
                 });
@@ -38,7 +38,7 @@ export default function useLogin() {
                 }
             },
             onError: () => {
-                ToastTop.fire({
+                ToastTopEnd.fire({
                     icon: "error",
                     title: "Login Gagal! Silakan cek kembali data Anda.",
                 });

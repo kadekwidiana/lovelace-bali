@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { Head, Link } from "@inertiajs/react";
 import useLogin from "@/Features/Auth/useLogin";
+import InputError from "@/Components/InputError";
 
 export default function Login() {
     const { data, setData, processing, errors, reset, handleSubmitLogin } =
@@ -30,6 +31,13 @@ export default function Login() {
                                 Login ke akun Anda
                             </h2>
                         </div>
+                        {errors.email && (
+                            <div className="flex justify-center">
+                                <InputError
+                                    message={"Email atau password salah!"}
+                                />
+                            </div>
+                        )}
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="email" value="Email" />
