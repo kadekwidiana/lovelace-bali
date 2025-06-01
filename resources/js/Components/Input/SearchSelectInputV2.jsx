@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import { IoIosArrowUp } from "react-icons/io";
+import { useEffect, useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 
-const SearchSelectInput = ({
+const SearchSelectInputV2 = ({
     entities,
     selectedEntityId,
     setSelectedEntityId,
@@ -10,6 +9,9 @@ const SearchSelectInput = ({
     placeholder,
     label,
     error,
+    onChange,
+    searchDataToServerIsLoading = false,
+    withSearhDataOptions = true,
 }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredEntities, setFilteredEntities] = useState(entities);
@@ -118,11 +120,24 @@ const SearchSelectInput = ({
                         type="text"
                         placeholder={placeholder ?? "Search..."}
                         value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                            onChange && onChange(e.target.value);
+                        }}
                         className="w-full rounded-t-sm border-b border-gray-300 p-2 focus:border-cyan-600 focus:outline-none focus:ring-cyan-600 focus-visible:outline-none"
                     />
                     <div className="max-h-48 overflow-y-auto">
-                        {filteredEntities.length > 0 ? (
+                        {searchDataToServerIsLoading ? (
+                            <div className="p-2 text-gray-500">
+                                Memuat data...
+                            </div>
+                        ) : withSearhDataOptions ? (
+                            filteredEntities.length === 0
+                        ) : entities.length === 0 ? (
+                            <div className="p-2 text-gray-500">
+                                Data tidak ditemukan.
+                            </div>
+                        ) : withSearhDataOptions ? (
                             filteredEntities.map((entity, index) => (
                                 <div
                                     key={entity.id}
@@ -148,9 +163,30 @@ const SearchSelectInput = ({
                                 </div>
                             ))
                         ) : (
-                            <div className="p-2 text-gray-500">
-                                Data tidak di temukan.
-                            </div>
+                            entities.map((entity, index) => (
+                                <div
+                                    key={entity.id}
+                                    className={`my-0.5 cursor-pointer p-2 ${
+                                        Number(entity.id) ===
+                                        Number(selectedEntityId)
+                                            ? "bg-cyan-200/50 text-cyan-600"
+                                            : "hover:bg-cyan-200/50 hover:text-cyan-600"
+                                    } ${
+                                        index === focusedOptionIndex
+                                            ? "bg-cyan-200/50 text-cyan-600"
+                                            : ""
+                                    }`}
+                                    onClick={() =>
+                                        handleOptionSelect(entity.id)
+                                    }
+                                >
+                                    {`${entity.name}${
+                                        otherEntity && entity[otherEntity]
+                                            ? ` (${entity[otherEntity]})`
+                                            : ""
+                                    }`}
+                                </div>
+                            ))
                         )}
                     </div>
                 </div>
@@ -159,4 +195,4 @@ const SearchSelectInput = ({
     );
 };
 
-export default SearchSelectInput;
+export default SearchSelectInputV2;

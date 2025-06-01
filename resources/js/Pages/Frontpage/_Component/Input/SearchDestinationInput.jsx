@@ -1,4 +1,4 @@
-import SearchSelectInput from "@/Components/Input/SearchSelectInput";
+import SearchSelectInputV2 from "@/Components/Input/SearchSelectInputV2";
 import { useSearchDestination } from "@/Features/Frontpage/Komerces/useSearchDestination";
 import { Label } from "flowbite-react";
 import { useEffect, useState } from "react";
@@ -43,7 +43,7 @@ export default function SearchDestinationInput({
             <div className="mb-2 block">
                 <Label htmlFor="product_ids" value="Destinasi Pengiriman" />
             </div>
-            <SearchSelectInput
+            <SearchSelectInputV2
                 entities={options}
                 otherEntity={"code"}
                 selectedEntityId={selectedId}
