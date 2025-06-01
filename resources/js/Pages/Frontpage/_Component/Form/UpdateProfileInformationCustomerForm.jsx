@@ -1,9 +1,5 @@
 import useUpdateProfile from "@/Features/Backpage/Profile/useUpdateProfile";
-import useGetCity from "@/Features/Frontpage/Ongkirs/useGetCity";
-import useGetProvince from "@/Features/Frontpage/Ongkirs/useGetProvince";
-import { useQueryClient } from "@tanstack/react-query";
-import { Button, Label, Select, Textarea, TextInput } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { Button, Label, Textarea, TextInput } from "flowbite-react";
 
 export default function UpdateProfileInformationCustomerForm({
     mustVerifyEmail,
@@ -19,24 +15,24 @@ export default function UpdateProfileInformationCustomerForm({
         setData,
     } = useUpdateProfile();
 
-    const [provinceId, setProvinceId] = useState(data.province_code ?? null);
-    const [cityId, setCityId] = useState(data.city_code ?? null);
+    // const [provinceId, setProvinceId] = useState(data.province_code ?? null);
+    // const [cityId, setCityId] = useState(data.city_code ?? null);
 
-    const queryClient = useQueryClient();
+    // const queryClient = useQueryClient();
 
-    const { data: provinces, isLoading: provinceIsLoading } = useGetProvince();
-    const {
-        data: cities,
-        isLoading: cityIsLoading,
-        isFetching: cityIsFetching,
-    } = useGetCity(provinceId);
+    // const { data: provinces, isLoading: provinceIsLoading } = useGetProvince();
+    // const {
+    //     data: cities,
+    //     isLoading: cityIsLoading,
+    //     isFetching: cityIsFetching,
+    // } = useGetCity(provinceId);
 
-    useEffect(() => {
-        queryClient.invalidateQueries({
-            queryKey: ["get-city"],
-            exact: false,
-        });
-    }, [provinceId, queryClient]);
+    // useEffect(() => {
+    //     queryClient.invalidateQueries({
+    //         queryKey: ["get-city"],
+    //         exact: false,
+    //     });
+    // }, [provinceId, queryClient]);
 
     return (
         <section className={className}>
@@ -147,7 +143,7 @@ export default function UpdateProfileInformationCustomerForm({
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                {/* <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                     <div>
                         <div className="mb-2 block">
                             <Label
@@ -280,7 +276,7 @@ export default function UpdateProfileInformationCustomerForm({
                             helperText={errors.village}
                         />
                     </div>
-                </div>
+                </div> */}
 
                 <div>
                     <div className="mb-2 block">

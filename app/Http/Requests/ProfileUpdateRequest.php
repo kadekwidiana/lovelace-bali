@@ -29,12 +29,12 @@ class ProfileUpdateRequest extends FormRequest
 
         if ($this->user()->role === 'CUSTOMER') {
             $rules['phone_number'] = ['required', 'string', 'max:20'];
-            $rules['province_code'] = ['required', 'string'];
-            $rules['province_name'] = ['required', 'string', 'max:255'];
-            $rules['city_code'] = ['required', 'string'];
-            $rules['city_name'] = ['required', 'string', 'max:255'];
-            $rules['sub_district'] = ['required', 'string', 'max:255'];
-            $rules['village'] = ['required', 'string', 'max:255'];
+            $rules['province_code'] = ['nullable', 'string'];
+            $rules['province_name'] = ['nullable', 'string', 'max:255'];
+            $rules['city_code'] = ['nullable', 'string'];
+            $rules['city_name'] = ['nullable', 'string', 'max:255'];
+            $rules['sub_district'] = ['nullable', 'string', 'max:255'];
+            $rules['village'] = ['nullable', 'string', 'max:255'];
             $rules['address'] = ['required', 'string', 'max:500'];
         }
 
