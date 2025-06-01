@@ -1,6 +1,5 @@
 import { Button, Label, Select, Textarea, TextInput } from "flowbite-react";
 import SearchDestinationInput from "../Input/SearchDestinationInput";
-import { usePage } from "@inertiajs/react";
 
 export default function ShipmentForm({
     className = "",
@@ -12,8 +11,6 @@ export default function ShipmentForm({
     checkCostIsLoading,
     setCheckCostResponse,
 }) {
-    const { auth } = usePage().props;
-
     return (
         <section className={className}>
             <header>
@@ -257,6 +254,25 @@ export default function ShipmentForm({
                             <option value="ninja">NINJA</option>
                         </Select>
                     </div>
+                </div>
+                <div className="w-full">
+                    <div className="mb-1 block">
+                        <Label
+                            htmlFor="note"
+                            value="Catatan"
+                            color={errors.note ? "failure" : "gray"}
+                        />
+                    </div>
+                    <Textarea
+                        rows={2}
+                        id="note"
+                        name="note"
+                        placeholder="Masukan catatan..."
+                        value={data.note}
+                        onChange={handleChange}
+                        color={errors.note ? "failure" : "gray"}
+                        helperText={errors.note}
+                    />
                 </div>
                 <div className="flex justify-end mt-2">
                     <Button

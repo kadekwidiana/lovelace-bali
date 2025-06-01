@@ -38,8 +38,6 @@ export default function CheckoutContent() {
         setDestinationId(data.destination_json?.id);
     }, [data, setDestinationId]);
 
-    console.log(data);
-
     return (
         <section className="bg-white py-8 antialiased dark:bg-gray-900 pt-20">
             <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
