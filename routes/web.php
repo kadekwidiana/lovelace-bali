@@ -6,13 +6,13 @@ use App\Http\Controllers\CheckOngkirController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontpageController;
+use App\Http\Controllers\KomerceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StockLogController;
 use App\Http\Controllers\TransactionController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -40,6 +40,12 @@ Route::prefix('raja-ongkir')->group(function () {
     Route::get('/province', [CheckOngkirController::class, 'getProvince'])->name('raja-ongkir.province');
     Route::get('/city', [CheckOngkirController::class, 'getCity'])->name('raja-ongkir.city');
     Route::post('/cost', [CheckOngkirController::class, 'checkCost'])->name('raja-ongkir.check-cost');
+});
+
+// komerce
+Route::prefix('komerce')->group(function () {
+    Route::get('/destination', [KomerceController::class, 'searchDestination'])->name('komerce.destination');
+    Route::post('/cost', [KomerceController::class, 'checkCost'])->name('komerce.cost');
 });
 
 // transaction
