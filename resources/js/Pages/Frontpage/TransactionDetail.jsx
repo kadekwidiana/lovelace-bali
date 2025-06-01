@@ -1,20 +1,22 @@
-import { BASE_URL_MIDTRANS } from "@/Constants/transactionConstant";
+import { DetailProductModal } from "@/Components/Modal/DetailProductModal";
 import useCancelOrder from "@/Features/Backpage/Transactions/useCanceledOrder";
 import useDeliveredOrder from "@/Features/Backpage/Transactions/useDeliveredOrder";
+import usePaymentAction from "@/Features/Backpage/Transactions/usePaymentAction";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import { getTransactionStatusColor } from "@/Utils/transactionUtils";
 import { Link, usePage } from "@inertiajs/react";
 import { Badge, Button } from "flowbite-react";
 import { FaInfoCircle } from "react-icons/fa";
 import FrontpageLayout from "./_Component/Layout";
-import { DetailProductModal } from "@/Components/Modal/DetailProductModal";
-import usePaymentAction from "@/Features/Backpage/Transactions/usePaymentAction";
+import { formatRupiah } from "@/Utils/formatNumber";
 
 export default function TransactionDetailCsPage() {
     const { transaction } = usePage().props;
     const { deliveredOrderConfirm } = useDeliveredOrder();
     const { canceledOrderConfirm } = useCancelOrder();
     const { handlePay } = usePaymentAction();
+
+    console.log(transaction);
 
     return (
         <FrontpageLayout>
@@ -86,6 +88,20 @@ export default function TransactionDetailCsPage() {
                                     </td>
                                 </tr>
                                 <tr className="bg-white">
+                                    <td className="w-1/5 py-2 pr-2">
+                                        Total Berat
+                                    </td>
+                                    <td className="w-3 px-2 py-2">:</td>
+                                    <td className="w-full px-2 py-2">
+                                        {transaction.details.reduce(
+                                            (total, item) =>
+                                                total + item.product.weight,
+                                            0
+                                        )}{" "}
+                                        gram
+                                    </td>
+                                </tr>
+                                <tr className="bg-white">
                                     <td className="w-1/5 py-2 pr-2">Status</td>
                                     <td className="w-3 px-2 py-2">:</td>
                                     <td className="w-full px-2 py-2">
@@ -121,7 +137,7 @@ export default function TransactionDetailCsPage() {
                                         Nomor Pengiriman
                                     </td>
                                     <td className="w-3 px-2 py-2">:</td>
-                                    <td className="w-full px-2 py-2 flex items-center gap-2">
+                                    <td className="w-full px-2 py-2">
                                         {transaction.receipt_number ?? "-"}
                                     </td>
                                 </tr>
@@ -255,46 +271,8 @@ export default function TransactionDetailCsPage() {
                                 </tr>
                                 <tr className="bg-white">
                                     <td className="w-1/5 py-2 pr-2">
-                                        Provinsi
+                                        Alamat Lengkap
                                     </td>
-                                    <td className="w-3 px-2 py-2">:</td>
-                                    <td className="w-full px-2 py-2">
-                                        {transaction.user?.customer
-                                            ?.province_name ?? "-"}
-                                    </td>
-                                </tr>
-                                <tr className="bg-white">
-                                    <td className="w-1/5 py-2 pr-2">
-                                        Kabupaten/Kota
-                                    </td>
-                                    <td className="w-3 px-2 py-2">:</td>
-                                    <td className="w-full px-2 py-2">
-                                        {transaction.user?.customer
-                                            ?.city_name ?? "-"}
-                                    </td>
-                                </tr>
-                                <tr className="bg-white">
-                                    <td className="w-1/5 py-2 pr-2">
-                                        Kecamatan
-                                    </td>
-                                    <td className="w-3 px-2 py-2">:</td>
-                                    <td className="w-full px-2 py-2">
-                                        {transaction.user?.customer
-                                            ?.sub_district ?? "-"}
-                                    </td>
-                                </tr>
-                                <tr className="bg-white">
-                                    <td className="w-1/5 py-2 pr-2">
-                                        Kelurahan/Desa
-                                    </td>
-                                    <td className="w-3 px-2 py-2">:</td>
-                                    <td className="w-full px-2 py-2">
-                                        {transaction.user?.customer?.village ??
-                                            "-"}
-                                    </td>
-                                </tr>
-                                <tr className="bg-white">
-                                    <td className="w-1/5 py-2 pr-2">Alamat</td>
                                     <td className="w-3 px-2 py-2">:</td>
                                     <td className="w-full px-2 py-2">
                                         {transaction.user?.customer?.address ??
@@ -396,13 +374,25 @@ export default function TransactionDetailCsPage() {
                                             {transaction?.shipment?.id}
                                         </td>
                                     </tr>
-                                    <tr className="bg-white">
+                                    {/* <tr className="bg-white">
                                         <td className="w-1/5 py-2 pr-2">
                                             Kurir
                                         </td>
                                         <td className="w-3 px-2 py-2">:</td>
                                         <td className="w-full px-2 py-2">
                                             {transaction?.shipment?.courier}
+                                        </td>
+                                    </tr> */}
+                                    <tr className="bg-white">
+                                        <td className="w-1/5 py-2 pr-2">
+                                            Nama Penerima
+                                        </td>
+                                        <td className="w-3 px-2 py-2">:</td>
+                                        <td className="w-full px-2 py-2">
+                                            {
+                                                transaction?.shipment
+                                                    ?.recipient_name
+                                            }
                                         </td>
                                     </tr>
                                     <tr className="bg-white">
@@ -419,53 +409,79 @@ export default function TransactionDetailCsPage() {
                                     </tr>
                                     <tr className="bg-white">
                                         <td className="w-1/5 py-2 pr-2">
-                                            Provinsi Penerima
+                                            Destinasi Pengiriman
                                         </td>
                                         <td className="w-3 px-2 py-2">:</td>
                                         <td className="w-full px-2 py-2">
                                             {
                                                 transaction?.shipment
-                                                    ?.province_name
+                                                    ?.destination_json?.label
                                             }
                                         </td>
                                     </tr>
                                     <tr className="bg-white">
                                         <td className="w-1/5 py-2 pr-2">
-                                            Kabupaten/Kota Penerima
-                                        </td>
-                                        <td className="w-3 px-2 py-2">:</td>
-                                        <td className="w-full px-2 py-2">
-                                            {transaction?.shipment?.city_name}
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white">
-                                        <td className="w-1/5 py-2 pr-2">
-                                            Kecamatan Penerima
-                                        </td>
-                                        <td className="w-3 px-2 py-2">:</td>
-                                        <td className="w-full px-2 py-2">
-                                            {
-                                                transaction?.shipment
-                                                    ?.sub_district
-                                            }
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white">
-                                        <td className="w-1/5 py-2 pr-2">
-                                            Kelurahan/Desa Penerima
-                                        </td>
-                                        <td className="w-3 px-2 py-2">:</td>
-                                        <td className="w-full px-2 py-2">
-                                            {transaction?.shipment?.village}
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white">
-                                        <td className="w-1/5 py-2 pr-2">
-                                            Alamat Penerima
+                                            Alamat Lengkap Penerima
                                         </td>
                                         <td className="w-3 px-2 py-2">:</td>
                                         <td className="w-full px-2 py-2">
                                             {transaction?.shipment?.address}
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="w-1/5 py-2 pr-2 font-semibold">
+                                            Jasa Pengiriman
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="w-1/5 py-2 pr-2">
+                                            Nama Jasa Pengiriman
+                                        </td>
+                                        <td className="w-3 px-2 py-2">:</td>
+                                        <td className="w-full px-2 py-2">
+                                            {
+                                                transaction?.shipment?.cost_json
+                                                    ?.name
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="w-1/5 py-2 pr-2">
+                                            Service Jasa Pengiriman
+                                        </td>
+                                        <td className="w-3 px-2 py-2">:</td>
+                                        <td className="w-full px-2 py-2">
+                                            {
+                                                transaction?.shipment?.cost_json
+                                                    ?.service
+                                            }{" "}
+                                            -{" "}
+                                            {
+                                                transaction?.shipment?.cost_json
+                                                    ?.description
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="w-1/5 py-2 pr-2">
+                                            Biaya Pengiriman
+                                        </td>
+                                        <td className="w-3 px-2 py-2">:</td>
+                                        <td className="w-full px-2 py-2">
+                                            {formatRupiah(
+                                                transaction?.shipment?.cost_json
+                                                    ?.cost
+                                            )}
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="w-1/5 py-2 pr-2">
+                                            Estimasi Pengiriman
+                                        </td>
+                                        <td className="w-3 px-2 py-2">:</td>
+                                        <td className="w-full px-2 py-2">
+                                            {transaction?.shipment?.cost_json
+                                                ?.etd ?? "-"}
                                         </td>
                                     </tr>
                                 </tbody>

@@ -6,6 +6,7 @@ import useDeliveredOrder from "@/Features/Backpage/Transactions/useDeliveredOrde
 import useProcessOrder from "@/Features/Backpage/Transactions/useProcessOrder";
 import BackpageLayout from "@/Layouts/BackpageLayout";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
+import { formatRupiah } from "@/Utils/formatNumber";
 import { getTransactionStatusColor } from "@/Utils/transactionUtils";
 import { Link, usePage } from "@inertiajs/react";
 import { Badge, Button } from "flowbite-react";
@@ -81,6 +82,20 @@ export default function TransactionDetailPage() {
                                         }).format(
                                             Number(transaction.total_amount)
                                         )}
+                                    </td>
+                                </tr>
+                                <tr className="bg-white">
+                                    <td className="w-1/5 py-2 pr-2">
+                                        Total Berat
+                                    </td>
+                                    <td className="w-3 px-2 py-2">:</td>
+                                    <td className="w-full px-2 py-2">
+                                        {transaction.details.reduce(
+                                            (total, item) =>
+                                                total + item.product.weight,
+                                            0
+                                        )}{" "}
+                                        gram
                                     </td>
                                 </tr>
                                 <tr className="bg-white">
@@ -280,7 +295,7 @@ export default function TransactionDetailPage() {
                                             ?.phone_number ?? "-"}
                                     </td>
                                 </tr>
-                                <tr className="bg-white">
+                                {/* <tr className="bg-white">
                                     <td className="w-1/5 py-2 pr-2">
                                         Provinsi
                                     </td>
@@ -319,7 +334,7 @@ export default function TransactionDetailPage() {
                                         {transaction.user?.customer?.village ??
                                             "-"}
                                     </td>
-                                </tr>
+                                </tr> */}
                                 <tr className="bg-white">
                                     <td className="w-1/5 py-2 pr-2">Alamat</td>
                                     <td className="w-3 px-2 py-2">:</td>
@@ -424,13 +439,25 @@ export default function TransactionDetailPage() {
                                             {transaction?.shipment?.id}
                                         </td>
                                     </tr>
+                                    {/* <tr className="bg-white">
+                                                                        <td className="w-1/5 py-2 pr-2">
+                                                                            Kurir
+                                                                        </td>
+                                                                        <td className="w-3 px-2 py-2">:</td>
+                                                                        <td className="w-full px-2 py-2">
+                                                                            {transaction?.shipment?.courier}
+                                                                        </td>
+                                                                    </tr> */}
                                     <tr className="bg-white">
                                         <td className="w-1/5 py-2 pr-2">
-                                            Kurir
+                                            Nama Penerima
                                         </td>
                                         <td className="w-3 px-2 py-2">:</td>
                                         <td className="w-full px-2 py-2">
-                                            {transaction?.shipment?.courier}
+                                            {
+                                                transaction?.shipment
+                                                    ?.recipient_name
+                                            }
                                         </td>
                                     </tr>
                                     <tr className="bg-white">
@@ -447,53 +474,79 @@ export default function TransactionDetailPage() {
                                     </tr>
                                     <tr className="bg-white">
                                         <td className="w-1/5 py-2 pr-2">
-                                            Provinsi Penerima
+                                            Destinasi Pengiriman
                                         </td>
                                         <td className="w-3 px-2 py-2">:</td>
                                         <td className="w-full px-2 py-2">
                                             {
                                                 transaction?.shipment
-                                                    ?.province_name
+                                                    ?.destination_json?.label
                                             }
                                         </td>
                                     </tr>
                                     <tr className="bg-white">
                                         <td className="w-1/5 py-2 pr-2">
-                                            Kabupaten/Kota Penerima
-                                        </td>
-                                        <td className="w-3 px-2 py-2">:</td>
-                                        <td className="w-full px-2 py-2">
-                                            {transaction?.shipment?.city_name}
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white">
-                                        <td className="w-1/5 py-2 pr-2">
-                                            Kecamatan Penerima
-                                        </td>
-                                        <td className="w-3 px-2 py-2">:</td>
-                                        <td className="w-full px-2 py-2">
-                                            {
-                                                transaction?.shipment
-                                                    ?.sub_district
-                                            }
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white">
-                                        <td className="w-1/5 py-2 pr-2">
-                                            Kelurahan/Desa Penerima
-                                        </td>
-                                        <td className="w-3 px-2 py-2">:</td>
-                                        <td className="w-full px-2 py-2">
-                                            {transaction?.shipment?.village}
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white">
-                                        <td className="w-1/5 py-2 pr-2">
-                                            Alamat Penerima
+                                            Alamat Lengkap Penerima
                                         </td>
                                         <td className="w-3 px-2 py-2">:</td>
                                         <td className="w-full px-2 py-2">
                                             {transaction?.shipment?.address}
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="w-1/5 py-2 pr-2 font-semibold">
+                                            Jasa Pengiriman
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="w-1/5 py-2 pr-2">
+                                            Nama Jasa Pengiriman
+                                        </td>
+                                        <td className="w-3 px-2 py-2">:</td>
+                                        <td className="w-full px-2 py-2">
+                                            {
+                                                transaction?.shipment?.cost_json
+                                                    ?.name
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="w-1/5 py-2 pr-2">
+                                            Service Jasa Pengiriman
+                                        </td>
+                                        <td className="w-3 px-2 py-2">:</td>
+                                        <td className="w-full px-2 py-2">
+                                            {
+                                                transaction?.shipment?.cost_json
+                                                    ?.service
+                                            }{" "}
+                                            -{" "}
+                                            {
+                                                transaction?.shipment?.cost_json
+                                                    ?.description
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="w-1/5 py-2 pr-2">
+                                            Biaya Pengiriman
+                                        </td>
+                                        <td className="w-3 px-2 py-2">:</td>
+                                        <td className="w-full px-2 py-2">
+                                            {formatRupiah(
+                                                transaction?.shipment?.cost_json
+                                                    ?.cost
+                                            )}
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white">
+                                        <td className="w-1/5 py-2 pr-2">
+                                            Estimasi Pengiriman
+                                        </td>
+                                        <td className="w-3 px-2 py-2">:</td>
+                                        <td className="w-full px-2 py-2">
+                                            {transaction?.shipment?.cost_json
+                                                ?.etd ?? "-"}
                                         </td>
                                     </tr>
                                 </tbody>
