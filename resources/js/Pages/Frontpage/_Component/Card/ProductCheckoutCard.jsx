@@ -25,7 +25,10 @@ export default function ProductCheckoutCard({ item }) {
             <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0 w-full">
                 <img
                     className="h-28 w-28 rounded-sm"
-                    src={item.product.image}
+                    src={
+                        item.product.image ??
+                        "/assets/images/default-product.png"
+                    }
                     alt={item.product.name}
                 />
                 <div className="flex items-center justify-start md:order-3 gap-2 md:justify-end">

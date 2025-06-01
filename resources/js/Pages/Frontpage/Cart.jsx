@@ -11,7 +11,7 @@ export default function CartCsPage() {
                         Keranjang
                     </h2>
 
-                    <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
+                    <div className="mt-4 gap-4 md:gap-6 grid grid-cols-1 lg:grid-cols-5 lg:items-start xl:gap-8">
                         <ProductCheckoutList />
                         <OrderSummaryCard />
                     </div>

@@ -20,15 +20,16 @@ class KomerceController extends Controller
             $destinationResponse = KomerceDestination::searchDestination($search, $limit, $offset);
 
             if (!$destinationResponse['success']) {
-                return ApiResponse::error($destinationResponse);
+                return ApiResponse::error($destinationResponse, 'Destinasi gagal ditemukan, silahkan coba lagi atau hubungi admin');
             }
 
-            return ApiResponse::success($destinationResponse['data'], 'Destination fetched successfully');
+            return ApiResponse::success($destinationResponse['data'], 'Destinasi berhasil ditemukan');
         } catch (\Exception $e) {
             return ApiResponse::error(
                 [
                     'detail' => $e->getMessage(),
-                ]
+                ],
+                'Destinasi gagal ditemukan, silahkan coba lagi atau hubungi admin'
             );
         }
     }
@@ -47,15 +48,16 @@ class KomerceController extends Controller
             );
 
             if (!$costResponse['success']) {
-                return ApiResponse::error($costResponse);
+                return ApiResponse::error($costResponse, 'Biaya pengiriman gagal dihitung, silahkan coba lagi atau hubungi admin');
             }
 
-            return ApiResponse::success($costResponse['data'], 'Cost fetched successfully');
+            return ApiResponse::success($costResponse['data'], 'Biaya pengiriman berhasil dihitung');
         } catch (\Exception $e) {
             return ApiResponse::error(
                 [
                     'detail' => $e->getMessage(),
-                ]
+                ],
+                'Biaya pengiriman gagal dihitung, silahkan coba lagi atau hubungi admin'
             );
         }
     }

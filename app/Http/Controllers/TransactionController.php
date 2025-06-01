@@ -17,6 +17,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Midtrans\Config;
 use Midtrans\Snap;
@@ -199,6 +200,7 @@ class TransactionController extends Controller
                 'transaction_id' => $transaction->id,
                 'courier' => $validated['courier'],
                 'phone_number' => $validated['phone_number'],
+                'recipient_name' => $validated['recipient_name'],
                 'province_code' => $validated['province_code'],
                 'province_name' => $validated['province_name'],
                 'city_code' => $validated['city_code'],
@@ -206,6 +208,8 @@ class TransactionController extends Controller
                 'sub_district' => $validated['sub_district'],
                 'village' => $validated['village'],
                 'address' => $validated['address'],
+                'destination_json' => $validated['destination_json'],
+                'cost_json' => $validated['cost_json'],
             ]);
 
             // integration midtrans
@@ -236,17 +240,23 @@ class TransactionController extends Controller
 
             DB::commit();
 
-            return ApiResponse::success([
-                'transaction' => $transaction,
-                'items' => $itemDetails,
-                'shipment' => $shipment,
-                'user' => $user
-            ], 'Transaksi berhasil dibuat.', 201);
+            // return for api
+            // return ApiResponse::success([
+            //     'transaction' => $transaction,
+            //     'items' => $itemDetails,
+            //     'shipment' => $shipment,
+            //     'user' => $user
+            // ], 'Transaksi berhasil dibuat.', 201);
+
+            // return for page
+            return Redirect::route('frontpage.customer.transaction-detail', ['id' => $transaction->id]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return ApiResponse::error([
-                'detail' => $e->getMessage(),
-            ]);
+            // return ApiResponse::error([
+            //     'detail' => $e->getMessage(),
+            // ]);
+
+            return Redirect::back()->withErrors(['message' => $e->getMessage()]);
         }
     }
 

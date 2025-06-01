@@ -4,9 +4,15 @@ import useGetOrderSummary from "@/Features/Frontpage/Carts/useGetOrderSummary";
 import { formatRupiah } from "@/Utils/formatNumber";
 import { Link, usePage } from "@inertiajs/react";
 import { Button } from "flowbite-react";
-import React from "react";
+import React, { useEffect } from "react";
 
-export default function OrderSummaryCheckoutCard({ className = "" }) {
+export default function OrderSummaryCheckoutCard({
+    className = "",
+    data,
+    setData,
+    isSubmitting,
+    handleSubmit,
+}) {
     const { auth } = usePage().props;
 
     const {
@@ -14,6 +20,18 @@ export default function OrderSummaryCheckoutCard({ className = "" }) {
         isLoading,
         error,
     } = useGetOrderSummary(auth?.user?.id);
+
+    useEffect(() => {
+        setData(
+            "items",
+            orderSummaryData?.data?.data?.items.map((item) => {
+                return {
+                    product_id: item.product.id,
+                    quantity: item.quantity,
+                };
+            })
+        );
+    }, [orderSummaryData]);
 
     return (
         <div className={`w-full flex-1 space-y-6 ${className}`}>
@@ -39,7 +57,10 @@ export default function OrderSummaryCheckoutCard({ className = "" }) {
                                         <div className="w-full flex justify-start items-center gap-4">
                                             <img
                                                 className="h-20 w-20 rounded-sm"
-                                                src={item.product.image}
+                                                src={
+                                                    item.product.image ??
+                                                    "/assets/images/default-product.png"
+                                                }
                                                 alt={item.product.name}
                                             />
                                             <div className="flex flex-col gap-0.5">
@@ -82,7 +103,7 @@ export default function OrderSummaryCheckoutCard({ className = "" }) {
                                     Biaya Pengiriman
                                 </dt>
                                 <dd className="text-base font-medium text-gray-900 dark:text-white">
-                                    -
+                                    {formatRupiah(data?.shipment_cost)}
                                 </dd>
                             </dl>
                         </div>
@@ -93,7 +114,8 @@ export default function OrderSummaryCheckoutCard({ className = "" }) {
                             </dt>
                             <dd className="text-base font-bold text-gray-900 dark:text-white">
                                 {formatRupiah(
-                                    orderSummaryData?.data?.data?.total
+                                    orderSummaryData?.data?.data?.total +
+                                        data?.shipment_cost
                                 )}
                             </dd>
                         </dl>
@@ -101,9 +123,14 @@ export default function OrderSummaryCheckoutCard({ className = "" }) {
                     <div className="flex justify-center">
                         <Button
                             size="sm"
+                            type="button"
                             disabled={
-                                orderSummaryData?.data?.data?.total_item === 0
+                                isSubmitting ||
+                                orderSummaryData?.data?.data?.total_item ===
+                                    0 ||
+                                data?.shipment_cost === 0
                             }
+                            onClick={handleSubmit}
                         >
                             Buat Pesanan
                         </Button>

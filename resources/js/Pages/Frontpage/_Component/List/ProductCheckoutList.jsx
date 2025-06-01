@@ -16,7 +16,7 @@ export default function ProductCheckoutList() {
     } = useGetCarts(auth.user.id, null);
 
     return (
-        <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
+        <div className="lg:col-span-3">
             {isLoading ? (
                 <div className="space-y-6">
                     {Array.from({ length: 3 }).map((_, index) => (
@@ -32,7 +32,7 @@ export default function ProductCheckoutList() {
                 <div className="flex flex-col items-center justify-center">
                     <DataNotFoundError />
                     <Link href="/product">
-                        <Button size="sm">Beli Sekarang</Button>
+                        <Button size="sm">Belanja Sekarang</Button>
                     </Link>
                 </div>
             ) : (

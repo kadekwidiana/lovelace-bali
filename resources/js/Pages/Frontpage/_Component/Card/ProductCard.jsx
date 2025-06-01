@@ -11,7 +11,11 @@ export default function ProductCard({ product, isPromo = false }) {
     const { handleAddToCart, isLoading } = useAddToCart();
 
     return (
-        <Card className="max-w-sm" imgAlt={product.name} imgSrc={product.image}>
+        <Card
+            className="max-w-sm"
+            imgAlt={product.name}
+            imgSrc={product.image ?? "/assets/images/default-product.png"}
+        >
             <div className="h-full flex flex-col justify-end gap-2">
                 <h5 className="text-xl font-semibold tracking-tight text-gray-900">
                     {product.name}

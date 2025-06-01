@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Interfaces\CartRepositoryInterface;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\PromotionRepositoryInterface;
@@ -17,21 +18,24 @@ use Inertia\Inertia;
 
 class FrontpageController extends Controller
 {
-    private  ProductRepositoryInterface $productRepository;
+    private ProductRepositoryInterface $productRepository;
     private PromotionRepositoryInterface $promotionRepository;
     private CategoryRepositoryInterface $categoryRepository;
     private TransactionRepositoryInterface $transactionRepository;
+    private CartRepositoryInterface $cartRepository;
 
     public function __construct(
         ProductRepositoryInterface $productRepository,
         PromotionRepositoryInterface $promotionRepository,
         CategoryRepositoryInterface $categoryRepository,
         TransactionRepositoryInterface $transactionRepository,
+        CartRepositoryInterface $cartRepository
     ) {
         $this->productRepository = $productRepository;
         $this->promotionRepository = $promotionRepository;
         $this->categoryRepository = $categoryRepository;
         $this->transactionRepository = $transactionRepository;
+        $this->cartRepository = $cartRepository;
     }
     public function index()
     {
@@ -126,14 +130,6 @@ class FrontpageController extends Controller
         ]);
     }
 
-    // public function transactions()
-    // {
-    //     return Inertia::render('Frontpage/Transaction', [
-    //         'title' => 'Transaksi',
-    //         'description' => 'Selamat Datang di Website Love Lace Bali',
-    //     ]);
-    // }
-
     public function transactions(Request $request)
     {
         $user = Auth::user();
@@ -177,6 +173,13 @@ class FrontpageController extends Controller
 
     public function checkout()
     {
+        // if cart is empty, redirect to cart page
+        $carts = $this->cartRepository->orderSummary(Auth::user()->id);
+
+        if (count($carts['items']) == 0) {
+            return redirect()->route('frontpage.customer.carts');
+        }
+
         return Inertia::render('Frontpage/Checkout', [
             'title' => 'Checkout',
             'description' => 'Selamat Datang di Website Love Lace Bali',

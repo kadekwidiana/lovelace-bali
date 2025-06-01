@@ -27,7 +27,10 @@ export function DetailProductModal({ trigger, product, isPromo = false }) {
                 <Modal.Body>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <img
-                            src={product.image}
+                            src={
+                                product.image ??
+                                "/assets/images/default-product.png"
+                            }
                             alt={product.name}
                             className="w-full rounded-md"
                         />

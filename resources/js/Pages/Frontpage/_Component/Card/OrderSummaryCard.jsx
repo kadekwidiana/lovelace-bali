@@ -15,7 +15,7 @@ export default function OrderSummaryCard() {
     } = useGetOrderSummary(auth?.user?.id);
 
     return (
-        <div className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+        <div className="w-full lg:col-span-2">
             {isLoading ? (
                 <div
                     className={`animate-pulse rounded-md bg-gray-300 w-full h-56`}

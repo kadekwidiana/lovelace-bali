@@ -90,6 +90,14 @@ class CartRepository implements CartRepositoryInterface
                 ->sum(function ($item) {
                     return ($item->product->price ?? 0) * $item->quantity;
                 }),
+            'total_weight' => $this->model
+                ->where('user_id', $user_id)
+                ->where('is_select', 1)
+                ->with('product')
+                ->get()
+                ->sum(function ($item) {
+                    return ($item->product->weight ?? 0) * $item->quantity;
+                }),
             'items' => $this->model
                 ->with(['product.category'])
                 ->where('user_id', $user_id)

@@ -1,46 +1,27 @@
-import useUpdateProfile from "@/Features/Backpage/Profile/useUpdateProfile";
-import useGetCity from "@/Features/Frontpage/Ongkirs/useGetCity";
-import useGetProvince from "@/Features/Frontpage/Ongkirs/useGetProvince";
+import { Button, Label, Select, Textarea, TextInput } from "flowbite-react";
+import SearchDestinationInput from "../Input/SearchDestinationInput";
 import { usePage } from "@inertiajs/react";
-import { useQueryClient } from "@tanstack/react-query";
-import { Label, Select, Textarea, TextInput } from "flowbite-react";
-import { useEffect, useState } from "react";
 
-export default function ShipmentForm({ className = "" }) {
+export default function ShipmentForm({
+    className = "",
+    data,
+    setData,
+    errors,
+    handleChange,
+    handleCheckCost,
+    checkCostIsLoading,
+    setCheckCostResponse,
+}) {
     const { auth } = usePage().props;
-    const {
-        data,
-        errors,
-        processing,
-        handleChange,
-        handleSubmitUpdateProfile,
-        setData,
-    } = useUpdateProfile();
-
-    const [provinceId, setProvinceId] = useState(data.province_code ?? null);
-    const [cityId, setCityId] = useState(data.city_code ?? null);
-
-    const queryClient = useQueryClient();
-
-    const { data: provinces, isLoading: provinceIsLoading } = useGetProvince();
-    const {
-        data: cities,
-        isLoading: cityIsLoading,
-        isFetching: cityIsFetching,
-    } = useGetCity(provinceId);
-
-    useEffect(() => {
-        queryClient.invalidateQueries({
-            queryKey: ["get-city"],
-            exact: false,
-        });
-    }, [provinceId, queryClient]);
 
     return (
         <section className={className}>
             <header>
                 <p className="text-xl font-semibold text-gray-900 dark:text-white">
                     Informasi Pengiriman
+                </p>
+                <p className="mt-1 text-sm text-gray-600">
+                    Pastikan data pengiriman sudah benar.
                 </p>
             </header>
 
@@ -51,44 +32,49 @@ export default function ShipmentForm({ className = "" }) {
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                     <div className="w-full">
                         <div className="mb-1 block">
-                            <Label htmlFor="name" value="Nama*" />
+                            <Label
+                                htmlFor="recipient_name"
+                                value="Nama Penerima*"
+                            />
                         </div>
                         <TextInput
-                            id="name"
-                            name="name"
+                            id="recipient_name"
+                            name="recipient_name"
                             type="text"
                             placeholder="Masukan nama..."
                             required
-                            value={data.name}
+                            value={data.recipient_name}
                             // isFocused={true}
-                            color={errors.name ? "failure" : "gray"}
+                            color={errors.recipient_name ? "failure" : "gray"}
                             onChange={handleChange}
-                            helperText={errors.name}
+                            helperText={errors.recipient_name}
                         />
                     </div>
                     <div className="w-full">
                         <div className="mb-1 block">
                             <Label
-                                htmlFor="role"
-                                value="Nomor Telepon*"
-                                color={errors.role ? "failure" : "gray"}
+                                htmlFor="phone_number"
+                                value="Nomor Telepon Penerima*"
+                                color={errors.phone_number ? "failure" : "gray"}
                             />
                         </div>
                         <TextInput
-                            id="role"
-                            name="role"
+                            id="phone_number"
+                            name="phone_number"
                             type="text"
                             placeholder="Masukan nomor telepon..."
                             required
+                            value={data.phone_number}
                             // isFocused={true}
-                            color={errors.role ? "failure" : "gray"}
+                            color={errors.phone_number ? "failure" : "gray"}
                             onChange={handleChange}
-                            helperText={errors.role}
+                            helperText={errors.phone_number}
                         />
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                {/*  raja ongkir yang lama tidak ada api key nya, jadi ubah ke yang baru (e-komerce) */}
+                {/* <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                     <div className="w-full">
                         <div className="mb-1 block">
                             <Label
@@ -175,9 +161,9 @@ export default function ShipmentForm({ className = "" }) {
                                 )}
                         </Select>
                     </div>
-                </div>
+                </div> */}
 
-                <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                {/* <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                     <div className="w-full">
                         <div className="mb-1 block">
                             <Label
@@ -221,14 +207,19 @@ export default function ShipmentForm({ className = "" }) {
                             helperText={errors.village}
                         />
                     </div>
-                </div>
+                </div> */}
+
+                <SearchDestinationInput
+                    setData={setData}
+                    setCheckCostResponse={setCheckCostResponse}
+                />
 
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                     <div className="w-full">
                         <div className="mb-1 block">
                             <Label
                                 htmlFor="address"
-                                value="Alamat Lengkap"
+                                value="Alamat Lengkap*"
                                 color={errors.address ? "failure" : "gray"}
                             />
                         </div>
@@ -251,14 +242,34 @@ export default function ShipmentForm({ className = "" }) {
                                 color={errors.city_code ? "failure" : "gray"}
                             />
                         </div>
-                        <Select defaultValue={"jne"}>
+                        <Select
+                            id="courier"
+                            name="courier"
+                            defaultValue={data.courier}
+                            onChange={handleChange}
+                        >
                             <option value="">
                                 -- Pilih jasa pengiriman --
                             </option>
                             <option value="jne">JNE</option>
-                            <option value="tiki">TIKI</option>
+                            <option value="jnt">JNT</option>
+                            <option value="sicepat">SICEPAT</option>
+                            <option value="ninja">NINJA</option>
                         </Select>
                     </div>
+                </div>
+                <div className="flex justify-end mt-2">
+                    <Button
+                        size="sm"
+                        onClick={handleCheckCost}
+                        disabled={
+                            checkCostIsLoading ||
+                            !data.courier ||
+                            !data.destination_json
+                        }
+                    >
+                        Cek Ongkir
+                    </Button>
                 </div>
             </form>
         </section>
