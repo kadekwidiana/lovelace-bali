@@ -40,7 +40,7 @@ export default function useInputStockLog(setOpenModal, isUpdate, isOut, stockLog
             created_by: stockLog?.created_by ?? auth.user.id,
             type: stockLog?.type ?? (isOut ? 'OUT' : 'IN'),
             quantity: stockLog?.quantity ?? 0,
-            date: stockLog?.date.split('T')[0] ?? '',
+            date: stockLog?.date ? stockLog.date.substring(0, 10) : '',
             note: stockLog?.note ?? '',
         });
     }, [isUpdate, stockLog, isOut, auth.user.id]);
