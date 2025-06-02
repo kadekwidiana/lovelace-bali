@@ -18,7 +18,7 @@ export const useCheckCostKomerce = () => {
             courier,
         }) => {
             const body = {
-                origin: ORIGIN_DEFAULT,
+                // origin: ORIGIN_DEFAULT,
                 destination,
                 weight,
                 courier,

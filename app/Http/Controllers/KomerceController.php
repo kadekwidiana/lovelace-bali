@@ -40,7 +40,7 @@ class KomerceController extends Controller
             $validated = $request->validated();
 
             $costResponse = KomerceCost::checkCost(
-                $validated['origin'],
+                // $validated['origin'],
                 $validated['destination'],
                 $validated['weight'],
                 $validated['courier'],

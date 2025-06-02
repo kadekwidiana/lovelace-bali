@@ -10,6 +10,7 @@ use App\Http\Controllers\KomerceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\RajaOngkirConfigController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StockLogController;
 use App\Http\Controllers\TransactionController;
@@ -105,6 +106,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             // contact
             Route::get('contacts', [ContactController::class, 'index'])->name('contacts.index');
             Route::delete('contacts/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+
+            // config raja ongkir
+            Route::resource('config/raja-ongkirs', RajaOngkirConfigController::class);
         });
     });
 });

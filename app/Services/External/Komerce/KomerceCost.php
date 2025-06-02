@@ -3,26 +3,34 @@
 namespace App\Services\External\Komerce;
 
 use App\Helpers\ErrorHandler;
+use App\Models\RajaOngkirConfig;
 use Exception;
 use Illuminate\Support\Facades\Http;
 
 class KomerceCost
 {
     public static function checkCost(
-        int $origin,
         int $destination,
         int $weight,
         string $courier,
         ?int $price
     ) {
-        $url = env('KOMERCE_API_URL') . '/api/v1/calculate/domestic-cost';
-        $key = env('KOMERCE_API_KEY');
+        static $config = null;
+        if ($config === null) {
+            $config = RajaOngkirConfig::getActiveConfig();
+        }
+
+        $baseUrl = $config->api_url ?? env('KOMERCE_API_URL');
+        $key = $config->api_key ?? env('KOMERCE_API_KEY');
+        $originDefault = (int) ($config->origin_default ?? env('KOMERCE_ORIGIN_DEFAULT'));
+
+        $url = $baseUrl . '/api/v1/calculate/domestic-cost';
 
         try {
             $response = Http::withHeaders([
                 'key' => $key
             ])->asForm()->post($url, [
-                'origin' => $origin,
+                'origin' => $originDefault,
                 'destination' => $destination,
                 'weight' => $weight,
                 'courier' => $courier,

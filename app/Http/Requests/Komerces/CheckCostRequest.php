@@ -26,7 +26,7 @@ class CheckCostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'origin' => 'required|integer',
+            // 'origin' => 'required|integer',
             'destination' => 'required|integer',
             'weight' => 'required|integer',
             'courier' => 'required|in:jne,sicepat,jnt,ninja',

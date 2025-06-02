@@ -3,6 +3,7 @@
 namespace App\Services\External\Komerce;
 
 use App\Helpers\ErrorHandler;
+use App\Models\RajaOngkirConfig;
 use Exception;
 use Illuminate\Support\Facades\Http;
 
@@ -13,8 +14,14 @@ class KomerceDestination
         ?int $limit = null,
         ?int $offset = null
     ) {
-        $url = env('KOMERCE_API_URL') . '/api/v1/destination/domestic-destination';
-        $key = env('KOMERCE_API_KEY');
+        static $config = null;
+        if ($config === null) {
+            $config = RajaOngkirConfig::getActiveConfig();
+        }
+
+        $baseUrl = $config->api_url ?? env('KOMERCE_API_URL');
+        $key = $config->api_key ?? env('KOMERCE_API_KEY');
+        $url = $baseUrl . '/api/v1/destination/domestic-destination';
 
         $queryParams = [
             'search' => $search,
