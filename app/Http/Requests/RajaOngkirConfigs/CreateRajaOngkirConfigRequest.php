@@ -24,7 +24,8 @@ class CreateRajaOngkirConfigRequest extends FormRequest
         return [
             'api_url' => 'required|string',
             'api_key' => 'required|string',
-            'is_select' => 'required|boolean',
+            'description' => 'required|string',
+            // 'is_select' => 'required|boolean',
             'origin_default' => 'required|integer',
             'origin_description' => 'required|string',
         ];

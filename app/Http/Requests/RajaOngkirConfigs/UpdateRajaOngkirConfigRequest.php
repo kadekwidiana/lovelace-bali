@@ -24,7 +24,8 @@ class UpdateRajaOngkirConfigRequest extends FormRequest
         return [
             'api_url' => 'sometimes|string',
             'api_key' => 'sometimes|string',
-            'is_select' => 'sometimes|boolean',
+            'description' => 'sometimes|string',
+            // 'is_select' => 'sometimes|boolean',
             'origin_default' => 'sometimes|integer',
             'origin_description' => 'sometimes|string',
         ];

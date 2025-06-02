@@ -152,4 +152,20 @@ class RajaOngkirConfigController extends Controller
             ], 500);
         }
     }
+
+    public function setDefault(string $id)
+    {
+        try {
+            $this->rajaOngkirRepository->setDefaultSelect($id);
+
+            return response()->json([
+                'message' => 'Data berhasil diatur sebagai konfigurasi aktif.',
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat mengatur data.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }

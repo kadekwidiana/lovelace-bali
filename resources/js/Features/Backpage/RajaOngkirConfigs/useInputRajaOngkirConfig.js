@@ -5,24 +5,32 @@ import { useEffect, useState } from "react";
 
 export default function useInputRajaOngkirConfig(setOpenModal, isUpdate, rajaOngkirConfig) {
     const initialFormData = {
+        api_url: 'https://rajaongkir.komerce.id',
+        api_key: '',
+        description: "",
+        origin_default: 26288,
+        origin_description: 'Origin ID: SAYAN UBUD, GIANYAR, BALI',
+    };
+
+    const initialError = {
         api_url: '',
         api_key: '',
-        is_select: false,
+        description: '',
         origin_default: '',
         origin_description: '',
     };
 
     const [formData, setFormData] = useState(initialFormData);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [errors, setErrors] = useState(initialFormData);
+    const [errors, setErrors] = useState(initialError);
 
     useEffect(() => {
         setFormData({
-            api_url: rajaOngkirConfig?.api_url ?? '',
+            api_url: rajaOngkirConfig?.api_url ?? 'https://rajaongkir.komerce.id',
             api_key: rajaOngkirConfig?.api_key ?? '',
-            is_select: rajaOngkirConfig?.is_select ?? false,
-            origin_default: rajaOngkirConfig?.origin_default ?? '',
-            origin_description: rajaOngkirConfig?.origin_description ?? '',
+            description: rajaOngkirConfig?.description ?? '',
+            origin_default: rajaOngkirConfig?.origin_default ?? '26288',
+            origin_description: rajaOngkirConfig?.origin_description ?? 'Origin ID: SAYAN UBUD, GIANYAR, BALI',
         });
     }, [isUpdate, rajaOngkirConfig]);
 
@@ -57,7 +65,7 @@ export default function useInputRajaOngkirConfig(setOpenModal, isUpdate, rajaOng
                     title: message,
                 });
                 setFormData(initialFormData);
-                setErrors(initialFormData);
+                setErrors(initialError);
                 setOpenModal(false);
                 router.reload();
             } else {
@@ -90,6 +98,7 @@ export default function useInputRajaOngkirConfig(setOpenModal, isUpdate, rajaOng
         formData,
         isSubmitting,
         errors,
+        setFormData,
         handleChange,
         handleSubmit
     };

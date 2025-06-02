@@ -109,6 +109,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             // config raja ongkir
             Route::resource('config/raja-ongkirs', RajaOngkirConfigController::class);
+            Route::patch('config/raja-ongkirs/{id}/selected', [RajaOngkirConfigController::class, 'setDefault'])->name('raja-ongkirs.selected');
         });
     });
 });

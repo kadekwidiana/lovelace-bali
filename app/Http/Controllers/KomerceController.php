@@ -20,16 +20,16 @@ class KomerceController extends Controller
             $destinationResponse = KomerceDestination::searchDestination($search, $limit, $offset);
 
             if (!$destinationResponse['success']) {
-                return ApiResponse::error($destinationResponse, 'Destinasi gagal ditemukan, silahkan coba lagi atau hubungi admin');
+                return ApiResponse::error($destinationResponse, 'Data gagal ditemukan, silahkan coba lagi atau hubungi admin');
             }
 
-            return ApiResponse::success($destinationResponse['data'], 'Destinasi berhasil ditemukan');
+            return ApiResponse::success($destinationResponse['data'], 'Data berhasil ditemukan');
         } catch (\Exception $e) {
             return ApiResponse::error(
                 [
                     'detail' => $e->getMessage(),
                 ],
-                'Destinasi gagal ditemukan, silahkan coba lagi atau hubungi admin'
+                'Data gagal ditemukan, silahkan coba lagi atau hubungi admin'
             );
         }
     }

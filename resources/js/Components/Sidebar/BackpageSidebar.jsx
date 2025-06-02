@@ -79,6 +79,11 @@ export default function BackpageSidebar({ isVisible }) {
                                 label="Kontak"
                                 icon={MdContactPage}
                             />
+                            <SidebarMenu
+                                href="/config/raja-ongkirs"
+                                label="Raja Ongkir Config"
+                                icon={MdContactPage}
+                            />
                         </Sidebar.ItemGroup>
                     ) : (
                         <Sidebar.ItemGroup>
