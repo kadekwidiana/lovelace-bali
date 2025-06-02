@@ -1,13 +1,13 @@
 import { DetailProductModal } from "@/Components/Modal/DetailProductModal";
-import useCancelOrder from "@/Features/Backpage/Transactions/useCanceledOrder";
-import useDeliveredOrder from "@/Features/Backpage/Transactions/useDeliveredOrder";
-import usePaymentAction from "@/Features/Backpage/Transactions/usePaymentAction";
+import useCancelOrder from "@/Features/Transactions/useCanceledOrder";
+import useDeliveredOrder from "@/Features/Transactions/useDeliveredOrder";
+import usePaymentAction from "@/Features/Transactions/usePaymentAction";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import { getTransactionStatusColor } from "@/Utils/transactionUtils";
 import { Link, usePage } from "@inertiajs/react";
 import { Badge, Button } from "flowbite-react";
 import { FaInfoCircle } from "react-icons/fa";
-import FrontpageLayout from "./_Component/Layout";
+import FrontpageLayout from "../../Layouts/FrontpageLayout";
 import { formatRupiah } from "@/Utils/formatNumber";
 
 export default function TransactionDetailCsPage() {

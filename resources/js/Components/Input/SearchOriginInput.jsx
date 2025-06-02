@@ -1,5 +1,5 @@
 import SearchSelectInputV2 from "@/Components/Input/SearchSelectInputV2";
-import { useSearchDestination } from "@/Features/Frontpage/Komerces/useSearchDestination";
+import { useSearchDestination } from "@/Features/Komerces/useSearchDestination";
 import { Label } from "flowbite-react";
 import { useEffect, useState } from "react";
 

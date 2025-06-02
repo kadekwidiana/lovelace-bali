@@ -2,7 +2,7 @@ import FetchError from "@/Components/Error/FetchError";
 import SearchSelectInput from "@/Components/Input/SearchSelectInput";
 import DataLoading from "@/Components/Loading/DataLoading";
 import { TRANSACTION_STATUSES } from "@/Constants/transactionConstant";
-import useGetTransationReports from "@/Features/Backpage/Reports/useGetTransactionReports";
+import useGetTransationReports from "@/Features/Reports/useGetTransactionReports";
 import BackpageLayout from "@/Layouts/BackpageLayout";
 import { handleExportExcel } from "@/Utils/exportToExcel";
 import { Link, usePage } from "@inertiajs/react";

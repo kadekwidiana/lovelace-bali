@@ -1,7 +1,7 @@
 import { usePage } from "@inertiajs/react";
-import FrontpageLayout from "./_Component/Layout";
+import FrontpageLayout from "../../Layouts/FrontpageLayout";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
-import ProductCard from "./_Component/Card/ProductCard";
+import ProductCard from "../../Components/Card/ProductCard";
 import DataNotFoundError from "@/Components/Error/DataNotFoundError";
 
 export default function PromotionDetailPage() {

@@ -1,6 +1,6 @@
 import FetchError from "@/Components/Error/FetchError";
 import { DetailProductModal } from "@/Components/Modal/DetailProductModal";
-import useGetOrderSummary from "@/Features/Frontpage/Carts/useGetOrderSummary";
+import useGetOrderSummary from "@/Features/Carts/useGetOrderSummary";
 import { formatRupiah } from "@/Utils/formatNumber";
 import { Link, usePage } from "@inertiajs/react";
 import { Button } from "flowbite-react";

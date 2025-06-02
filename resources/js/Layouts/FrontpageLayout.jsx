@@ -1,6 +1,6 @@
 import React from "react";
-import FrontpageNavbar from "./Navbar";
-import FrontpageFooter from "./Footer";
+import FrontpageNavbar from "../Components/Navbar/FrontpageNavbar";
+import FrontpageFooter from "../Components/Footer/FrontpageFooter";
 import { Head, usePage } from "@inertiajs/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 

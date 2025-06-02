@@ -1,6 +1,6 @@
-import OrderSummaryCard from "./_Component/Card/OrderSummaryCard";
-import FrontpageLayout from "./_Component/Layout";
-import ProductCheckoutList from "./_Component/List/ProductCheckoutList";
+import OrderSummaryCard from "@/Components/Card/OrderSummaryCard";
+import ProductCheckoutList from "@/Components/List/ProductCheckoutList";
+import FrontpageLayout from "@/Layouts/FrontpageLayout";
 
 export default function CartCsPage() {
     return (

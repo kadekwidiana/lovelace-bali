@@ -1,8 +1,8 @@
 import { usePage } from "@inertiajs/react";
-import FrontpageLayout from "./_Component/Layout";
-import ProductCard from "./_Component/Card/ProductCard";
+import FrontpageLayout from "../../Layouts/FrontpageLayout";
+import ProductCard from "../../Components/Card/ProductCard";
 import ListDataPagination from "@/Components/Pagination/ListDataPagination";
-import useGetProductsFrontpage from "@/Features/Backpage/Products/useGetProductsFrontpage";
+import useGetProductsFrontpage from "@/Features/Products/useGetProductsFrontpage";
 import DataLoading from "@/Components/Loading/DataLoading";
 import DataNotFoundError from "@/Components/Error/DataNotFoundError";
 import { Select, TextInput } from "flowbite-react";

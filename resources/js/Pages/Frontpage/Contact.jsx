@@ -1,5 +1,5 @@
-import useInputContact from "@/Features/Backpage/Contacts/useInputContact";
-import FrontpageLayout from "./_Component/Layout";
+import useInputContact from "@/Features/Contacts/useInputContact";
+import FrontpageLayout from "../../Layouts/FrontpageLayout";
 import { Button, Checkbox, Label, Textarea, TextInput } from "flowbite-react";
 
 export default function ContactPage() {

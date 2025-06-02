@@ -1,4 +1,4 @@
-import useGetCarts from "@/Features/Frontpage/Carts/useGetCarts";
+import useGetCarts from "@/Features/Carts/useGetCarts";
 import { Link, usePage } from "@inertiajs/react";
 import { Button, Dropdown, DropdownItem } from "flowbite-react";
 import React, { useEffect, useState } from "react";

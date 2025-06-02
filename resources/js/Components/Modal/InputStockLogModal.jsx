@@ -1,4 +1,4 @@
-import useInputStockLog from "@/Features/Backpage/StockLogs/useInputStockLog";
+import useInputStockLog from "@/Features/StockLogs/useInputStockLog";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import { Button, Label, Modal, Textarea, TextInput } from "flowbite-react";
 import { useState } from "react";

@@ -1,4 +1,4 @@
-import useInputPromotion from "@/Features/Backpage/Promotions/useInputPromotion";
+import useInputPromotion from "@/Features/Promotions/useInputPromotion";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import { Button, Label, Modal, Textarea, TextInput } from "flowbite-react";
 import { useState } from "react";

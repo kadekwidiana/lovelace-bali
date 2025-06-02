@@ -1,5 +1,5 @@
-import useGetTransactionsCustomer from "@/Features/Backpage/Transactions/useGetTransactionsCustomer";
-import FrontpageLayout from "./_Component/Layout";
+import useGetTransactionsCustomer from "@/Features/Transactions/useGetTransactionsCustomer";
+import FrontpageLayout from "../../Layouts/FrontpageLayout";
 import { Badge, Select, Table, TextInput } from "flowbite-react";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import DataLoading from "@/Components/Loading/DataLoading";

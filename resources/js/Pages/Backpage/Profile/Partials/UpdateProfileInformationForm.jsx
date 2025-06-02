@@ -1,4 +1,4 @@
-import useUpdateProfile from "@/Features/Backpage/Profile/useUpdateProfile";
+import useUpdateProfile from "@/Features/Profile/useUpdateProfile";
 import { Button, Label, TextInput } from "flowbite-react";
 
 export default function UpdateProfileInformationForm({

@@ -1,4 +1,4 @@
-import useInputProduct from "@/Features/Backpage/Products/useInputProduct";
+import useInputProduct from "@/Features/Products/useInputProduct";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import {
     Button,

@@ -1,6 +1,6 @@
 import UpdatePasswordForm from "../Backpage/Profile/Partials/UpdatePasswordForm";
-import UpdateProfileInformationCustomerForm from "./_Component/Form/UpdateProfileInformationCustomerForm";
-import FrontpageLayout from "./_Component/Layout";
+import UpdateProfileInformationCustomerForm from "../../Components/Form/UpdateProfileInformationCustomerForm";
+import FrontpageLayout from "../../Layouts/FrontpageLayout";
 
 export default function ProductCsPage({ mustVerifyEmail, status }) {
     return (

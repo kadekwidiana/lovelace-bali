@@ -1,5 +1,5 @@
 import { DetailProductModal } from "@/Components/Modal/DetailProductModal";
-import { useAddToCart } from "@/Features/Frontpage/Carts/useAddToCart";
+import { useAddToCart } from "@/Features/Carts/useAddToCart";
 import { formatRupiah } from "@/Utils/formatNumber";
 import { usePage } from "@inertiajs/react";
 import { Button, Card } from "flowbite-react";

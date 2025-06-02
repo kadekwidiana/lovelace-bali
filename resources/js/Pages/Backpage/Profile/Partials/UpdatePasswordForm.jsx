@@ -1,4 +1,4 @@
-import useUpdatePassword from "@/Features/Backpage/Profile/useUpdatePassword";
+import useUpdatePassword from "@/Features/Profile/useUpdatePassword";
 import { Button, Label, TextInput } from "flowbite-react";
 
 export default function UpdatePasswordForm({ className = "" }) {

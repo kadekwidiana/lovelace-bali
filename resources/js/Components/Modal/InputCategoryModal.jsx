@@ -1,6 +1,6 @@
 "use client";
 
-import useInputCategory from "@/Features/Backpage/Categories/useInputCategory";
+import useInputCategory from "@/Features/Categories/useInputCategory";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import { Button, Label, Modal, Textarea, TextInput } from "flowbite-react";
 import { useState } from "react";

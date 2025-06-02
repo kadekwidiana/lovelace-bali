@@ -3,7 +3,7 @@ import DataLoading from "@/Components/Loading/DataLoading";
 import ListDataPagination from "@/Components/Pagination/ListDataPagination";
 import { PER_PAGES } from "@/Constants/dataSelect";
 import { TRANSACTION_STATUSES } from "@/Constants/transactionConstant";
-import useGetTransactions from "@/Features/Backpage/Transactions/useGetTransactions";
+import useGetTransactions from "@/Features/Transactions/useGetTransactions";
 import BackpageLayout from "@/Layouts/BackpageLayout";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import { getTransactionStatusColor } from "@/Utils/transactionUtils";

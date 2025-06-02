@@ -1,5 +1,5 @@
-import CheckoutContent from "./_Component/CheckoutContent";
-import FrontpageLayout from "./_Component/Layout";
+import CheckoutContent from "../../Components/Content/CheckoutContent";
+import FrontpageLayout from "../../Layouts/FrontpageLayout";
 
 export default function CheckoutCsPage() {
     return (

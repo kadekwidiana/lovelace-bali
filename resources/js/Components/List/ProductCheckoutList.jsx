@@ -1,10 +1,10 @@
 import React from "react";
-import ProductCheckoutCard from "../Card/ProductCheckoutCard";
-import useGetCarts from "@/Features/Frontpage/Carts/useGetCarts";
+import useGetCarts from "@/Features/Carts/useGetCarts";
 import { Link, usePage } from "@inertiajs/react";
 import DataNotFoundError from "@/Components/Error/DataNotFoundError";
 import FetchError from "@/Components/Error/FetchError";
 import { Button } from "flowbite-react";
+import ProductCheckoutCard from "../Card/ProductCheckoutCard";
 
 export default function ProductCheckoutList() {
     const { auth } = usePage().props;

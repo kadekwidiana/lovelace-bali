@@ -1,4 +1,4 @@
-import FrontpageLayout from "./_Component/Layout";
+import FrontpageLayout from "../../Layouts/FrontpageLayout";
 
 export default function AboutPage() {
     return (

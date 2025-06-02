@@ -1,9 +1,9 @@
 import { Link, usePage } from "@inertiajs/react";
 import { Button } from "flowbite-react";
 import { HiOutlineArrowRight } from "react-icons/hi";
-import ProductCard from "./_Component/Card/ProductCard";
-import PromoCard from "./_Component/Card/PromoCard";
-import FrontpageLayout from "./_Component/Layout";
+import ProductCard from "../../Components/Card/ProductCard";
+import PromoCard from "../../Components/Card/PromoCard";
+import FrontpageLayout from "../../Layouts/FrontpageLayout";
 import { paymentStatus } from "@/Constants/appName";
 import Swal from "sweetalert2";
 

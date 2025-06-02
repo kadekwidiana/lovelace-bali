@@ -1,10 +1,10 @@
 import DataNotFoundError from "@/Components/Error/DataNotFoundError";
 import DataLoading from "@/Components/Loading/DataLoading";
 import ListDataPagination from "@/Components/Pagination/ListDataPagination";
-import useGetPromotionsFrontpage from "@/Features/Backpage/Promotions/useGetPromotionsFrontpage";
+import useGetPromotionsFrontpage from "@/Features/Promotions/useGetPromotionsFrontpage";
 import { TextInput } from "flowbite-react";
-import PromoCard from "./_Component/Card/PromoCard";
-import FrontpageLayout from "./_Component/Layout";
+import PromoCard from "../../Components/Card/PromoCard";
+import FrontpageLayout from "../../Layouts/FrontpageLayout";
 
 export default function PromotionPage() {
     const {

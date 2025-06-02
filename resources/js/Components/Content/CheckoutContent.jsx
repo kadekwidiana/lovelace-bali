@@ -1,13 +1,13 @@
 import InputError from "@/Components/InputError";
 import DataLoading from "@/Components/Loading/DataLoading";
-import useCreateTransaction from "@/Features/Backpage/Transactions/useCreateTransaction";
-import useGetOrderSummary from "@/Features/Frontpage/Carts/useGetOrderSummary";
-import { useCheckCostKomerce } from "@/Features/Frontpage/Komerces/useCheckCost";
+import useCreateTransaction from "@/Features/Transactions/useCreateTransaction";
+import useGetOrderSummary from "@/Features/Carts/useGetOrderSummary";
+import { useCheckCostKomerce } from "@/Features/Komerces/useCheckCost";
 import { Link, usePage } from "@inertiajs/react";
 import { Button } from "flowbite-react";
-import DeliveryServiceCard from "./Card/DeliveryServiceCard";
-import OrderSummaryCheckoutCard from "./Card/OrderSummaryCheckoutCard";
-import ShipmentForm from "./Form/ShipmentForm";
+import DeliveryServiceCard from "../Card/DeliveryServiceCard";
+import OrderSummaryCheckoutCard from "../Card/OrderSummaryCheckoutCard";
+import ShipmentForm from "../Form/ShipmentForm";
 import { useEffect, useState } from "react";
 
 export default function CheckoutContent() {

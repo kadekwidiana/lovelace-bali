@@ -1,4 +1,4 @@
-import { useAddToCart } from "@/Features/Frontpage/Carts/useAddToCart";
+import { useAddToCart } from "@/Features/Carts/useAddToCart";
 import { formatRupiah } from "@/Utils/formatNumber";
 import { usePage } from "@inertiajs/react";
 import { Button, Modal } from "flowbite-react";

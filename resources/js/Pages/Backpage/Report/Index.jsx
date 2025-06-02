@@ -2,7 +2,7 @@ import DataNotFoundError from "@/Components/Error/DataNotFoundError";
 import FetchError from "@/Components/Error/FetchError";
 import SearchSelectInput from "@/Components/Input/SearchSelectInput";
 import DataLoading from "@/Components/Loading/DataLoading";
-import useGetReports from "@/Features/Backpage/Reports/useGetReports";
+import useGetReports from "@/Features/Reports/useGetReports";
 import BackpageLayout from "@/Layouts/BackpageLayout";
 import { handleExportExcel } from "@/Utils/exportToExcel";
 import { Link, usePage } from "@inertiajs/react";

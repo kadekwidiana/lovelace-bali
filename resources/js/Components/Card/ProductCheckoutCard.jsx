@@ -1,6 +1,6 @@
 import { DetailProductModal } from "@/Components/Modal/DetailProductModal";
-import { useDeleteCart } from "@/Features/Frontpage/Carts/useDeleteCart";
-import { useUpdateCart } from "@/Features/Frontpage/Carts/useUpdateCart";
+import { useDeleteCart } from "@/Features/Carts/useDeleteCart";
+import { useUpdateCart } from "@/Features/Carts/useUpdateCart";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import { formatRupiah } from "@/Utils/formatNumber";
 import { Button, Checkbox } from "flowbite-react";

@@ -1,4 +1,4 @@
-import useInputRajaOngkirConfig from "@/Features/Backpage/RajaOngkirConfigs/useInputRajaOngkirConfig";
+import useInputRajaOngkirConfig from "@/Features/RajaOngkirConfigs/useInputRajaOngkirConfig";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import { Button, Label, Modal, Textarea, TextInput } from "flowbite-react";
 import { useState } from "react";
