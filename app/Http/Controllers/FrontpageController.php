@@ -9,6 +9,7 @@ use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\PromotionRepositoryInterface;
 use App\Interfaces\TransactionRepositoryInterface;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -157,17 +158,27 @@ class FrontpageController extends Controller
         }
     }
 
-    public function transactionDetail($id)
+    public function transactionDetail($id, Request $request)
     {
         try {
             $transaction = $this->transactionRepository->find($id);
+
+            // only allow user to access their own transaction
+            if ($transaction->created_by !== Auth::user()->id) {
+                return Inertia::render('Error/Error', ['status' => 403])
+                    ->toResponse($request)
+                    ->setStatusCode(403);
+            }
+
             return Inertia::render('Frontpage/TransactionDetail', [
                 'title' => 'Detail Transaksi',
                 'transaction' => $transaction,
             ]);
+        } catch (ModelNotFoundException $e) {
+            return back()->withErrors(['message' => 'Transaksi tidak ditemukan.']);
         } catch (Exception $e) {
-            Log::error('Error fetching categories: ' . $e->getMessage());
-            return back()->withErrors(['message' => 'Failed to fetch categories']);
+            Log::error('Error fetching transaction detail: ' . $e->getMessage());
+            return back()->withErrors(['message' => 'Terjadi kesalahan saat mengambil detail transaksi.']);
         }
     }
 
