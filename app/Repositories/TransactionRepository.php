@@ -63,7 +63,7 @@ class TransactionRepository implements TransactionRepositoryInterface
 
     public function getReports($startDate = null, $endDate = null, $status = null, $userId = null)
     {
-        $query = $this->model->with(['details.product', 'user.customer']);
+        $query = $this->model->with(['details.product', 'user.customer', 'shipment']);
 
         if ($startDate && $endDate) {
             $query->whereBetween('date', [$startDate, $endDate]);

@@ -128,6 +128,25 @@ class ReportController extends Controller
                         'Rp. ' . number_format($detail->quantity * $detail->price_at_time, 0, ',', '.');
                 }
 
+                $shipment = $report->shipment;
+                $shipmentInfo = '-';
+                if ($shipment) {
+                    $destination = $shipment->destination_json ?? [];
+                    $cost = $shipment->cost_json ?? [];
+
+                    $shipmentInfo = implode("\n", [
+                        "Kurir: " . ($shipment->courier ?? '-'),
+                        "Nama Penerima: " . ($shipment->recipient_name ?? '-'),
+                        "No. HP: " . ($shipment->phone_number ?? '-'),
+                        "Alamat: " . ($shipment->address ?? '-'),
+                        "Wilayah Tujuan: " . ($destination['label'] ?? '-'),
+                        "Kode Pos: " . ($destination['zip_code'] ?? '-'),
+                        "Layanan: " . ($cost['name'] ?? '-') . ' - ' . ($cost['service'] ?? '-') . ' (' . ($cost['description'] ?? '-') . ')',
+                        "Biaya Pengiriman: Rp. " . number_format($cost['cost'] ?? 0, 0, ',', '.'),
+                    ]);
+                }
+
+
                 return [
                     'ID Transaksi' => $report->id,
                     'Dibuat Oleh' => $report->user->name,
@@ -136,8 +155,9 @@ class ReportController extends Controller
                     'Total Harga' => 'Rp. ' . number_format($report->total_amount, 0, ',', '.'),
                     'Items' => implode(",\n ", $items),
                     'Snap Token Midtrans' => $report->snap_token_midtrans ?? '-',
-                    'Nomor Resi' => $report->receipt_number,
-                    'Catatan' => $report->note,
+                    'Nomor Resi' => $report->receipt_number ?? '-',
+                    'Catatan' => $report->note ?? '-',
+                    'Pengiriman' => $shipmentInfo,
                     'Dibuat Pada' => Carbon::parse($report->created_at)->translatedFormat('d F Y H:i:s'),
                     'Diperbarui Pada' => Carbon::parse($report->updated_at)->translatedFormat('d F Y H:i:s'),
                 ];
