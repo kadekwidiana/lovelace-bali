@@ -1,15 +1,16 @@
 import { usePage } from "@inertiajs/react";
 import { Sidebar } from "flowbite-react";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
-import { HiChartPie } from "react-icons/hi";
+import { HiOutlineChartPie } from "react-icons/hi";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { IoSettingsOutline } from "react-icons/io5";
+import { LuDollarSign } from "react-icons/lu";
 import {
-    MdContactPage,
-    MdLibraryBooks,
     MdOutlineCategory,
     MdOutlineProductionQuantityLimits,
 } from "react-icons/md";
-import { LuDollarSign } from "react-icons/lu";
+import { RiContactsBook3Line } from "react-icons/ri";
+import { TbReportSearch } from "react-icons/tb";
 
 export default function BackpageSidebar({ isVisible }) {
     const { auth } = usePage().props;
@@ -32,8 +33,11 @@ export default function BackpageSidebar({ isVisible }) {
                             <SidebarMenu
                                 href="/dashboard"
                                 label="Dashboard"
-                                icon={HiChartPie}
+                                icon={HiOutlineChartPie}
                             />
+                            <h2 className="ml-2 text-gray-600 text-xs font-semibold">
+                                Main
+                            </h2>
                             <SidebarMenu
                                 href="/categories"
                                 label="Kategori"
@@ -45,6 +49,16 @@ export default function BackpageSidebar({ isVisible }) {
                                 icon={MdOutlineProductionQuantityLimits}
                             />
                             <SidebarMenu
+                                href="/product-ins"
+                                label="Produk Masuk"
+                                icon={BsArrowRightCircle}
+                            />
+                            <SidebarMenu
+                                href="/product-outs"
+                                label="Produk Keluar"
+                                icon={BsArrowLeftCircle}
+                            />
+                            <SidebarMenu
                                 href="/transactions"
                                 label="Transaksi"
                                 icon={LuDollarSign}
@@ -54,35 +68,34 @@ export default function BackpageSidebar({ isVisible }) {
                                 label="Promosi"
                                 icon={IoIosInformationCircleOutline}
                             />
-                            <SidebarMenu
-                                href="/product-ins"
-                                label="Produk Masuk"
-                                icon={BsArrowRightCircle}
-                            />
-                            <SidebarMenu
-                                href="/product-outs"
-                                label="Produk Keluar"
-                                icon={BsArrowLeftCircle}
-                            />
+                            <h2 className="ml-2 text-gray-600 text-xs font-semibold">
+                                Laporan
+                            </h2>
                             <SidebarMenu
                                 href="/reports"
                                 label="Laporan Stok"
-                                icon={MdLibraryBooks}
+                                icon={TbReportSearch}
                             />
                             <SidebarMenu
                                 href="/transaction-reports"
                                 label="Laporan Transaksi"
-                                icon={MdLibraryBooks}
+                                icon={TbReportSearch}
                             />
+                            <h2 className="ml-2 text-gray-600 text-xs font-semibold">
+                                User
+                            </h2>
                             <SidebarMenu
                                 href="/contacts"
                                 label="Kontak"
-                                icon={MdContactPage}
+                                icon={RiContactsBook3Line}
                             />
+                            <h2 className="ml-2 text-gray-600 text-xs font-semibold">
+                                Config
+                            </h2>
                             <SidebarMenu
                                 href="/config/raja-ongkirs"
                                 label="Raja Ongkir Config"
-                                icon={MdContactPage}
+                                icon={IoSettingsOutline}
                             />
                         </Sidebar.ItemGroup>
                     ) : (
@@ -90,8 +103,11 @@ export default function BackpageSidebar({ isVisible }) {
                             <SidebarMenu
                                 href="/dashboard"
                                 label="Dashboard"
-                                icon={HiChartPie}
+                                icon={HiOutlineChartPie}
                             />
+                            <h2 className="ml-2 text-gray-600 text-xs font-semibold">
+                                Main
+                            </h2>
                             <SidebarMenu
                                 href="/product-ins"
                                 label="Produk Masuk"
@@ -101,6 +117,11 @@ export default function BackpageSidebar({ isVisible }) {
                                 href="/product-outs"
                                 label="Produk Keluar"
                                 icon={BsArrowLeftCircle}
+                            />
+                            <SidebarMenu
+                                href="/transactions"
+                                label="Transaksi"
+                                icon={LuDollarSign}
                             />
                         </Sidebar.ItemGroup>
                     )}
