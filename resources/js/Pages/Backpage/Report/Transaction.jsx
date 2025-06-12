@@ -92,9 +92,10 @@ export default function ReportPage() {
             </div>
             <div className="flex w-full flex-col items-start justify-start gap-4 mt-4 md:flex-row md:items-center md:gap-2">
                 <Button
-                    className="text-nowrap"
                     onClick={getReports}
                     disabled={isLoading}
+                    color="none"
+                    className="bg-primary/80 hover:bg-primary/100 text-white text-nowrap"
                 >
                     Cari
                 </Button>

@@ -109,7 +109,12 @@ export function InputCategoryModal({ trigger, isUpdate, data }) {
                             >
                                 Kembali
                             </Button>
-                            <Button type="submit" disabled={isSubmitting}>
+                            <Button
+                                type="submit"
+                                disabled={isSubmitting}
+                                color="none"
+                                className="bg-primary/80 hover:bg-primary/100 text-white text-nowrap"
+                            >
                                 {isUpdate ? "Update" : "Simpan"}
                             </Button>
                         </div>

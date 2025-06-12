@@ -49,7 +49,12 @@ export default function CategoryPage() {
                 />
                 <InputCategoryModal
                     trigger={
-                        <Button className="text-nowrap">Tambah Data</Button>
+                        <Button
+                            color="none"
+                            className="bg-primary/80 hover:bg-primary/100 text-white text-nowrap"
+                        >
+                            Tambah Data
+                        </Button>
                     }
                 />
             </div>
