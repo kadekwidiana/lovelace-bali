@@ -76,26 +76,56 @@ export function DetailProductModal({ trigger, product, isPromo = false }) {
                                 <span className="font-semibold">Warna:</span>
                                 <span>{product.color}</span>
                             </div>
-                            {!isPromo && (
-                                <div className="flex flex-col mb-1 mt-2">
-                                    <span className="font-semibold">Aksi:</span>
-                                    <Button
-                                        size="xs"
-                                        className="w-fit"
-                                        onClick={() =>
-                                            handleAddToCart({
-                                                user_id: auth.user.id,
-                                                product_id: product.id,
-                                                quantity: 1,
-                                            })
-                                        }
-                                        disabled={product.stock === 0}
-                                    >
-                                        <HiShoppingCart className="size-4 mr-1" />
-                                        Tambahkan ke keranjang
-                                    </Button>
-                                </div>
-                            )}
+                            {!isPromo &&
+                                (auth?.user ? (
+                                    auth.user.role === "CUSTOMER" && (
+                                        <div className="flex flex-col mb-1 mt-2">
+                                            <span className="font-semibold">
+                                                Aksi:
+                                            </span>
+                                            <Button
+                                                size="xs"
+                                                onClick={() =>
+                                                    handleAddToCart({
+                                                        user_id: auth.user.id,
+                                                        product_id: product.id,
+                                                        quantity: 1,
+                                                    })
+                                                }
+                                                disabled={product.stock === 0}
+                                                color="none"
+                                                className="w-fit bg-primary/80 hover:bg-primary/100 text-white"
+                                            >
+                                                <HiShoppingCart className="size-4 mr-1" />
+                                                Tambahkan ke keranjang
+                                            </Button>
+                                        </div>
+                                    )
+                                ) : (
+                                    <div className="flex flex-col mb-1 mt-2">
+                                        <span className="font-semibold">
+                                            Aksi:
+                                        </span>
+                                        <a href="/login">
+                                            <Button
+                                                size="xs"
+                                                onClick={() =>
+                                                    handleAddToCart({
+                                                        user_id: auth.user.id,
+                                                        product_id: product.id,
+                                                        quantity: 1,
+                                                    })
+                                                }
+                                                disabled={product.stock === 0}
+                                                color="none"
+                                                className="w-fit bg-primary/80 hover:bg-primary/100 text-white"
+                                            >
+                                                <HiShoppingCart className="size-4 mr-1" />
+                                                Tambahkan ke keranjang
+                                            </Button>
+                                        </a>
+                                    </div>
+                                ))}
                         </div>
                     </div>
                 </Modal.Body>

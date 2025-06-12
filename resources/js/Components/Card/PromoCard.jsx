@@ -19,7 +19,7 @@ export default function PromoCard({ promotion }) {
             </div>
             <a
                 href={`promotion/${promotion.id}`}
-                className="text-cyan-600 hover:text-cyan-700 underline"
+                className="text-primary/80 hover:text-primary underline"
             >
                 Lihat detail
             </a>

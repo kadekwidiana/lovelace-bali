@@ -31,7 +31,7 @@ export default function HomePage() {
                         className="inline-flex items-center justify-between px-1 py-1 pr-4 text-sm text-gray-700 bg-gray-100 rounded-full mb-7 hover:bg-gray-200"
                         role="alert"
                     >
-                        <span className="text-xs bg-cyan-600 rounded-full text-white px-4 py-1.5 mr-3">
+                        <span className="text-xs bg-primary/70 rounded-full text-white px-4 py-1.5 mr-3">
                             Promo
                         </span>{" "}
                         <span className="text-sm font-medium">
@@ -62,7 +62,7 @@ export default function HomePage() {
                     <div className="flex flex-col mb-0 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
                         <a
                             href="/product"
-                            className="inline-flex items-center justify-center px-5 py-2 text-base font-medium text-center text-white bg-cyan-700 rounded-lg hover:bg-cyan-800 focus:ring-4 focus:ring-cyan-300"
+                            className="inline-flex items-center justify-center px-5 py-2 text-base font-medium text-center text-white bg-primary/80 rounded-lg hover:bg-primary focus:ring-4 focus:ring-cyan-300"
                         >
                             Lihat Produk Kami
                             <svg
@@ -96,7 +96,7 @@ export default function HomePage() {
                 </div>
             </section>
 
-            <section className="bg-white">
+            <section className="bg-bg/30">
                 <div className="items-center max-w-screen-xl gap-16 px-4 py-8 mx-auto lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
                     <div className="text-gray-500 sm:text-lg">
                         <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-gray-900">
@@ -130,7 +130,7 @@ export default function HomePage() {
                 </div>
             </section>
 
-            <section className="bg-white">
+            <section className="bg-white py-10">
                 <div className="max-w-screen-xl px-4 mx-auto lg:px-6">
                     <h2 className="text-3xl text-center font-semibold text-gray-900 my-4">
                         Produk rekomendasi
@@ -149,7 +149,7 @@ export default function HomePage() {
                             as={Link}
                             href="/product"
                             outline
-                            gradientDuoTone="cyanToBlue"
+                            gradientDuoTone="greenToBlue"
                         >
                             Lihat semua produk
                             <HiOutlineArrowRight className="ml-2 h-5 w-5" />
@@ -158,7 +158,7 @@ export default function HomePage() {
                 </div>
             </section>
 
-            <section className="bg-white mt-10">
+            <section className="bg-bg/40 py-10">
                 <div className="max-w-screen-xl px-4 mx-auto lg:px-6">
                     <h2 className="text-3xl text-center font-semibold text-gray-900 my-4">
                         Promo terbaru
@@ -177,7 +177,7 @@ export default function HomePage() {
                             as={Link}
                             href="/promotion"
                             outline
-                            gradientDuoTone="cyanToBlue"
+                            gradientDuoTone="greenToBlue"
                         >
                             Lihat semua promo
                             <HiOutlineArrowRight className="ml-2 h-5 w-5" />

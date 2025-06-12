@@ -67,6 +67,8 @@ export default function ProductCard({ product, isPromo = false }) {
                                             disabled={
                                                 product.stock === 0 || isLoading
                                             }
+                                            color="none"
+                                            className="bg-primary/80 hover:bg-primary/100 text-white"
                                         >
                                             <HiShoppingCart className="size-4" />
                                         </Button>
@@ -78,6 +80,8 @@ export default function ProductCard({ product, isPromo = false }) {
                                             disabled={
                                                 product.stock === 0 || isLoading
                                             }
+                                            color="none"
+                                            className="bg-primary/80 hover:bg-primary/100 text-white"
                                         >
                                             <HiShoppingCart className="size-4" />
                                         </Button>
