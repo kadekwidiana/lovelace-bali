@@ -1,6 +1,6 @@
 import useInputContact from "@/Features/Contacts/useInputContact";
+import { Button, Label, Textarea, TextInput } from "flowbite-react";
 import FrontpageLayout from "../../Layouts/FrontpageLayout";
-import { Button, Checkbox, Label, Textarea, TextInput } from "flowbite-react";
 
 export default function ContactPage() {
     const { formData, isSubmitting, errors, handleChange, handleSubmit } =
@@ -132,7 +132,11 @@ export default function ContactPage() {
                                 helperText={errors.message}
                             />
                         </div>
-                        <Button type="submit" className="w-fit">
+                        <Button
+                            type="submit"
+                            color="none"
+                            className="bg-primary/80 hover:bg-primary/100 text-white w-fit"
+                        >
                             Kirim
                         </Button>
                     </form>
