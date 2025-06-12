@@ -89,7 +89,12 @@ export default function UpdatePasswordForm({ className = "" }) {
                     />
                 </div>
                 <div className="flex items-center justify-end gap-4">
-                    <Button disabled={processing} type="submit">
+                    <Button
+                        disabled={processing}
+                        type="submit"
+                        color="none"
+                        className="bg-primary/80 hover:bg-primary/100 text-white"
+                    >
                         Simpan
                     </Button>
                 </div>
