@@ -19,8 +19,17 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                primary: '#056840',
+                second: '#e80a5d',
+                bg: '#ffd6e4',
+            },
         },
     },
-
+    safelist: [
+        {
+            pattern: /^bg-/, // any class that starts with "bg-" (pake cara ini semua bg- akan di pakai/dibuild di final CSS)
+        },
+    ],
     plugins: [forms, flowbite.content()],
 };

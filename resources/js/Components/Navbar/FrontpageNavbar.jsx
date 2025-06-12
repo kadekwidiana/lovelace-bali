@@ -46,6 +46,8 @@ export default function FrontpageNavbar() {
                                         size="xs"
                                         as={Link}
                                         href="/customer/carts"
+                                        color="none"
+                                        className="bg-primary/80 hover:bg-primary/100 text-white"
                                     >
                                         <HiShoppingCart className="size-4 mr-1" />
                                         {cartData?.data?.data?.length ?? 0}
@@ -126,7 +128,13 @@ export default function FrontpageNavbar() {
                                 </div>
                             </div>
                         ) : (
-                            <Button size="xs" as={Link} href="/login">
+                            <Button
+                                size="xs"
+                                as={Link}
+                                href="/login"
+                                color="none"
+                                className="bg-primary/80 hover:bg-primary/100 text-white"
+                            >
                                 Login
                                 <HiOutlineArrowRight className="ml-2 size-4" />
                             </Button>
@@ -178,8 +186,8 @@ export default function FrontpageNavbar() {
                                     href="/"
                                     className={`block py-2 pl-3 pr-4 rounded-sm lg:p-0 ${
                                         route().current("frontpage.home")
-                                            ? "text-white bg-cyan-700 lg:bg-transparent lg:text-cyan-700"
-                                            : "text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:border-0 lg:hover:bg-transparent lg:hover:text-cyan-700"
+                                            ? "text-white bg-primary/80 lg:bg-transparent lg:text-primary/80"
+                                            : "text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:border-0 lg:hover:bg-transparent lg:hover:text-primary/80"
                                     }`}
                                     aria-current="page"
                                 >
@@ -191,8 +199,8 @@ export default function FrontpageNavbar() {
                                     href="/about"
                                     className={`block py-2 pl-3 pr-4 rounded-sm lg:p-0 ${
                                         route().current("frontpage.about")
-                                            ? "text-white bg-cyan-700 lg:bg-transparent lg:text-cyan-700"
-                                            : "text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:border-0 lg:hover:bg-transparent lg:hover:text-cyan-700"
+                                            ? "text-white bg-primary/80 lg:bg-transparent lg:text-primary/80"
+                                            : "text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:border-0 lg:hover:bg-transparent lg:hover:text-primary/80"
                                     }`}
                                 >
                                     About
@@ -203,8 +211,8 @@ export default function FrontpageNavbar() {
                                     href="/product"
                                     className={`block py-2 pl-3 pr-4 rounded-sm lg:p-0 ${
                                         route().current("frontpage.product")
-                                            ? "text-white bg-cyan-700 lg:bg-transparent lg:text-cyan-700"
-                                            : "text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:border-0 lg:hover:bg-transparent lg:hover:text-cyan-700"
+                                            ? "text-white bg-primary/80 lg:bg-transparent lg:text-primary/80"
+                                            : "text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:border-0 lg:hover:bg-transparent lg:hover:text-primary/80"
                                     }`}
                                 >
                                     Produk
@@ -220,8 +228,8 @@ export default function FrontpageNavbar() {
                                         route().current(
                                             "frontpage.promotion-detail"
                                         )
-                                            ? "text-white bg-cyan-700 lg:bg-transparent lg:text-cyan-700"
-                                            : "text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:border-0 lg:hover:bg-transparent lg:hover:text-cyan-700"
+                                            ? "text-white bg-primary/80 lg:bg-transparent lg:text-primary/80"
+                                            : "text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:border-0 lg:hover:bg-transparent lg:hover:text-primary/80"
                                     }`}
                                 >
                                     Promo
@@ -232,8 +240,8 @@ export default function FrontpageNavbar() {
                                     href="/contact"
                                     className={`block py-2 pl-3 pr-4 rounded-sm lg:p-0 ${
                                         route().current("frontpage.contact")
-                                            ? "text-white bg-cyan-700 lg:bg-transparent lg:text-cyan-700"
-                                            : "text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:border-0 lg:hover:bg-transparent lg:hover:text-cyan-700"
+                                            ? "text-white bg-primary/80 lg:bg-transparent lg:text-primary/80"
+                                            : "text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:border-0 lg:hover:bg-transparent lg:hover:text-primary/80"
                                     }`}
                                 >
                                     Kontak
