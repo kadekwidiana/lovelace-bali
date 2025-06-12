@@ -283,6 +283,8 @@ export default function ShipmentForm({
                             !data.courier ||
                             !data.destination_json
                         }
+                        color="none"
+                        className="bg-primary/80 hover:bg-primary/100 text-white"
                     >
                         Cek Ongkir
                     </Button>

@@ -131,6 +131,8 @@ export default function OrderSummaryCheckoutCard({
                                 data?.shipment_cost === 0
                             }
                             onClick={handleSubmit}
+                            color="none"
+                            className="bg-primary/80 hover:bg-primary/100 text-white"
                         >
                             Buat Pesanan
                         </Button>

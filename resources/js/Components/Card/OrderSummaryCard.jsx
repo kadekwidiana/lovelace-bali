@@ -66,6 +66,8 @@ export default function OrderSummaryCard() {
                                     orderSummaryData?.data?.data?.total_item ===
                                     0
                                 }
+                                color="none"
+                                className="bg-primary/80 hover:bg-primary/100 text-white"
                             >
                                 Proses Checkout{" "}
                                 <svg
