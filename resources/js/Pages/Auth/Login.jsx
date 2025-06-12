@@ -82,7 +82,12 @@ export default function Login() {
                             />
                             <Label htmlFor="remember">Remember me</Label>
                         </div>
-                        <Button type="submit" disabled={processing}>
+                        <Button
+                            type="submit"
+                            disabled={processing}
+                            color="none"
+                            className="bg-primary/80 hover:bg-primary/100 text-white"
+                        >
                             Login
                         </Button>
                         <div className="mt-2 text-center">

@@ -184,7 +184,8 @@ export default function RegisterPage() {
                             <Button
                                 type="submit"
                                 disabled={processing}
-                                className="w-full sm:w-1/2"
+                                color="none"
+                                className="bg-primary/80 hover:bg-primary/100 text-white w-full sm:w-1/2"
                             >
                                 Register
                             </Button>
