@@ -39,7 +39,10 @@ export default function ErrorPage({ status }) {
                     {descriptions[status]}
                 </p>
                 <a href="/" className="flex w-full items-center justify-center">
-                    <Button>
+                    <Button
+                        color="none"
+                        className="bg-primary/80 hover:bg-primary/100 text-white"
+                    >
                         <FaHome className="mr-2 h-5 w-5" />
                         Kembali
                     </Button>
