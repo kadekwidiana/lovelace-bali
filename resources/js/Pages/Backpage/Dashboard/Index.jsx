@@ -8,8 +8,6 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 import { LuDollarSign } from "react-icons/lu";
 import {
-    MdLibraryBooks,
-    MdMoney,
     MdOutlineCategory,
     MdOutlineProductionQuantityLimits,
 } from "react-icons/md";
@@ -20,8 +18,8 @@ export default function DashboardPage() {
     return (
         <BackpageLayout>
             <Banner className="mb-4">
-                <div className="flex w-full items-center gap-2 border-l-4 border-cyan-600 bg-cyan-400 bg-opacity-[15%] px-4 py-6 shadow-md">
-                    <FaCircleCheck className="size-10 text-cyan-600" />
+                <div className="flex w-full items-center gap-2 border-l-4 border-primary/70 bg-primary/10 bg-opacity-[15%] px-4 py-6 shadow-md">
+                    <FaCircleCheck className="size-10 text-primary/70" />
                     <div className="w-full">
                         <h5 className="mb-1 text-lg text-black">
                             Selamat datang,{" "}
