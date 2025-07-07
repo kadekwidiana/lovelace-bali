@@ -29,7 +29,9 @@ export default function ContactPage() {
                         </div>
                         <div className="flex flex-col">
                             <span className="font-semibold">Telepon</span>
-                            <span className="text-gray-500">081-2345-6789</span>
+                            <span className="text-gray-500">
+                                0812-8883-7139
+                            </span>
                         </div>
                         <div className="w-full h-44 rounded-md">
                             <iframe
