@@ -25,6 +25,7 @@ class Transaction extends Model
     ];
 
     protected $casts = [
+        'created_by' => 'integer',
         'date' => 'datetime',
         'total_amount' => 'decimal:2',
     ];
