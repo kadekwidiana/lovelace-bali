@@ -32,7 +32,13 @@ export default function ProductCheckoutList() {
                 <div className="flex flex-col items-center justify-center">
                     <DataNotFoundError />
                     <Link href="/product">
-                        <Button size="sm">Belanja Sekarang</Button>
+                        <Button
+                            size="sm"
+                            color="none"
+                            className="bg-primary/80 hover:bg-primary/100 text-white"
+                        >
+                            Belanja Sekarang
+                        </Button>
                     </Link>
                 </div>
             ) : (
