@@ -98,32 +98,38 @@ export default function HomePage() {
 
             <section className="bg-bg/30">
                 <div className="items-center max-w-screen-xl gap-16 px-4 py-8 mx-auto lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
-                    <div className="text-gray-500 sm:text-lg">
+                    <div className="text-gray-800 sm:text-lg">
                         <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-gray-900">
-                            Keindahan Renda Bali yang Elegan & Berkualitas
+                            LoveLace: Empowering Women with Elegance
                         </h2>
                         <p className="mb-4">
-                            Love Lace Bali menghadirkan produk renda eksklusif
-                            dengan sentuhan seni dan budaya Bali. Setiap detail
-                            renda dirancang dan dibuat dengan penuh ketelitian
-                            oleh para pengrajin lokal berpengalaman.
+                            LoveLace bukan sekadar brand lingerie biasa. Kami
+                            hadir untuk menghadirkan karya yang menginspirasi,
+                            membangkitkan rasa percaya diri, dan membantu setiap
+                            perempuan merayakan jati diri mereka.
+                        </p>
+                        <p className="mb-4">
+                            Didirikan di Belarus dan kini hadir di Bali, kami
+                            menggabungkan kualitas Eropa dengan sentuhan seni
+                            lokal. Setiap produk kami dirancang dengan penuh
+                            cinta, detail, dan keunikan — menjadikannya bukan
+                            hanya nyaman, tetapi juga bermakna.
                         </p>
                         <p>
-                            Kami percaya bahwa setiap karya memiliki cerita.
-                            Temukan keanggunan, keunikan, dan kualitas tinggi
-                            dalam setiap produk kami—menggabungkan tradisi,
-                            keahlian tangan, dan gaya modern.
+                            LoveLace adalah simbol kebebasan, keanggunan, dan
+                            kekuatan. Temukan perjalanan self-love Anda bersama
+                            kami.
                         </p>
                     </div>
                     <div className="grid grid-cols-2 gap-4 mt-8">
                         <img
                             className="w-full rounded-lg"
-                            src="/assets/images/home-1.jpg"
+                            src="/assets/images/about-1.jpg"
                             alt="office content 1"
                         />
                         <img
                             className="w-full mt-4 rounded-lg lg:mt-10"
-                            src="/assets/images/home-2.webp"
+                            src="/assets/images/about-2.jpg"
                             alt="office content 2"
                         />
                     </div>
