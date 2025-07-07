@@ -204,7 +204,8 @@ export default function TransactionDetailCsPage() {
                                                         size="xs"
                                                         onClick={() =>
                                                             handlePay(
-                                                                transaction?.snap_token_midtrans
+                                                                transaction?.snap_token_midtrans,
+                                                                transaction?.id
                                                             )
                                                         }
                                                     >

@@ -19,10 +19,20 @@ export default function usePaymentAction() {
         };
     }, []);
 
-    const handlePay = (snapToken) => {
+    const handlePay = (snapToken, id) => {
         window.snap.pay(snapToken, {
-            onSuccess: (result) => {
+            onSuccess: async (result) => {
                 // console.log("Success:", result);
+                const response = await axios({
+                    method: 'PUT',
+                    url: `/transactions/${id}`,
+                    data: {
+                        status: 'PAID'
+                    }
+                });
+
+                console.log(response);
+
                 ToastTopEnd.fire({
                     icon: "success",
                     title: 'Pembayaran berhasil.',
