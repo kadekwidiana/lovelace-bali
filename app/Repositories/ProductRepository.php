@@ -49,6 +49,11 @@ class ProductRepository implements ProductRepositoryInterface
         return $this->model->with(['category', 'promotions', 'transactionDetails', 'stockLogs'])->findOrFail($id);
     }
 
+    public function lockForUpdate($id)
+    {
+        return $this->model->lockForUpdate()->findOrFail($id);
+    }
+
     public function create($data)
     {
         return $this->model->create($data);

@@ -160,14 +160,22 @@ class TransactionController extends Controller
 
             // create transaction detail, update stock, create stock log
             foreach ($validated['items'] as $item) {
-                $product = $this->productRepository->find($item['product_id']);
+                // $product = $this->productRepository->find($item['product_id']);
+                $product = $this->productRepository->lockForUpdate($item['product_id']); // lock row, for handle race condition
+
+                if (!$product) {
+                    DB::rollBack();
+                    return redirect()->back()->withErrors(['message' => 'Produk tidak ditemukan']);
+                }
 
                 if ($product->stock < $item['quantity']) {
                     DB::rollBack();
 
-                    return ApiResponse::error([
-                        'detail' => 'Stock not enough',
-                    ], 'Stok produk tidak mencukupi', 400);
+                    // return ApiResponse::error([
+                    //     'detail' => 'Stock not enough',
+                    // ], 'Stok produk tidak mencukupi', 400);
+
+                    return redirect()->back()->withErrors(['message' => 'Stok produk tidak mencukupi']);
                 }
 
                 $this->transactionDetailRepository->create([
