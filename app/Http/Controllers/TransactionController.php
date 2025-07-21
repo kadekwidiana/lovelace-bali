@@ -193,9 +193,10 @@ class TransactionController extends Controller
                     'product_id' => $item['product_id'],
                     'created_by' => $createdBy,
                     'type' => 'OUT',
+                    'destination' => 'SALES',
                     'quantity' => $item['quantity'],
                     'date' => now(),
-                    'note' => 'Pembelian produk ' . $product->name
+                    'note' => 'Penjualan produk dari laman toko online ' . $product->name
                 ]);
             }
 
