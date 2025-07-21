@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\StockLogHelper;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\StockLogRepositoryInterface;
 use App\Interfaces\TransactionRepositoryInterface;
@@ -65,20 +66,20 @@ class ReportController extends Controller
                 if ($report->type === 'IN') {
                     $stockBefore = $stockAfter - $report->quantity;
                     $tipe = 'Produk Masuk';
+                    $label = StockLogHelper::getSourceLabel($report->source);
+                    $keterangan = 'Sumber';
                 } else {
                     $stockBefore = $stockAfter + $report->quantity;
                     $tipe = 'Produk Keluar';
+                    $label = StockLogHelper::getDestinationLabel($report->destination);
+                    $keterangan = 'Tujuan';
                 }
 
                 return [
-                    // 'ID' => $report->id,
-                    // 'ID Produk' => $report->product_id,
                     'Kode Produk' => $report->product->code,
                     'Nama Produk' => $report->product->name,
-                    // 'Ukuran Produk' => $report->product->size,
-                    // 'Warna Produk' => $report->product->color,
-                    // 'Harga Produk' => $report->product->price,
                     'Tipe' => $tipe,
+                    $keterangan => $label, // Sumber atau Tujuan
                     'Stok Sebelum' => $stockBefore,
                     'Stok Sesudah' => $stockAfter,
                     'Dibuat Oleh' => $report->user->name,
