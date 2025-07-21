@@ -4,18 +4,21 @@ import React from "react";
 
 export default function SummaryCard({ label, count, icon, href }) {
     return (
-        <Card className="flex max-w-xs flex-col gap-1 text-gray-600">
+        <Card className="flex w-full flex-col gap-1 text-gray-700">
             <div className="flex items-start justify-between gap-4">
                 <div className="">
-                    <h5 className="text-2xl font-bold tracking-tight">
+                    <h5 className="text-lg font-bold tracking-tight">
                         {label}
                     </h5>
-                    <p className="text-lg font-normal">{count}</p>
+                    <p className="text-base font-normal">{count} Total</p>
                 </div>
                 <div className="w-fit">{icon}</div>
             </div>
             <div className="flex justify-end">
-                <Link href={href} className="w-fit text-blue-500 underline">
+                <Link
+                    href={href}
+                    className="w-fit text-sm text-blue-500 underline"
+                >
                     Lihat Detail
                 </Link>
             </div>
