@@ -79,6 +79,9 @@ export default function OrderSummaryCheckoutCard({
                                                     {item.product.size}
                                                 </span>
                                                 <span className="text-sm text-gray-600">
+                                                    {formatRupiah(
+                                                        item.product.price
+                                                    )}{" "}
                                                     x {item.quantity}
                                                 </span>
                                             </div>

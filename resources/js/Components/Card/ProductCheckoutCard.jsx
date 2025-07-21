@@ -4,10 +4,42 @@ import { useUpdateCart } from "@/Features/Carts/useUpdateCart";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import { formatRupiah } from "@/Utils/formatNumber";
 import { Button, Checkbox } from "flowbite-react";
+import Swal from "sweetalert2";
 
 export default function ProductCheckoutCard({ item }) {
     const { deleteDataConfirm } = useDeleteCart();
     const { handleUpdateCart, isLoading } = useUpdateCart(item);
+
+    const handleEditQuantity = async (item) => {
+        const { value: qty } = await Swal.fire({
+            title: `Edit Jumlah`,
+            input: "number",
+            inputLabel: `Stok tersedia: ${item.product.stock}`,
+            inputValue: item.quantity,
+            inputAttributes: {
+                min: "1",
+                max: item.product.stock.toString(),
+                step: "1",
+            },
+            showCancelButton: true,
+            confirmButtonText: "Update",
+            cancelButtonText: "Batal",
+            confirmButtonColor: "rgba(5, 104, 64, 0.8)",
+            inputValidator: (value) => {
+                const num = Number(value);
+                if (!value || isNaN(num)) return "Masukkan angka yang valid";
+                if (num < 1) return "Jumlah tidak boleh kurang dari 1";
+                if (num > item.product.stock)
+                    return `Maksimal ${item.product.stock}`;
+                return null;
+            },
+        });
+
+        if (qty) {
+            // Jalankan update jumlah ke backend atau state lokal
+            handleUpdateCart({ quantity: Number(qty) });
+        }
+    };
 
     return (
         <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:p-6 flex justify-start gap-4">
@@ -66,6 +98,7 @@ export default function ProductCheckoutCard({ item }) {
                             placeholder=""
                             value={item.quantity}
                             readOnly
+                            onClick={() => handleEditQuantity(item)}
                         />
                         <Button
                             color="gray"
@@ -118,6 +151,10 @@ export default function ProductCheckoutCard({ item }) {
                         <span className="text-sm font-light text-gray-700">
                             Ukuran: {item.product.size} Warna:{" "}
                             {item.product.color}
+                        </span>
+                        <span className="text-sm font-light text-gray-700">
+                            Harga: {formatRupiah(item.product.price)} x{" "}
+                            {item.quantity}
                         </span>
                         <span className="text-xs font-light text-gray-600">
                             Updated:{" "}

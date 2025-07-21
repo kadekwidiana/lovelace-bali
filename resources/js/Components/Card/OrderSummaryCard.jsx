@@ -37,14 +37,14 @@ export default function OrderSummaryCard() {
                                     {orderSummaryData?.data?.data?.total_item}
                                 </dd>
                             </dl>
-                            <dl className="flex items-center justify-between gap-4">
+                            {/* <dl className="flex items-center justify-between gap-4">
                                 <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
                                     Diskon
                                 </dt>
                                 <dd className="text-base font-medium text-gray-900 dark:text-white">
                                     -
                                 </dd>
-                            </dl>
+                            </dl> */}
                         </div>
 
                         <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
