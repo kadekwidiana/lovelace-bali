@@ -52,7 +52,7 @@ export default function useInputRajaOngkirConfig(setOpenModal, isUpdate, rajaOng
                     'Content-Type': 'application/json',
                 },
                 method: isUpdate ? 'PUT' : 'POST',
-                url: `/config/raja-ongkirs${isUpdate ? '/' + rajaOngkirConfig?.id : ''}`,
+                url: `/raja-ongkirs${isUpdate ? '/' + rajaOngkirConfig?.id : ''}`,
                 data: formData
             });
 

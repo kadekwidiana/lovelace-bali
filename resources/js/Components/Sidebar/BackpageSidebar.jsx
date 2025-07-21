@@ -93,7 +93,7 @@ export default function BackpageSidebar({ isVisible }) {
                                 Config
                             </h2>
                             <SidebarMenu
-                                href="/config/raja-ongkirs"
+                                href="/raja-ongkirs"
                                 label="Raja Ongkir Config"
                                 icon={IoSettingsOutline}
                             />

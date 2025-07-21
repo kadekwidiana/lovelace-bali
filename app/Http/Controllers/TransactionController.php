@@ -136,8 +136,12 @@ class TransactionController extends Controller
             $createdBy = $validated['created_by'];
             $user = User::with('customer')->find($createdBy);
 
+            // generate unique integer id
+            $id = ($createdBy . now()->format('YmdHis'));
+
             // create transaction
             $transaction = $this->transactionRepository->create([
+                'id' => $id,
                 'created_by' => $createdBy,
                 'date' => now(),
                 'shipment_cost' => $validated['shipment_cost'],

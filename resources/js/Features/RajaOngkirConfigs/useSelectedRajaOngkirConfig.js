@@ -8,7 +8,7 @@ export default function useSelectedRajaOngkirConfig() {
         try {
             const response = await axios({
                 method: 'PATCH',
-                url: `/config/raja-ongkirs/${id}/selected`,
+                url: `/raja-ongkirs/${id}/selected`,
             });
 
             const { status, data } = response;

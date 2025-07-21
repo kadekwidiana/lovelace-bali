@@ -21,7 +21,14 @@ class Cart extends Model
         'is_select',
     ];
 
-    protected $casts = [];
+    protected $casts = [
+        'user_id' => 'integer',
+        'product_id' => 'integer',
+        'quantity' => 'integer',
+        'price_at_time' => 'decimal:2',
+        'subtotal' => 'decimal:2',
+        'is_select' => 'boolean',
+    ];
 
     public function user()
     {

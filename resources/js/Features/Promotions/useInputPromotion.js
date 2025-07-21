@@ -28,6 +28,8 @@ export default function useInputPromotion(setOpenModal, isUpdate = false, promot
         product_ids: null
     });
 
+    console.log('formData', formData.product_ids);
+
     const [imagePreview, setImagePreview] = useState({
         image: ''
     });
@@ -54,6 +56,15 @@ export default function useInputPromotion(setOpenModal, isUpdate = false, promot
             setSelectedProductIds(promotion?.product_ids ?? []);
         }
     }, [isUpdate, promotion]);
+
+    useEffect(() => {
+        if (!isUpdate) {
+            setFormData(prev => ({
+                ...prev,
+                product_ids: selectedProductIds
+            }));
+        }
+    }, [selectedProductIds]);
 
     useEffect(() => {
         if (isUpdate) {

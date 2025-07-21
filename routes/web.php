@@ -108,8 +108,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('contacts/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
 
             // config raja ongkir
-            Route::resource('config/raja-ongkirs', RajaOngkirConfigController::class);
-            Route::patch('config/raja-ongkirs/{id}/selected', [RajaOngkirConfigController::class, 'setDefault'])->name('raja-ongkirs.selected');
+            Route::resource('raja-ongkirs', RajaOngkirConfigController::class);
+            Route::patch('raja-ongkirs/{id}/selected', [RajaOngkirConfigController::class, 'setDefault'])->name('raja-ongkirs.selected');
         });
     });
 });

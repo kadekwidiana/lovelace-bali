@@ -8,7 +8,7 @@ export default function useDeleteRajaOngkirConfig() {
         try {
             const response = await axios({
                 method: 'DELETE',
-                url: `/config/raja-ongkirs/${id}`,
+                url: `/raja-ongkirs/${id}`,
             });
 
             const { status, data } = response;

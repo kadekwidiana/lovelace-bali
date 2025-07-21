@@ -14,6 +14,7 @@ class Transaction extends Model
     protected $table = 'transactions';
 
     protected $fillable = [
+        'id',
         'created_by',
         'date',
         'shipment_cost',
@@ -25,6 +26,7 @@ class Transaction extends Model
     ];
 
     protected $casts = [
+        'id' => 'string',
         'created_by' => 'integer',
         'date' => 'datetime',
         'total_amount' => 'decimal:2',

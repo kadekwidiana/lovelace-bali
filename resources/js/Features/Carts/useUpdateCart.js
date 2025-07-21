@@ -10,7 +10,7 @@ export const useUpdateCart = (item) => {
             user_id = item.user_id,
             product_id = item.product_id,
             quantity = item.quantity,
-            is_select = item.is_select === 1 ? true : false,
+            is_select = item.is_select,
         }) => {
             const body = {
                 user_id,

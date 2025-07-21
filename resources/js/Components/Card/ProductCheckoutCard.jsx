@@ -13,11 +13,11 @@ export default function ProductCheckoutCard({ item }) {
         <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:p-6 flex justify-start gap-4">
             <div className="flex flex-col justify-center">
                 <Checkbox
-                    className="h-5 w-5"
-                    defaultChecked={item.is_select === 1}
+                    className="h-5 w-5 outline-none focus:outline-none focus:ring-0"
+                    checked={item.is_select}
                     onClick={() =>
                         handleUpdateCart({
-                            is_select: item.is_select === 1 ? false : true,
+                            is_select: !item.is_select,
                         })
                     }
                 />

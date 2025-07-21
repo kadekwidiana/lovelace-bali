@@ -20,6 +20,9 @@ class TransactionDetail extends Model
     ];
 
     protected $casts = [
+        'transaction_id' => 'integer',
+        'product_id' => 'integer',
+        'quantity' => 'integer',
         'price_at_time' => 'decimal:2',
         'subtotal' => 'decimal:2',
     ];
