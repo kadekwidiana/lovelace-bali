@@ -7,6 +7,7 @@ import useDeleteStockLog from "@/Features/StockLogs/useDeleteStockLog";
 import useGetStockLogs from "@/Features/StockLogs/useGetStockLogs";
 import BackpageLayout from "@/Layouts/BackpageLayout";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
+import { getSourceLabel } from "@/Utils/stockLogLabels";
 import { Button, Select, Table, TextInput } from "flowbite-react";
 import { FaInfoCircle, FaTrash } from "react-icons/fa";
 
@@ -65,6 +66,7 @@ export default function StockLogInPage() {
                         <Table.HeadCell className="w-5">#</Table.HeadCell>
                         <Table.HeadCell>Produk</Table.HeadCell>
                         <Table.HeadCell>Create By</Table.HeadCell>
+                        <Table.HeadCell>Sumber</Table.HeadCell>
                         <Table.HeadCell>Jumlah</Table.HeadCell>
                         <Table.HeadCell>Tanggal</Table.HeadCell>
                         <Table.HeadCell className="flex items-center justify-center">
@@ -87,6 +89,9 @@ export default function StockLogInPage() {
                                     </Table.Cell>
                                     <Table.Cell>
                                         {stockLog.user.name}
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        {getSourceLabel(stockLog.source)}
                                     </Table.Cell>
                                     <Table.Cell>{stockLog.quantity}</Table.Cell>
                                     <Table.Cell>

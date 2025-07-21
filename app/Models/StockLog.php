@@ -16,6 +16,8 @@ class StockLog extends Model
         'product_id',
         'created_by',
         'type',
+        'source',
+        'destination',
         'quantity',
         'date',
         'note',

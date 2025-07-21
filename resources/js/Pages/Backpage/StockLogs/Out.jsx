@@ -7,6 +7,7 @@ import useDeleteStockLog from "@/Features/StockLogs/useDeleteStockLog";
 import useGetStockLogs from "@/Features/StockLogs/useGetStockLogs";
 import BackpageLayout from "@/Layouts/BackpageLayout";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
+import { getDestinationLabel } from "@/Utils/stockLogLabels";
 import { Button, Select, Table, TextInput } from "flowbite-react";
 import { FaInfoCircle, FaTrash } from "react-icons/fa";
 
@@ -65,6 +66,7 @@ export default function StockLogOutPage() {
                         <Table.HeadCell className="w-5">#</Table.HeadCell>
                         <Table.HeadCell>Produk</Table.HeadCell>
                         <Table.HeadCell>Create By</Table.HeadCell>
+                        <Table.HeadCell>Tujuan</Table.HeadCell>
                         <Table.HeadCell>Jumlah</Table.HeadCell>
                         <Table.HeadCell>Tanggal</Table.HeadCell>
                         <Table.HeadCell className="flex items-center justify-center">
@@ -87,6 +89,11 @@ export default function StockLogOutPage() {
                                     </Table.Cell>
                                     <Table.Cell>
                                         {stockLog.user.name}
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        {getDestinationLabel(
+                                            stockLog.destination
+                                        )}
                                     </Table.Cell>
                                     <Table.Cell>{stockLog.quantity}</Table.Cell>
                                     <Table.Cell>

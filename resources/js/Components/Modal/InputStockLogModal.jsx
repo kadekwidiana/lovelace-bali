@@ -1,8 +1,19 @@
 import useInputStockLog from "@/Features/StockLogs/useInputStockLog";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
-import { Button, Label, Modal, Textarea, TextInput } from "flowbite-react";
+import {
+    Button,
+    Label,
+    Modal,
+    Select,
+    Textarea,
+    TextInput,
+} from "flowbite-react";
 import { useState } from "react";
 import SearchSelectInput from "../Input/SearchSelectInput";
+import {
+    DESTINATION_OPTIONS,
+    SOURCE_OPTIONS,
+} from "@/Constants/stockLogOptions";
 
 export function InputStockLogModal({
     trigger,
@@ -68,7 +79,7 @@ export function InputStockLogModal({
                             </p>
                         </div>
 
-                        <div>
+                        <div className="hidden">
                             <div className="mb-2 block">
                                 <Label
                                     htmlFor="type"
@@ -89,6 +100,74 @@ export function InputStockLogModal({
                                 disabled
                             />
                         </div>
+
+                        {!isOut ? (
+                            <div>
+                                <div className="mb-2 block">
+                                    <Label
+                                        htmlFor="source"
+                                        value="Sumber*"
+                                        color={
+                                            errors.source ? "failure" : "gray"
+                                        }
+                                    />
+                                </div>
+                                <Select
+                                    id="source"
+                                    name="source"
+                                    value={formData.source}
+                                    onChange={handleChange}
+                                    color={errors.source ? "failure" : "gray"}
+                                    helperText={errors.source}
+                                    // required
+                                >
+                                    <option value="">-- Pilih sumber --</option>
+                                    {SOURCE_OPTIONS.map((source) => (
+                                        <option
+                                            key={source.value}
+                                            value={source.value}
+                                        >
+                                            {source.label}
+                                        </option>
+                                    ))}
+                                </Select>
+                            </div>
+                        ) : (
+                            <div>
+                                <div className="mb-2 block">
+                                    <Label
+                                        htmlFor="destination"
+                                        value="Tujuan*"
+                                        color={
+                                            errors.destination
+                                                ? "failure"
+                                                : "gray"
+                                        }
+                                    />
+                                </div>
+                                <Select
+                                    id="destination"
+                                    name="destination"
+                                    value={formData.destination}
+                                    onChange={handleChange}
+                                    color={
+                                        errors.destination ? "failure" : "gray"
+                                    }
+                                    helperText={errors.destination}
+                                    // required
+                                >
+                                    <option value="">-- Pilih tujuan --</option>
+                                    {DESTINATION_OPTIONS.map((destination) => (
+                                        <option
+                                            key={destination.value}
+                                            value={destination.value}
+                                        >
+                                            {destination.label}
+                                        </option>
+                                    ))}
+                                </Select>
+                            </div>
+                        )}
 
                         <div>
                             <div className="mb-2 block">
