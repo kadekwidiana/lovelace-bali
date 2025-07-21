@@ -67,19 +67,19 @@ class ReportController extends Controller
                     $stockBefore = $stockAfter - $report->quantity;
                     $tipe = 'Produk Masuk';
                     $label = StockLogHelper::getSourceLabel($report->source);
-                    $keterangan = 'Sumber';
-                } else {
+                } else if ($report->type === 'OUT') {
                     $stockBefore = $stockAfter + $report->quantity;
                     $tipe = 'Produk Keluar';
                     $label = StockLogHelper::getDestinationLabel($report->destination);
-                    $keterangan = 'Tujuan';
                 }
+
+                $sourceOrDestination = 'Sumber/Tujuan';
 
                 return [
                     'Kode Produk' => $report->product->code,
                     'Nama Produk' => $report->product->name,
                     'Tipe' => $tipe,
-                    $keterangan => $label, // Sumber atau Tujuan
+                    $sourceOrDestination => $label, // Sumber atau Tujuan
                     'Stok Sebelum' => $stockBefore,
                     'Stok Sesudah' => $stockAfter,
                     'Dibuat Oleh' => $report->user->name,
