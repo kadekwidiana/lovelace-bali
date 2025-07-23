@@ -58,7 +58,7 @@ export function InputStockLogModal({
                                     }
                                 />
                             </div>
-                            <div className="w-full">
+                            <button className="w-full" disabled={isUpdate}>
                                 <SearchSelectInput
                                     entities={products}
                                     otherEntity={"code"}
@@ -73,7 +73,7 @@ export function InputStockLogModal({
                                     placeholder={"Cari produk..."}
                                     error={errors.product_id}
                                 />
-                            </div>
+                            </button>
                             <p className="mt-1 text-sm text-red-500">
                                 {errors.product_id}
                             </p>

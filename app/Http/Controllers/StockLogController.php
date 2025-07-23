@@ -143,15 +143,36 @@ class StockLogController extends Controller
         try {
             $validated = $request->validated();
 
-            $this->stockLogRepository->update($id, $validated);
+            $oldStockLog = $this->stockLogRepository->find($id); // Ambil data lama
+            $oldProduct = $this->productRepository->find($oldStockLog->product_id);
 
-            $product = $this->productRepository->find($validated['product_id']);
+            // Kembalikan stok lama ke produk lama
+            if ($oldStockLog->type === 'IN') {
+                $oldProduct->stock -= $oldStockLog->quantity;
+            } else {
+                $oldProduct->stock += $oldStockLog->quantity;
+            }
 
-            $updateStockValue = $validated['type'] === 'IN' ? $product->stock + $validated['quantity'] : $product->stock - $validated['quantity']; // Update stock (IN/OUT)
-
-            $this->productRepository->update($validated['product_id'], [
-                'stock' => $updateStockValue,
+            // Simpan perubahan stok ke produk lama
+            $this->productRepository->update($oldProduct->id, [
+                'stock' => $oldProduct->stock,
             ]);
+
+            // Ambil produk baru (bisa saja sama dengan produk lama)
+            $newProduct = $this->productRepository->find($validated['product_id']);
+
+            // Hitung stok baru
+            $newStock = $validated['type'] === 'IN'
+                ? $newProduct->stock + $validated['quantity']
+                : $newProduct->stock - $validated['quantity'];
+
+            // Simpan perubahan stok ke produk baru
+            $this->productRepository->update($newProduct->id, [
+                'stock' => $newStock,
+            ]);
+
+            // Perbarui StockLog
+            $this->stockLogRepository->update($id, $validated);
 
             DB::commit();
 
@@ -175,36 +196,34 @@ class StockLogController extends Controller
     {
         DB::beginTransaction();
         try {
-            // Get stock log
             $stockLog = $this->stockLogRepository->find($id);
-
-            // Get product
             $product = $this->productRepository->find($stockLog->product_id);
 
-            // Update stock
-            $updateStockValue = $stockLog->type === 'OUT'
-                ? $product->stock + $stockLog->quantity
-                : $product->stock - $stockLog->quantity;
+            // Hitung efek kebalikan dari log (reversal)
+            $updatedStock = $stockLog->type === 'IN'
+                ? $product->stock - $stockLog->quantity
+                : $product->stock + $stockLog->quantity;
 
-            // Optional: prevent negative stock
-            if ($updateStockValue < 0) {
+            // Cek apakah stok valid
+            if ($updatedStock < 0) {
                 return response()->json([
                     'message' => 'Stock tidak boleh kurang dari 0.',
                 ], 400);
             }
 
+            // Update product stock
             $this->productRepository->update($product->id, [
-                'stock' => $updateStockValue,
+                'stock' => $updatedStock,
             ]);
 
-            // Delete stock log
+            // Delete the stock log
             $this->stockLogRepository->delete($id);
 
             DB::commit();
 
             return response()->json([
                 'message' => 'Data berhasil dihapus.',
-            ], 200); // 200 OK
+            ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
 

@@ -121,7 +121,7 @@ const SearchSelectInput = ({
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="w-full rounded-t-sm border-b border-gray-300 p-2 focus:border-cyan-600 focus:outline-none focus:ring-cyan-600 focus-visible:outline-none"
                     />
-                    <div className="max-h-48 overflow-y-auto">
+                    <div className="max-h-48 overflow-y-auto text-start">
                         {filteredEntities.length > 0 ? (
                             filteredEntities.map((entity, index) => (
                                 <div

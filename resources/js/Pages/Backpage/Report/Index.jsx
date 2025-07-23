@@ -67,7 +67,7 @@ export default function ReportPage() {
                         />
                     </div>
                 </div>
-                <div className="w-36">
+                {/* <div className="w-36">
                     <div className="mb-2 block">
                         <Label htmlFor="report_type" value="Jenis" />
                     </div>
@@ -86,7 +86,7 @@ export default function ReportPage() {
                         <option value="IN">Produk Masuk</option>
                         <option value="OUT">Produk Keluar</option>
                     </Select>
-                </div>
+                </div> */}
             </div>
             <div className="flex w-full flex-col items-start justify-start gap-4 mt-4 md:flex-row md:items-center md:gap-2">
                 <Button

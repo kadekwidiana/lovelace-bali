@@ -8,8 +8,8 @@ export default function useInputStockLog(setOpenModal, isUpdate, isOut, stockLog
 
     const initialFormData = {
         product_id: '',
-        created_by: '',
-        type: '',
+        created_by: auth.user.id,
+        type: isOut ? 'OUT' : 'IN',
         source: '',
         destination: '',
         quantity: 0,
@@ -84,9 +84,14 @@ export default function useInputStockLog(setOpenModal, isUpdate, isOut, stockLog
                 });
                 setFormData(initialFormData);
                 setErrors({
-                    ...initialFormData,
+                    product_id: '',
+                    created_by: '',
                     type: '',
-                    quantity: ''
+                    source: '',
+                    destination: '',
+                    quantity: '',
+                    date: '',
+                    note: ''
                 });
                 setOpenModal(false);
                 router.reload();

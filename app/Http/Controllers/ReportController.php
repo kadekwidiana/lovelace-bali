@@ -6,6 +6,7 @@ use App\Helpers\StockLogHelper;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\StockLogRepositoryInterface;
 use App\Interfaces\TransactionRepositoryInterface;
+use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
@@ -44,57 +45,103 @@ class ReportController extends Controller
         ]);
     }
 
+    // public function report(Request $request)
+    // {
+    //     try {
+    //         $startDate = $request->start_date;
+    //         $endDate = $request->end_date;
+    //         $typeReport = $request->type_report;
+    //         $productId = $request->product_id;
+
+    //         $reports = $this->stockLogRepository->getReports($startDate, $endDate, $typeReport, $productId);
+
+    //         if ($reports->isEmpty()) {
+    //             return response()->json([
+    //                 'message' => 'Data tidak ditemukan.',
+    //             ], 404);
+    //         }
+
+    //         $mappedReports = $reports->map(function ($report) {
+    //             $stockAfter = $report->product->stock;
+
+    //             if ($report->type === 'IN') {
+    //                 $stockBefore = $stockAfter - $report->quantity;
+    //                 $tipe = 'Produk Masuk';
+    //                 $label = StockLogHelper::getSourceLabel($report->source);
+    //             } else if ($report->type === 'OUT') {
+    //                 $stockBefore = $stockAfter + $report->quantity;
+    //                 $tipe = 'Produk Keluar';
+    //                 $label = StockLogHelper::getDestinationLabel($report->destination);
+    //             }
+
+    //             $sourceOrDestination = 'Sumber/Tujuan';
+
+    //             return [
+    //                 'Kode Produk' => $report->product->code,
+    //                 'Nama Produk' => $report->product->name,
+    //                 'Tipe' => $tipe,
+    //                 $sourceOrDestination => $label, // Sumber atau Tujuan
+    //                 'Stok Sebelum' => $stockBefore,
+    //                 'Stok Sesudah' => $stockAfter,
+    //                 'Dibuat Oleh' => $report->user->name,
+    //                 'Jumlah' => $report->quantity,
+    //                 'Tanggal' => Carbon::parse($report->date)->translatedFormat('d F Y H:i:s'),
+    //                 'Catatan' => $report->note,
+    //                 'Dibuat Pada' => Carbon::parse($report->created_at)->translatedFormat('d F Y H:i:s'),
+    //                 'Diperbarui Pada' => Carbon::parse($report->updated_at)->translatedFormat('d F Y H:i:s'),
+    //             ];
+    //         });
+
+    //         return response()->json([
+    //             'message' => 'Berhasil mengambil data.',
+    //             'data' => $mappedReports
+    //         ], 201);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'message' => 'Terjadi kesalahan saat mengambil data.',
+    //             'error' => $e->getMessage(),
+    //         ], 500);
+    //     }
+    // }
+
     public function report(Request $request)
     {
         try {
             $startDate = $request->start_date;
             $endDate = $request->end_date;
-            $typeReport = $request->type_report;
             $productId = $request->product_id;
 
-            $reports = $this->stockLogRepository->getReports($startDate, $endDate, $typeReport, $productId);
+            $query = Product::with(['stockLogs' => function ($query) use ($startDate, $endDate) {
+                if ($startDate && $endDate) {
+                    $query->whereBetween('date', [$startDate, $endDate]);
+                }
+            }]);
 
-            if ($reports->isEmpty()) {
-                return response()->json([
-                    'message' => 'Data tidak ditemukan.',
-                ], 404);
+            if ($productId) {
+                $query->where('id', $productId);
             }
 
-            $mappedReports = $reports->map(function ($report) {
-                $stockAfter = $report->product->stock;
+            $products = $query->get();
 
-                if ($report->type === 'IN') {
-                    $stockBefore = $stockAfter - $report->quantity;
-                    $tipe = 'Produk Masuk';
-                    $label = StockLogHelper::getSourceLabel($report->source);
-                } else if ($report->type === 'OUT') {
-                    $stockBefore = $stockAfter + $report->quantity;
-                    $tipe = 'Produk Keluar';
-                    $label = StockLogHelper::getDestinationLabel($report->destination);
-                }
+            $data = $products->map(function ($product) {
+                $logs = $product->stockLogs;
 
-                $sourceOrDestination = 'Sumber/Tujuan';
+                $masuk = $logs->where('type', 'IN')->sum('quantity');
+                $keluar = $logs->where('type', 'OUT')->sum('quantity');
 
                 return [
-                    'Kode Produk' => $report->product->code,
-                    'Nama Produk' => $report->product->name,
-                    'Tipe' => $tipe,
-                    $sourceOrDestination => $label, // Sumber atau Tujuan
-                    'Stok Sebelum' => $stockBefore,
-                    'Stok Sesudah' => $stockAfter,
-                    'Dibuat Oleh' => $report->user->name,
-                    'Jumlah' => $report->quantity,
-                    'Tanggal' => Carbon::parse($report->date)->translatedFormat('d F Y H:i:s'),
-                    'Catatan' => $report->note,
-                    'Dibuat Pada' => Carbon::parse($report->created_at)->translatedFormat('d F Y H:i:s'),
-                    'Diperbarui Pada' => Carbon::parse($report->updated_at)->translatedFormat('d F Y H:i:s'),
+                    'Kode Produk' => $product->code,
+                    'Nama Produk' => $product->name,
+                    'Masuk' => $masuk,
+                    'Keluar' => $keluar,
+                    'Stok Saat Ini' => $product->stock,
                 ];
             });
 
             return response()->json([
                 'message' => 'Berhasil mengambil data.',
-                'data' => $mappedReports
-            ], 201);
+                'data' => $data,
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Terjadi kesalahan saat mengambil data.',
