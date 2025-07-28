@@ -58,7 +58,11 @@ export function InputStockLogModal({
                                     }
                                 />
                             </div>
-                            <button className="w-full" disabled={isUpdate}>
+                            <button
+                                type="button"
+                                className="w-full"
+                                disabled={isUpdate}
+                            >
                                 <SearchSelectInput
                                     entities={products}
                                     otherEntity={"code"}
