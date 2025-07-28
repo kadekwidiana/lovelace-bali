@@ -159,9 +159,16 @@ export function InputStockLogModal({
                                     }
                                     helperText={errors.destination}
                                     // required
+                                    disabled={isUpdate}
                                 >
                                     <option value="">-- Pilih tujuan --</option>
-                                    {DESTINATION_OPTIONS.map((destination) => (
+                                    {DESTINATION_OPTIONS.filter(
+                                        (destination) =>
+                                            !(
+                                                destination.value === "SALES" &&
+                                                !isUpdate
+                                            )
+                                    ).map((destination) => (
                                         <option
                                             key={destination.value}
                                             value={destination.value}
