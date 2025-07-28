@@ -3,6 +3,8 @@ import FrontpageLayout from "../../Layouts/FrontpageLayout";
 import { formatDateToIndonesian } from "@/Utils/formatDateToIndonesian";
 import ProductCard from "../../Components/Card/ProductCard";
 import DataNotFoundError from "@/Components/Error/DataNotFoundError";
+import { IoCopyOutline } from "react-icons/io5";
+import { useState } from "react";
 
 export default function PromotionDetailPage() {
     const { promotion } = usePage().props;
@@ -18,6 +20,7 @@ export default function PromotionDetailPage() {
                         <p className="mb-4 text-gray-500">
                             {promotion.description}
                         </p>
+                        <PromoCode promoCode={promotion?.promo_code ?? "-"} />
                         <div className="flex flex-col mb-1">
                             <span className="font-semibold">Tanggal</span>
                             <span className="text-gray-500">
@@ -67,5 +70,42 @@ export default function PromotionDetailPage() {
                 </div>
             </section>
         </FrontpageLayout>
+    );
+}
+
+function PromoCode({ promoCode }) {
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(promoCode);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000); // Reset "copied" status
+        } catch (err) {
+            console.error("Failed to copy!", err);
+        }
+    };
+
+    return (
+        <div className="flex flex-col mb-1">
+            <span className="font-semibold">Kode Promo</span>
+            <div className="flex items-center gap-2">
+                <span className="text-gray-500">{promoCode ?? "-"}</span>
+                {promoCode && (
+                    <button
+                        onClick={handleCopy}
+                        className="text-blue-500 hover:underline text-sm"
+                        title="Salin Kode"
+                    >
+                        <IoCopyOutline className="size-5" />
+                    </button>
+                )}
+            </div>
+            {copied && (
+                <span className="text-green-500 text-sm mt-1">
+                    Kode berhasil disalin!
+                </span>
+            )}
+        </div>
     );
 }
