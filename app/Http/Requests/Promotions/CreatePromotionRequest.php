@@ -23,6 +23,7 @@ class CreatePromotionRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
+            'promo_code' => 'required|string|unique:promotions,promo_code',
             'description' => 'required|string',
             'image' => 'required|file|mimes:jpeg,png,jpg|max:2048',
             'start_date' => 'required|date',

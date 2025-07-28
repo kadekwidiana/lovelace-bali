@@ -11,6 +11,7 @@ export default function useInputPromotion(setOpenModal, isUpdate = false, promot
 
     const initialFormData = {
         title: '',
+        promo_code: '',
         description: '',
         image: null,
         start_date: '',
@@ -70,6 +71,7 @@ export default function useInputPromotion(setOpenModal, isUpdate = false, promot
         if (isUpdate) {
             setFormData({
                 title: promotion?.title ?? '',
+                promo_code: promotion?.promo_code ?? '',
                 description: promotion?.description ?? '',
                 image: null,
                 start_date: promotion?.start_date.split('T')[0] ?? '',

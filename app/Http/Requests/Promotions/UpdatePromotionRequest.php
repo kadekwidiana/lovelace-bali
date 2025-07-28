@@ -23,6 +23,7 @@ class UpdatePromotionRequest extends FormRequest
     {
         return [
             'title' => 'sometimes|required|string|max:255',
+            'promo_code' => 'sometimes|required|string',
             'description' => 'required|string',
             'image' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
             'start_date' => 'sometimes|required|date',

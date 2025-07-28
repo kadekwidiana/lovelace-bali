@@ -38,26 +38,50 @@ export function InputPromotionModal({ trigger, isUpdate = false, data }) {
                         onSubmit={handleSubmit}
                         className="flex w-full flex-col gap-3"
                     >
+                        <div>
+                            <div className="mb-2 block">
+                                <Label
+                                    htmlFor="title"
+                                    value="Judul promo*"
+                                    color={errors.title ? "failure" : "gray"}
+                                />
+                            </div>
+                            <TextInput
+                                id="title"
+                                name="title"
+                                type="text"
+                                placeholder="Masukan judul promo..."
+                                value={formData.title}
+                                onChange={handleChange}
+                                color={errors.title ? "failure" : "gray"}
+                                helperText={errors.title}
+                            />
+                        </div>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 w-full">
                             <div>
                                 <div className="mb-2 block">
                                     <Label
-                                        htmlFor="title"
-                                        value="Judul promo*"
+                                        htmlFor="promo_code"
+                                        value="Kode promo*"
                                         color={
-                                            errors.title ? "failure" : "gray"
+                                            errors.promo_code
+                                                ? "failure"
+                                                : "gray"
                                         }
                                     />
                                 </div>
                                 <TextInput
-                                    id="title"
-                                    name="title"
+                                    id="promo_code"
+                                    name="promo_code"
                                     type="text"
-                                    placeholder="Masukan judul promo..."
-                                    value={formData.title}
+                                    placeholder="Masukan kode promo..."
+                                    value={formData.promo_code}
                                     onChange={handleChange}
-                                    color={errors.title ? "failure" : "gray"}
-                                    helperText={errors.title}
+                                    color={
+                                        errors.promo_code ? "failure" : "gray"
+                                    }
+                                    helperText={errors.promo_code}
+                                    readOnly={isUpdate}
                                 />
                             </div>
                             <div>

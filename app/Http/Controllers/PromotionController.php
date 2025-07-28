@@ -83,6 +83,7 @@ class PromotionController extends Controller
 
             $promotion = $this->promotionRepository->create([
                 'title' => $validated['title'],
+                'promo_code' => $validated['promo_code'],
                 'description' => $validated['description'],
                 'image' => $validated['image'],
                 'start_date' => $validated['start_date'],
@@ -145,6 +146,7 @@ class PromotionController extends Controller
 
             $this->promotionRepository->update($id, [
                 'title' => $validated['title'],
+                'promo_code' => $validated['promo_code'],
                 'description' => $validated['description'],
                 'image' => $validated['image'],
                 'start_date' => $validated['start_date'],
