@@ -1,10 +1,11 @@
 import FetchError from "@/Components/Error/FetchError";
 import { DetailProductModal } from "@/Components/Modal/DetailProductModal";
 import useGetOrderSummary from "@/Features/Carts/useGetOrderSummary";
+import useCheckPromo from "@/Features/Transactions/useCheckPromo";
 import { formatRupiah } from "@/Utils/formatNumber";
 import { Link, usePage } from "@inertiajs/react";
-import { Button } from "flowbite-react";
-import React, { useEffect } from "react";
+import { Button, Label, TextInput } from "flowbite-react";
+import React, { useEffect, useState } from "react";
 
 export default function OrderSummaryCheckoutCard({
     className = "",
@@ -15,11 +16,24 @@ export default function OrderSummaryCheckoutCard({
 }) {
     const { auth } = usePage().props;
 
+    const [isDisplayInputPromo, setIsDisplayInputPromo] = useState(false);
+
+    const [promoCode, setPromoCode] = useState("");
+
+    const [totalAmmount, setTotalAmount] = useState(0);
+
     const {
         data: orderSummaryData,
         isLoading,
         error,
     } = useGetOrderSummary(auth?.user?.id);
+
+    const {
+        res: resPromo,
+        isLoading: isLoadingPromo,
+        error: errorPromo,
+        handleCheckPromo,
+    } = useCheckPromo();
 
     useEffect(() => {
         setData(
@@ -32,6 +46,29 @@ export default function OrderSummaryCheckoutCard({
             })
         );
     }, [orderSummaryData]);
+
+    useEffect(() => {
+        setTotalAmount(orderSummaryData?.data?.data?.total);
+    }, [orderSummaryData, setTotalAmount]);
+
+    useEffect(() => {
+        console.log("resPromo", resPromo);
+        if (resPromo?.total_amount) {
+            setTotalAmount(resPromo.total_amount);
+        }
+    }, [resPromo, setTotalAmount]);
+
+    useEffect(() => {
+        if (resPromo?.discount_percentage) {
+            setData("discount", resPromo.discount_percentage);
+        }
+    }, [resPromo, setData]);
+
+    useEffect(() => {
+        if (errorPromo) {
+            setTotalAmount(orderSummaryData?.data?.data?.total);
+        }
+    }, [errorPromo]);
 
     return (
         <div className={`w-full flex-1 space-y-6 ${className}`}>
@@ -78,17 +115,89 @@ export default function OrderSummaryCheckoutCard({
                                                 <span className="text-sm text-gray-600">
                                                     {item.product.size}
                                                 </span>
+                                                {resPromo?.products ? (
+                                                    <>
+                                                        <span className="text-xs text-gray-600 line-through">
+                                                            {formatRupiah(
+                                                                item.product
+                                                                    .price
+                                                            )}
+                                                        </span>
+                                                        {resPromo.products.find(
+                                                            (product) =>
+                                                                product.id ===
+                                                                item.product.id
+                                                        ).discounted_price ? (
+                                                            <span className="text-sm text-gray-600">
+                                                                {formatRupiah(
+                                                                    resPromo.products.find(
+                                                                        (
+                                                                            product
+                                                                        ) =>
+                                                                            product.id ===
+                                                                            item
+                                                                                .product
+                                                                                .id
+                                                                    )
+                                                                        .discounted_price
+                                                                )}
+                                                            </span>
+                                                        ) : (
+                                                            <span className="text-sm text-gray-600">
+                                                                {formatRupiah(
+                                                                    item.product
+                                                                        .price
+                                                                )}
+                                                            </span>
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <span className="text-sm text-gray-600">
+                                                        {formatRupiah(
+                                                            item.product.price
+                                                        )}
+                                                    </span>
+                                                )}
+
                                                 <span className="text-sm text-gray-600">
-                                                    {formatRupiah(
-                                                        item.product.price
-                                                    )}{" "}
                                                     x {item.quantity}
                                                 </span>
                                             </div>
                                         </div>
-                                        <span className="text-nowrap">
-                                            {formatRupiah(item.subtotal)}
-                                        </span>
+                                        <div className="flex flex-col justify-start gap-0">
+                                            {resPromo?.products ? (
+                                                <>
+                                                    <span className="text-nowrap text-xs line-through">
+                                                        {formatRupiah(
+                                                            item.subtotal
+                                                        )}
+                                                    </span>
+                                                    <span className="text-nowrap">
+                                                        {formatRupiah(
+                                                            resPromo?.products
+                                                                ? resPromo.products.find(
+                                                                      (
+                                                                          product
+                                                                      ) =>
+                                                                          product.id ===
+                                                                          item
+                                                                              .product
+                                                                              .id
+                                                                  )
+                                                                      .discounted_price *
+                                                                      item.quantity
+                                                                : item.subtotal
+                                                        )}
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <span className="text-nowrap">
+                                                    {formatRupiah(
+                                                        item.subtotal
+                                                    )}
+                                                </span>
+                                            )}
+                                        </div>
                                     </dl>
                                 )
                             )}
@@ -101,6 +210,7 @@ export default function OrderSummaryCheckoutCard({
                                     {orderSummaryData?.data?.data?.total_item}
                                 </dd>
                             </dl>
+
                             <dl className="flex items-center justify-between gap-4">
                                 <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
                                     Biaya Pengiriman
@@ -115,14 +225,83 @@ export default function OrderSummaryCheckoutCard({
                             <dt className="text-base font-bold text-gray-900 dark:text-white">
                                 Total
                             </dt>
-                            <dd className="text-base font-bold text-gray-900 dark:text-white">
-                                {formatRupiah(
-                                    orderSummaryData?.data?.data?.total +
-                                        data?.shipment_cost
+                            <dd className="text-base font-bold text-gray-900 dark:text-white flex justify-start items-center gap-2">
+                                {resPromo ? (
+                                    <>
+                                        <span className="line-through font-normal text-sm">
+                                            {formatRupiah(
+                                                orderSummaryData?.data?.data
+                                                    ?.total +
+                                                    data?.shipment_cost
+                                            )}
+                                        </span>
+                                        <span>
+                                            {formatRupiah(
+                                                totalAmmount +
+                                                    data?.shipment_cost
+                                            )}
+                                        </span>
+                                    </>
+                                ) : (
+                                    <span>
+                                        {formatRupiah(
+                                            totalAmmount + data?.shipment_cost
+                                        )}
+                                    </span>
                                 )}
                             </dd>
                         </dl>
                     </div>
+                    <button
+                        onClick={() =>
+                            setIsDisplayInputPromo(!isDisplayInputPromo)
+                        }
+                    >
+                        <h3 className="text-base font-semibold text-primary">
+                            Punya Kode Promo?
+                        </h3>
+                    </button>
+                    {isDisplayInputPromo && (
+                        <div className="flex justify-start gap-2 items-start">
+                            <div className="w-full">
+                                <div className="mb-1 block">
+                                    <Label
+                                        htmlFor="promo_code"
+                                        value="Kode Promo*"
+                                    />
+                                </div>
+                                <TextInput
+                                    id="promo_code"
+                                    name="promo_code"
+                                    type="text"
+                                    placeholder="Masukan kode promo..."
+                                    size="sm"
+                                    value={promoCode}
+                                    onChange={(e) =>
+                                        setPromoCode(e.target.value)
+                                    }
+                                    color={errorPromo ? "failure" : "gray"}
+                                    helperText={errorPromo}
+                                />
+                            </div>
+                            <Button
+                                size="sm"
+                                color="none"
+                                className="bg-primary/80 hover:bg-primary/100 text-white h-fit text-nowrap mt-8"
+                                disabled={isLoadingPromo || promoCode === ""}
+                                onClick={() =>
+                                    handleCheckPromo({
+                                        promo_code: promoCode,
+                                        items: orderSummaryData?.data?.data
+                                            ?.items,
+                                    })
+                                }
+                            >
+                                Tambahkan
+                            </Button>
+                        </div>
+                    )}
+
                     <div className="flex justify-center">
                         <Button
                             size="sm"

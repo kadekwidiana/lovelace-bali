@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiResponse;
 use App\Http\Requests\Promotions\CreatePromotionRequest;
 use App\Http\Requests\Promotions\UpdatePromotionRequest;
 use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\PromotionRepositoryInterface;
 use App\Models\Product;
+use App\Models\Promotion;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -202,6 +205,102 @@ class PromotionController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menghapus data.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function checkPromo(Request $request)
+    {
+        try {
+            $request->validate([
+                'promo_code' => 'required|string',
+                'items' => 'required|array',
+                'items.*.product_id' => 'required|exists:products,id',
+                'items.*.quantity' => 'required|numeric|min:1',
+            ]);
+
+            $promo = Promotion::with('products')->where('promo_code', $request->promo_code)->first();
+
+            if (!$promo) {
+                return response()->json([
+                    'message' => 'Kode promo tidak valid.',
+                ], 404);
+            }
+
+            $now = Carbon::now();
+
+            if ($promo->start_date && $promo->start_date->gt($now)) {
+                return response()->json([
+                    'message' => 'Promo belum aktif.',
+                ], 400);
+            }
+
+            if ($promo->end_date && $promo->end_date->lt($now)) {
+                return response()->json([
+                    'message' => 'Promo sudah berakhir.',
+                ], 400);
+            }
+
+            $promoProductIds = $promo->products->pluck('id')->toArray();
+
+            // Cek apakah semua item yang dibeli valid untuk promo
+            $invalidItems = collect($request->items)->filter(function ($item) use ($promoProductIds) {
+                return !in_array($item['product_id'], $promoProductIds);
+            });
+
+            if ($invalidItems->isNotEmpty()) {
+                return response()->json([
+                    'message' => 'Kode promo tidak berlaku untuk salah satu atau beberapa produk yang dibeli.',
+                ], 400);
+            }
+
+            $discountPercentage = $promo->discount_percentage;
+
+            // Ambil produk yang cocok dari promo (supaya dapat detail harga)
+            $matchedProducts = $promo->products->filter(function ($product) use ($request) {
+                return collect($request->items)->pluck('product_id')->contains($product->id);
+            });
+
+            $totalAmount = $matchedProducts->map(function ($product) use ($discountPercentage, $request) {
+                $original = $product->price;
+                $discounted = round($original * (1 - $discountPercentage / 100), 2);
+
+                $item = collect($request->items)->firstWhere('product_id', $product->id);
+                $quantity = $item['quantity'] ?? 1;
+
+                return round($discounted * $quantity, 2);
+            })->sum();
+
+            return ApiResponse::success([
+                'promo_code' => $promo->promo_code,
+                'title' => $promo->title,
+                'description' => $promo->description,
+                'discount_percentage' => $discountPercentage,
+                'valid_from' => $promo->start_date,
+                'valid_until' => $promo->end_date,
+                'products' => $matchedProducts->map(function ($product) use ($discountPercentage, $request) {
+                    $original = $product->price;
+                    $discounted = round($original * (1 - $discountPercentage / 100), 2);
+
+                    // Ambil quantity dari item request
+                    $item = collect($request->items)->firstWhere('product_id', $product->id);
+                    $quantity = $item['quantity'] ?? 1;
+
+                    return [
+                        'id' => $product->id,
+                        'name' => $product->name,
+                        'original_price' => (float) $original,
+                        'discounted_price' => $discounted,
+                        'quantity' => $quantity,
+                        'total_discounted_price' => round($discounted * $quantity, 2),
+                    ];
+                })->values(),
+                'total_amount' => $totalAmount
+            ], 'Kode promo valid dan sesuai dengan produk yang dibeli.', 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan.',
                 'error' => $e->getMessage(),
             ], 500);
         }

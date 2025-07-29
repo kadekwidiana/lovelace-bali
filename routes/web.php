@@ -66,6 +66,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/customer/carts', [FrontpageController::class, 'carts'])->name('frontpage.customer.carts');
     Route::get('/customer/checkout', [FrontpageController::class, 'checkout'])->name('frontpage.customer.checkout');
 
+    // check promo
+    Route::post('/check-promo', [PromotionController::class, 'checkPromo'])->name('promotions.check-promo');
+
     Route::group(['middleware' => 'checkRole:EMPLOYEE'], function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

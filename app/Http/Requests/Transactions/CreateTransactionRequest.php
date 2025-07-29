@@ -61,6 +61,9 @@ class CreateTransactionRequest extends FormRequest
             'cost_json.description' => 'required|string|max:255',
             'cost_json.cost' => 'required|numeric|min:0',
             'cost_json.etd' => 'nullable|string',
+
+            // promo
+            'discount' => 'nullable|numeric|min:0|max:100',
         ];
     }
 }

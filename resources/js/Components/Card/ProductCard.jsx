@@ -52,41 +52,40 @@ export default function ProductCard({ product, isPromo = false }) {
                                 }
                                 isPromo={isPromo}
                             />
-                            {!isPromo &&
-                                (auth.user ? (
-                                    auth.user.role === "CUSTOMER" && (
-                                        <Button
-                                            size="xs"
-                                            onClick={() =>
-                                                handleAddToCart({
-                                                    user_id: auth.user.id,
-                                                    product_id: product.id,
-                                                    quantity: 1,
-                                                })
-                                            }
-                                            disabled={
-                                                product.stock === 0 || isLoading
-                                            }
-                                            color="none"
-                                            className="bg-primary/80 hover:bg-primary/100 text-white"
-                                        >
-                                            <HiShoppingCart className="size-4" />
-                                        </Button>
-                                    )
-                                ) : (
-                                    <a href="/login">
-                                        <Button
-                                            size="xs"
-                                            disabled={
-                                                product.stock === 0 || isLoading
-                                            }
-                                            color="none"
-                                            className="bg-primary/80 hover:bg-primary/100 text-white"
-                                        >
-                                            <HiShoppingCart className="size-4" />
-                                        </Button>
-                                    </a>
-                                ))}
+                            {auth.user ? (
+                                auth.user.role === "CUSTOMER" && (
+                                    <Button
+                                        size="xs"
+                                        onClick={() =>
+                                            handleAddToCart({
+                                                user_id: auth.user.id,
+                                                product_id: product.id,
+                                                quantity: 1,
+                                            })
+                                        }
+                                        disabled={
+                                            product.stock === 0 || isLoading
+                                        }
+                                        color="none"
+                                        className="bg-primary/80 hover:bg-primary/100 text-white"
+                                    >
+                                        <HiShoppingCart className="size-4" />
+                                    </Button>
+                                )
+                            ) : (
+                                <a href="/login">
+                                    <Button
+                                        size="xs"
+                                        disabled={
+                                            product.stock === 0 || isLoading
+                                        }
+                                        color="none"
+                                        className="bg-primary/80 hover:bg-primary/100 text-white"
+                                    >
+                                        <HiShoppingCart className="size-4" />
+                                    </Button>
+                                </a>
+                            )}
                         </div>
                     </div>
                 </div>

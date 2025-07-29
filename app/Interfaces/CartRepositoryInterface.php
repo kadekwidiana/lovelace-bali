@@ -10,5 +10,5 @@ interface CartRepositoryInterface extends BaseRepositoryInterface
 
     public function orderSummary($user_id);
 
-    public function deleteByItems($items);
+    public function deleteByItems($items, $user_id);
 }

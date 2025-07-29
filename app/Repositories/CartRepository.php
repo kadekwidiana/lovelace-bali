@@ -106,19 +106,14 @@ class CartRepository implements CartRepositoryInterface
         ];
     }
 
-    public function deleteByItems($items)
+    public function deleteByItems($items, $user_id)
     {
         $collection = collect($items);
 
-        $userId = $collection->first()['user_id'] ?? null;
         $productIds = $collection->pluck('product_id')->toArray();
 
-        if (!$userId || empty($productIds)) {
-            return 0;
-        }
-
         return $this->model
-            ->where('user_id', $userId)
+            ->where('user_id', $user_id)
             ->whereIn('product_id', $productIds)
             ->delete();
     }

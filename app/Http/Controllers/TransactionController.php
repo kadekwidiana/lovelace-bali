@@ -145,7 +145,7 @@ class TransactionController extends Controller
                 'created_by' => $createdBy,
                 'date' => now(),
                 'shipment_cost' => $validated['shipment_cost'],
-                'total_amount' => $this->calculateTotalAmount($validated['items']) + $validated['shipment_cost'],
+                'total_amount' => $this->calculateTotalAmount($validated['items'], $validated['discount']) + $validated['shipment_cost'],
                 'status' => 'PENDING',
                 'note' => $validated['note']
             ]);
@@ -160,7 +160,6 @@ class TransactionController extends Controller
 
             // create transaction detail, update stock, create stock log
             foreach ($validated['items'] as $item) {
-                // $product = $this->productRepository->find($item['product_id']);
                 $product = $this->productRepository->lockForUpdate($item['product_id']); // lock row, for handle race condition
 
                 if (!$product) {
@@ -170,25 +169,24 @@ class TransactionController extends Controller
 
                 if ($product->stock < $item['quantity']) {
                     DB::rollBack();
-
-                    // return ApiResponse::error([
-                    //     'detail' => 'Stock not enough',
-                    // ], 'Stok produk tidak mencukupi', 400);
-
                     return redirect()->back()->withErrors(['message' => 'Stok produk tidak mencukupi']);
                 }
+
+                // ambil diskon jika ada, dalam bentuk persen (misal: 10 berarti 10%)
+                $discount = isset($validated['discount']) ? floatval($validated['discount']) : 0;
+                $discountedPrice = $product->price * (1 - ($discount / 100));
 
                 $this->transactionDetailRepository->create([
                     'transaction_id' => $transaction->id,
                     'product_id' => $item['product_id'],
                     'quantity' => $item['quantity'],
-                    'price_at_time' => $product->price,
-                    'subtotal' => $product->price * $item['quantity'],
+                    'price_at_time' => $discountedPrice, // harga setelah diskon
+                    'subtotal' => $discountedPrice * $item['quantity'],
                 ]);
 
                 $itemDetails[] = [
                     'id' => (string) $item['product_id'],
-                    'price' => $product->price,
+                    'price' => $discountedPrice, // harga setelah diskon
                     'quantity' => $item['quantity'],
                     'name' => $product->name,
                 ];
@@ -196,7 +194,6 @@ class TransactionController extends Controller
                 $product->stock -= $item['quantity'];
                 $product->save();
 
-                // create stock log
                 $this->stockLogRepository->create([
                     'product_id' => $item['product_id'],
                     'created_by' => $createdBy,
@@ -247,7 +244,7 @@ class TransactionController extends Controller
             ]);
 
             // delete cart items
-            $this->cartRepository->deleteByItems($validated['items']);
+            $this->cartRepository->deleteByItems($validated['items'], $user->id);
 
             Log::info('Transaction created successfully', ['transaction_id' => $transaction->id]);
 
@@ -273,9 +270,20 @@ class TransactionController extends Controller
         }
     }
 
-    private function calculateTotalAmount(array $items): float
+    private function calculateTotalAmount(array $items, float $discount = 0): float
     {
-        return collect($items)->sum(fn($item) => $this->productRepository->find($item['product_id'])->price * $item['quantity']);
+        return collect($items)->sum(function ($item) use ($discount) {
+            $product = $this->productRepository->find($item['product_id']);
+            $price = $product->price;
+            $quantity = $item['quantity'];
+
+            // Cek apakah ada diskon, jika tidak gunakan harga asli
+            $finalPrice = $discount > 0
+                ? $price * (1 - ($discount / 100))
+                : $price;
+
+            return round($finalPrice * $quantity, 2);
+        });
     }
 
     public function midtransCallback(Request $request)

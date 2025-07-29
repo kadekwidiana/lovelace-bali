@@ -25,7 +25,8 @@ export default function useCreateTransaction() {
             items: [],
             courier: null,
             destination_json: null,
-            cost_json: null
+            cost_json: null,
+            discount: 0,
         });
 
     const handleChange = (e) => {
