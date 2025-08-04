@@ -19,6 +19,7 @@ class DashboardController extends Controller
         $startDate = $request->start_date ?? now()->subDays(6)->toDateString();
         $endDate = $request->end_date ?? now()->toDateString();
         $productId = $request->product_id;
+        $categoryId = $request->category_id;
 
         $count = [
             'category' => Category::count(),
@@ -30,14 +31,17 @@ class DashboardController extends Controller
         ];
 
         // FILTERED STOCK
-        $stocks = StockLog::whereBetween('date', [$startDate, $endDate])
+        $stocks = StockLog::with('product')
+            ->whereBetween('date', [$startDate, $endDate])
             ->when($productId, fn($query) => $query->where('product_id', $productId))
+            ->when($categoryId, function ($query) use ($categoryId) {
+                $query->whereHas('product', fn($q) => $q->where('category_id', $categoryId));
+            })
             ->get();
 
         // GROUPING BY DATE + TYPE
         $grouped = $stocks->groupBy(
-            fn($item) =>
-            Carbon::parse($item->date)->format('Y-m-d') . '_' . $item->type
+            fn($item) => Carbon::parse($item->date)->format('Y-m-d') . '_' . $item->type
         );
 
         // BUILD DATE RANGE
@@ -69,17 +73,29 @@ class DashboardController extends Controller
         ];
 
         // STOCK IN BY SOURCE
-        $stockIn = StockLog::where('type', 'IN')
+        $stockIn = StockLog::with('product')
+            ->where('type', 'IN')
             ->whereBetween('date', [$startDate, $endDate])
             ->when($productId, fn($query) => $query->where('product_id', $productId))
+            ->when(
+                $categoryId,
+                fn($query) =>
+                $query->whereHas('product', fn($q) => $q->where('category_id', $categoryId))
+            )
             ->get()
             ->groupBy('source')
             ->map(fn($group) => $group->sum('quantity'));
 
         // STOCK OUT BY DESTINATION
-        $stockOut = StockLog::where('type', 'OUT')
+        $stockOut = StockLog::with('product')
+            ->where('type', 'OUT')
             ->whereBetween('date', [$startDate, $endDate])
             ->when($productId, fn($query) => $query->where('product_id', $productId))
+            ->when(
+                $categoryId,
+                fn($query) =>
+                $query->whereHas('product', fn($q) => $q->where('category_id', $categoryId))
+            )
             ->get()
             ->groupBy('destination')
             ->map(fn($group) => $group->sum('quantity'));
@@ -96,9 +112,11 @@ class DashboardController extends Controller
             'title' => 'Dashboard',
             'count' => $count,
             'products' => Product::latest()->get(),
+            'categories' => Category::all(),
             'initialStartDate' => $startDate,
             'initialEndDate' => $endDate,
             'initialProductId' => $productId,
+            'initialCategoryId' => $categoryId,
             'stockByDate' => $stockByDate,
             'stockInBySource' => $stockInBySource,
             'stockOutByDestination' => $stockOutByDestination,

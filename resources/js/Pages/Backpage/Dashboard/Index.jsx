@@ -40,10 +40,12 @@ export default function DashboardPage() {
     const {
         count,
         products,
+        categories,
         auth,
         initialStartDate,
         initialEndDate,
         initialProductId,
+        initialCategoryId,
         stockByDate,
         stockInBySource,
         stockOutByDestination,
@@ -52,11 +54,17 @@ export default function DashboardPage() {
     const [startDate, setStartDate] = useState(initialStartDate);
     const [endDate, setEndDate] = useState(initialEndDate);
     const [productId, setProductId] = useState(initialProductId);
+    const [categoryId, setCategoryId] = useState(initialCategoryId);
 
     const applyFilter = () => {
         router.get(
             route("dashboard"),
-            { start_date: startDate, end_date: endDate, product_id: productId },
+            {
+                start_date: startDate,
+                end_date: endDate,
+                product_id: productId,
+                category_id: categoryId,
+            },
             { preserveState: true, preserveScroll: true }
         );
     };
@@ -241,6 +249,23 @@ export default function DashboardPage() {
                                 setSelectedEntityId={(id) => setProductId(id)}
                                 label={"-- Pilih produk --"}
                                 placeholder={"Cari produk..."}
+                            />
+                        </div>
+                    </div>
+                    <div className="w-auto lg:w-80">
+                        <div className="mb-2 block">
+                            <Label
+                                htmlFor="category_id"
+                                value="Kategori Produk"
+                            />
+                        </div>
+                        <div className="w-full">
+                            <SearchSelectInput
+                                entities={categories}
+                                selectedEntityId={categoryId}
+                                setSelectedEntityId={(id) => setCategoryId(id)}
+                                label={"-- Pilih kategori --"}
+                                placeholder={"Cari kategori..."}
                             />
                         </div>
                     </div>
