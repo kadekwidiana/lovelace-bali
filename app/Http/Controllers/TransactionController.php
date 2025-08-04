@@ -22,6 +22,7 @@ use Inertia\Inertia;
 use Midtrans\Config;
 use Midtrans\Snap;
 use Midtrans\Transaction;
+use App\Models\Transaction as ModelsTransaction;
 
 class TransactionController extends Controller
 {
@@ -238,10 +239,15 @@ class TransactionController extends Controller
                 ],
             ]);
 
+            // update snap token (bug in prod)
+            // $transaction->update([
+            //     'snap_token_midtrans' => $snapTokenMidtrans,
+            // ]);
+
             // update snap token
-            $transaction->update([
-                'snap_token_midtrans' => $snapTokenMidtrans,
-            ]);
+            $transactionFresh = ModelsTransaction::find($transaction->id);
+            $transactionFresh->snap_token_midtrans = $snapTokenMidtrans;
+            $transactionFresh->save();
 
             // delete cart items
             $this->cartRepository->deleteByItems($validated['items'], $user->id);
